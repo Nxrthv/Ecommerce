@@ -202,7 +202,7 @@ body {
   display: flex;
 }
 .slides {
-  margin-top: 70px;
+  margin-top: 75px;
   margin-inline: auto;
   width: 100%;
   max-width: 165vh;
