@@ -1,0 +1,159 @@
+{
+    "bestSellerProducts":[
+        {
+            "imagen": "https://www.peru-smart.com/wp-content/uploads/2023/08/AUDI071PLATA_0.jpg",
+            "producto": "QCY-auriculares inalámbricos H3 ANC",
+            "precio": "$65.00"
+        },
+        {
+            "imagen": "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaCL/128045348_04/w=800,h=800,fit=pad",
+            "producto": "Hiwatach Multifunction smart watch Black",
+            "precio": "$50.00" 
+        },
+        {
+            "imagen": "https://www.supermexdigital.mx/web/image/product.image/55175/image_1024/TABLET%20SAMSUNG%20GALAXY%20TAB%20A9%208.7%22%204GB%2064GB%20OCTA%20CORE%20ANDROID%2013%20GRIS%20SM-X110NZAAL06%20GARANTIA%20CON%20FABRICANTE?unique=866b4a2",
+            "producto": "Tableta Pad 6 Pro Original versión Global",
+            "precio": "$1000.00" 
+        },
+        {
+            "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScOmoXHhRsRRx2uGttZuooAZPmWr4xR7JRpQ&s",
+            "producto": "Iphone 13 pro Max 6Gb RAM 128 GB Storage",
+            "precio": "$1690.00" 
+        },
+        {
+            "imagen": "https://oechsle.vteximg.com.br/arquivos/ids/8590721-1500-1500/imageUrl_2.jpg?v=637874931214500000",
+            "producto": "Original USB Type C Charger 32Wts",
+            "precio": "$15.00" 
+        },
+        {
+            "imagen": "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaCL/120863070_01/w=1500,h=1500,fit=pad",
+            "producto": "Wireless Bluetooth Gamer Headphones Model X15pro",
+            "precio": "$15.00"
+        },
+        {
+            "imagen": "https://claroperupoc.vtexassets.com/arquivos/ids/573236/3--25-.png?v=638066472215570000",
+            "producto": "Honor X7 Platinum 4GB RAM 128 GB Storage",
+            "precio": "$199.00" 
+        },
+        {
+            "imagen": "https://http2.mlstatic.com/D_NQ_NP_891486-MCO50845230932_072022-O.webp",
+            "producto": "Fast Charging Portable Power Bank 10000Mph",
+            "precio": "$25.00" 
+        }
+    ],
+    "cellPhones":[
+        {
+            "imagen": "https://claroperupoc.vtexassets.com/arquivos/ids/573236/3--25-.png?v=638066472215570000",
+            "producto": "Honor X7 Platinum 4GB RAM 128 GB Storage",
+            "precio": "$199.00" 
+        },
+        {
+            "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScOmoXHhRsRRx2uGttZuooAZPmWr4xR7JRpQ&s",
+            "producto": "Iphone 13 pro Max 6Gb RAM 128 GB Storage",
+            "precio": "$1690.00" 
+        },
+        {
+            "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtKmbsA7mPRNx80QXlbsNb3f2BYIr9JEWlyyUwLRdGA-Rf1iOBEyg2JRI1zPyTVx9BjZI&usqp=CAU",
+            "producto": "Asus ROG Phone 7 Ultimate 512 GB 16 GB RAM",
+            "precio": "$1499.00" 
+        },
+        {
+            "imagen": "https://acdn.mitiendanube.com/stores/002/716/701/products/a5-0129c2dcb01788b4d417016180476632-1024-1024.jpg",
+            "producto": "Nubia Red Magic 9 Pro+ 512 GB Black 16 GB RAM",
+            "precio": "$899.00" 
+        }
+    ],
+    "airPods":[
+        {
+            "imagen": "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/115217157_01/w=800,h=800,fit=pad",
+            "producto": "Handsfree Earbuds In Ear M1 Bluetooth",
+            "precio": "$15.00"
+        },
+        {
+            "imagen": "https://peruimporta.com/wp-content/uploads/2023/04/Audifono-Earpod-pro-inalambrico.png",
+            "producto": "TWS EW05 Hoco Wireless Headphones",
+            "precio": "$32.00"
+        },
+        {
+            "imagen": "https://www.shopper.com.gt/wp-content/uploads/2023/08/23-Audifonos-Bluetooth-AirPods-2da-Gen-con-Microfono-Blanco-Apple-1.jpg",
+            "producto": "AirPods 2da Gen with Microfone White",
+            "precio": "$65.00"
+        },
+        {
+            "imagen": "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaCL/120863070_01/w=1500,h=1500,fit=pad",
+            "producto": "Wireless Bluetooth Gamer Headphones Model X15pro",
+            "precio": "$15.00"
+        }
+    ],
+    "headPhones":[
+        {
+            "imagen": "https://rimage.ripley.com.pe/home.ripley/Attachment/MKP/2787/PMP20000074131/full_image-1.jpeg",
+            "producto": "Headphones Bluetooth STYLE 3 Lavander",
+            "precio": "$45.00"
+        },
+        {
+            "imagen": "https://www.peru-smart.com/wp-content/uploads/2023/08/AUDI071PLATA_0.jpg",
+            "producto": "QCY-wireless Headphones H3 ANC",
+            "precio": "$65.00"
+        },
+        {
+            "imagen": "https://rimage.ripley.com.pe/home.ripley/Attachment/MKP/4520/PMP20000220704/imagen3-1.jpeg",
+            "producto": "HYPERGEAR - Bluetooth Vibe Wireless Headphones",
+            "precio": "$75.00"
+        },
+        {
+            "imagen": "https://us.soundcore.com/cdn/shop/products/A3025031_Active_Noise_Cancelling_Headphones_TD01_V1_1200x.jpg?v=1670913026",
+            "producto": "Life Q20 Headphones - soundcore US",
+            "precio": "$35.00"
+        }
+    ],
+    "smartWatch":[
+        {
+            "imagen": "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaCL/128045348_04/w=800,h=800,fit=pad",
+            "producto": "Hiwatach Multifunction smart watch Black",
+            "precio": "$45.00" 
+        },
+        {
+            "imagen": "https://i5.walmartimages.com/asr/dda6bc1f-d282-4cf9-ad29-e827222bc4d5.8d402328f4d54e2b9a252879ec51fb79.jpeg",
+            "producto": "Waterproof Touch Screen Smart Watch",
+            "precio": "$57.00" 
+        },
+        {
+            "imagen": "https://images-cdn.ubuy.co.in/65392348ac0ffe5d2312c28e-dm101-4g-smart-watch-wifi-smartwatch.jpg",
+            "producto": "Andoer DM101 4G Smartwatch Waterproof",
+            "precio": "$85.00" 
+        },
+        {
+            "imagen": "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/124024784_01/w=800,h=800,fit=pad",
+            "producto": "Smart Watch I8 Ultra Max-Smart Watch - Orange",
+            "precio": "$23.00" 
+        }
+    ],
+    "laptops":[
+        {
+            "imagen": "https://www.lacuracao.pe/media/catalog/product/f/a/fa507xv-hq058w-1000x1000-100.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700",
+            "producto": "Gamer Laptop Asus TUF A15 15.6” Windows 11 AMD Ryzen 9 7940HS 16GB 512GB NVIDIA RTX4060",
+            "precio": "$1767.00" 
+        },
+        {
+            "imagen": "https://oechsle.vteximg.com.br/arquivos/ids/15089661-1000-1000/image-e37e207fdc924de4855b2dbf10260414.jpg?v=638279208447500000",
+            "producto": "Gamer Laptop Acer Nitro 5 AN517-41-R0RZ 17.3 Ryzen 7 5800H RTX 3060 16GB RAM 1TB SSD",
+            "precio": "$2240.00" 
+        },
+        {
+            "imagen": "https://oechsle.vteximg.com.br/arquivos/ids/10801310-1000-1000/image-ab521bf6a191466b8f38ca52696d8ab6.jpg?v=637970041654370000",
+            "producto": "HP Omen 17.3” 16GB RAM 512GB SSD Gaming Laptop RGB Windows 11 NVIDIA i7 11ª Generation",
+            "precio": "$2493.00" 
+        },
+        {
+            "imagen": "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/129645194_1/w=800,h=800,fit=pad",
+            "producto": "Lenovo Gamer Laptop 15.6” I7 8GB 256GB + 1TB GTX 4GB W11 IPS 82K100RMLM LENOVO",
+            "precio": "$964.00" 
+        }
+    ],
+    "consoles":[
+        {
+            
+        }
+    ]
+}

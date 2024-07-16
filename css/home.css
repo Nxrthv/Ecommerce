@@ -1,0 +1,507 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Varela+Round&display=swap');
+@import "https://fonts.fontstorage.com/import/comfortaa.css";
+@import "https://fonts.fontstorage.com/import/vinmonopro.css";
+
+.varela {
+  font-family: "Varela Round", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.vinMonoPro{
+  font-family: 'Vin Mono Pro';
+}
+.commforta {
+  font-family: 'Comfortaa';
+}
+.caveat {
+  font-family: "Caveat", cursive;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* LOADER */
+
+.cont-loader{
+  background: rgb(255, 255, 255);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  transition: all 1s;
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.loader {
+  --path: #2f3545;
+  --dot: #5628ee;
+  --duration: 3s;
+  width: 44px;
+  height: 44px;
+  position: relative;
+}
+
+.loader:before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  position: absolute;
+  display: block;
+  background: var(--dot);
+  top: 37px;
+  left: 19px;
+  transform: translate(-18px, -18px);
+  animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
+    infinite;
+}
+
+.loader svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.loader svg rect,
+.loader svg polygon,
+.loader svg circle {
+  fill: none;
+  stroke: var(--path);
+  stroke-width: 10px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.loader svg polygon {
+  stroke-dasharray: 145 76 145 76;
+  stroke-dashoffset: 0;
+  animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
+    infinite;
+}
+
+.loader svg rect {
+  stroke-dasharray: 192 64 192 64;
+  stroke-dashoffset: 0;
+  animation: pathRect 3s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+}
+
+.loader svg circle {
+  stroke-dasharray: 150 50 150 50;
+  stroke-dashoffset: 75;
+  animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
+    infinite;
+}
+
+.loader.triangle {
+  width: 48px;
+}
+
+.loader.triangle:before {
+  left: 21px;
+  transform: translate(-10px, -18px);
+  animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
+    infinite;
+}
+
+@keyframes pathTriangle {
+  33% {
+    stroke-dashoffset: 74;
+  }
+
+  66% {
+    stroke-dashoffset: 147;
+  }
+
+  100% {
+    stroke-dashoffset: 221;
+  }
+}
+
+@keyframes dotTriangle {
+  33% {
+    transform: translate(0, 0);
+  }
+
+  66% {
+    transform: translate(10px, -18px);
+  }
+
+  100% {
+    transform: translate(-10px, -18px);
+  }
+}
+
+@keyframes pathRect {
+  25% {
+    stroke-dashoffset: 64;
+  }
+
+  50% {
+    stroke-dashoffset: 128;
+  }
+
+  75% {
+    stroke-dashoffset: 192;
+  }
+
+  100% {
+    stroke-dashoffset: 256;
+  }
+}
+
+@keyframes dotRect {
+  25% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(18px, -18px);
+  }
+
+  75% {
+    transform: translate(0, -36px);
+  }
+
+  100% {
+    transform: translate(-18px, -18px);
+  }
+}
+
+@keyframes pathCircle {
+  25% {
+    stroke-dashoffset: 125;
+  }
+
+  50% {
+    stroke-dashoffset: 175;
+  }
+
+  75% {
+    stroke-dashoffset: 225;
+  }
+
+  100% {
+    stroke-dashoffset: 275;
+  }
+}
+
+.loader {
+  display: inline-block;
+  margin: 0 16px;
+}
+
+/* BODY */
+body {
+  margin: 0;
+}
+.s1{
+  width: 96%;
+  margin-inline: auto;
+  display: flex;
+}
+.slides {
+  margin-top: 70px;
+  margin-inline: auto;
+  width: 100%;
+  max-width: 165vh;
+  display: flex;
+  overflow: hidden;
+  
+}
+.slide img{
+  width: 164.4vh;
+  height: 480px;
+  animation-delay: 2s;
+  border-radius: 1em;
+  animation: slider infinite 20s ease;
+}
+
+@keyframes slider{
+  0%{
+    transform: translateX(0);
+  }
+  12.5%{
+    transform: translateX(-164.4vh);
+  }
+  25%{
+    transform: translateX(-164.4vh);
+  }
+  37.5%{
+    transform: translateX(-328.8vh);
+  }
+  50%{
+    transform: translateX(-328.8vh);
+  }
+  62.5%{
+    transform: translateX(-493.2vh);
+  }
+  75%{
+    transform: translateX(-493.2vh);
+  }
+  87.5%{
+    transform: translateX(0);
+  }
+}
+
+.mostWanted{
+  background: #b3b2b29e;
+  margin-left: 1em;
+  border-radius: .5em;
+  margin-top: 70px;
+}
+.mostWanted ul{
+  margin-top: 0;
+  padding: 0;
+}
+.mostWanted li,p{
+  flex-direction: column;
+  list-style: none;
+  padding: 1em 5em 1em 5em;
+}
+.mostWanted li:hover{
+  background: #0000002a;
+  cursor: pointer;
+}
+
+.line1{
+  display: flex;
+  width: 98%;
+  margin-inline: auto;
+}
+.line2{
+  display: flex;
+  width: 98%;
+  margin-inline: auto;
+}
+.p1{
+  width: 25%;
+  height: 280px;
+  margin: 1em;
+  border-radius: .5em;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: .5s ease;
+}
+.p1:hover{
+  transform: translateY(-.5em);
+  transition: .5s ease;
+  /* animation: offert 1s infinite ease; */
+}
+.p2 {
+  width: 50%;
+  height: 280px;
+  margin: 1em;
+  background-size: cover;
+  border-radius: .5em;
+  background-repeat: no-repeat;
+  transition: .5s ease;
+}
+.p2:hover{
+  transform: translateY(-.5em);
+  transition: .5s ease;
+  /* animation: offert 1s infinite ease; */
+}
+
+.cta2 {
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin-top: 42%;
+  margin-left: .5em;
+}
+
+.cta {
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin-top: 84%;
+  margin-left: .5em;
+}
+
+.cta span,.cta2 span {
+  padding-bottom: 7px;
+  letter-spacing: 4px;
+  font-size: 14px;
+  padding-right: 15px;
+  text-transform: uppercase;
+}
+
+.cta svg,.cta2 svg {
+  transform: translateX(-8px);
+  transition: all 0.3s ease;
+}
+
+.cta:hover svg,.cta2:hover svg {
+  transform: translateX(0);
+}
+
+.cta:active svg,.cta2:active svg {
+  transform: scale(0.9);
+}
+
+.hover-underline-animation {
+  position: relative;
+  color: #000000;
+  padding-bottom: 20px;
+}
+
+.hover-underline-animation:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #000000;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.cta:hover .hover-underline-animation:after,.cta2:hover .hover-underline-animation:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+@keyframes sh0 {
+  0% {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: rotate(7deg) translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: rotate(-7deg) translate3d(0, 0, 0);
+  }
+
+  75% {
+    transform: rotate(1deg) translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes offert {
+  0%{
+    transform: translateY(0em);
+  }
+  50%{
+    transform: translateY(-.5em);
+  }
+  100%{
+    transform: translateY(0em);
+  }
+}
+
+.titles3{
+  text-align: center;
+}
+.s3{
+  margin-top: 4em;
+  width: 94%;
+  margin-inline: auto;
+}
+#product {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.betterPro{
+  width: 94%;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-bottom: 2em;
+}
+
+.product {
+  width: 15em;
+  cursor: pointer;
+  border: 1px solid #80808059;
+  border-radius: .5em;
+  padding: 10px;
+  margin: .5em 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+ }
+.img_product {
+  height: 15em;
+  width: 100%;
+  border-radius: .5rem;
+  transition: .3s ease;
+ }
+ .img_product:hover {
+  transform: translateY(-4%);
+ }
+ .name_product {
+  padding-top: 5px;
+  font-weight: 300;
+  padding: 0 5px;
+  text-align: center;
+ }
+ .price {
+  font-weight: 900;
+  color: rgb(236, 0, 0);
+  position: absolute;
+  padding: .5em 1em 1em;
+ }
+ .buy_button {
+  margin-left: 120px;
+  margin: .5em auto .5em 115px;
+  width: 120px;
+  height: 40px;
+  border: none;
+  align-items: center;
+  color: white;
+  font-weight: 500;
+  background-color: rgb(29, 29, 29);
+  transition: .5s ease;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.buy_button:hover{
+  background: #000;
+  transition: .5s ease;
+}
+
+.distribution{
+  margin-top: 2em;
+  width: 96%;
+  display: flex;
+  margin-inline: auto;
+}
+.steps{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-inline: 1em;
+  border-radius: 2em;
+  transition: .5s ease; 
+}
+.steps:hover{
+  background: rgba(128, 128, 128, 0.187);
+  transition: .5s ease;
+}
+.steps i{
+  color: red;
+  font-size: 2.2em;
+  padding: .5em;
+}
+.info h1{
+  text-align: left;
+  font-size: 1em;
+  margin: 0;
+}
+.info p{
+  padding: 0;
+  margin: 0;
+  font-weight: 200;
+  color: gray;
+}

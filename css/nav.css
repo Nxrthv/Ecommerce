@@ -1,0 +1,80 @@
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+.jost {
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+body{
+    margin: 0;
+}
+.contNav{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    position: fixed;
+    overflow: hidden;
+    background: white;
+    z-index: 1;
+}
+
+.contNav ul{
+    display: flex;
+}
+.contNav li{
+    margin-inline: 1em;
+    list-style: none;
+    cursor: pointer;
+    transition: .5s ease;
+}
+.contNav li:hover{
+    color: red;
+    transition: .5s ease;
+}
+.menu{
+    display: inline-flex;
+    align-items: center;
+    padding-left: 2em;
+}
+.optionUser{
+    display: flex;
+    padding-right: 2em;
+    align-items: center;
+}
+
+footer{
+    background-color: lightgray;
+    height: 15em;
+    filter: grayscale(100%);
+    opacity: .5;
+}
+.partners{
+    filter: grayscale(100%);
+    opacity: .5;
+    width: 95%;
+    margin: 0 auto;
+    background: white;
+    align-items: center;
+    justify-content: space-evenly;
+    display: flex;
+    border-top: 1px solid rgba(128, 128, 128, 0.416);
+}
+.partners img{
+    width: 5em;
+    margin: 2em 0;
+}
+.policy{
+    width: 90%;
+    margin-inline: auto;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 40px;
+}
+.policy>div>ul>li{
+    list-style: none;
+    font-size: .8em;
+    padding: .3em 0;
+}
