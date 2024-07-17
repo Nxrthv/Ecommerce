@@ -1,0 +1,19 @@
+/* FOOTER */
+footer{
+    background-color: lightgray;
+    height: 15em;
+    filter: grayscale(100%);
+    opacity: .5;
+}
+.policy{
+    width: 90%;
+    margin-inline: auto;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 40px;
+}
+.policy>div>ul>li{
+    list-style: none;
+    font-size: .8em;
+    padding: .3em 0;
+}

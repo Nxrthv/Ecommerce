@@ -40,3 +40,23 @@ fetch('/Json/Products.json')
   .catch(error => {
     console.error('Error fetching data:', error);
   });
+
+// BARRA DE NAVEGACION
+fetch('/html/nav.html')
+.then(response => response.text())
+.then(data => {
+    document.getElementById('nav').innerHTML = data;
+});
+
+//LOADER
+fetch('/html/loader.html')
+.then(response => response.text())
+.then(data => {
+    document.getElementById('cont-loader').innerHTML = data;
+});
+
+window.addEventListener('load', ()=>{
+    const loader = document.querySelector('.cont-loader');
+        loader.style.opacity = 0;
+        loader.style.visibility = 'hidden';
+})

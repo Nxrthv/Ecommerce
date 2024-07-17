@@ -1,0 +1,34 @@
+/* FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Varela+Round&display=swap');
+@import "https://fonts.fontstorage.com/import/comfortaa.css";
+@import "https://fonts.fontstorage.com/import/vinmonopro.css";
+
+.jost {
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.varela {
+    font-family: "Varela Round", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.vinMonoPro{
+    font-family: 'Vin Mono Pro';
+}
+
+.commforta {
+    font-family: 'Comfortaa';
+}
+
+.caveat {
+    font-family: "Caveat", cursive;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+} 
