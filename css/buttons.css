@@ -103,3 +103,27 @@
     background: #000;
     transition: .5s ease;
   }
+
+/* BTN LEFT */
+  .btn_left{
+    font-size: 12px;
+    padding: 0 2px;
+    cursor: pointer;
+    transition: .2s ease;
+  }
+  .btn_left:hover{
+    color: gray;
+    font-size: 12px;padding: 0 2px; cursor: pointer;
+  }
+
+  /* BTN RIGHT */
+  .btn_right{
+    font-size: 12px;
+    padding: 0 2px;
+    cursor: pointer;
+    transition: .2s ease;
+  }
+  .btn_right:hover{
+    color: gray;
+    font-size: 12px;padding: 0 2px; cursor: pointer;
+  }

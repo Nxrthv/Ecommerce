@@ -11,47 +11,19 @@ body {
 }
 
 /* SLIDER */
-.slides {
-  margin-top: 75px;
-  margin-inline: auto;
-  width: 100%;
-  max-width: 165vh;
-  display: flex;
+.cont_slider{
   overflow: hidden;
-  
-}
-.slide img{
-  width: 164.4vh;
-  height: 480px;
-  animation-delay: 2s;
   border-radius: 1em;
-  animation: slider infinite 20s ease;
+  margin-left: -6px;
+  margin-top: 75px;
 }
-@keyframes slider{
-  0%{
-    transform: translateX(0);
-  }
-  12.5%{
-    transform: translateX(-164.4vh);
-  }
-  25%{
-    transform: translateX(-164.4vh);
-  }
-  37.5%{
-    transform: translateX(-328.8vh);
-  }
-  50%{
-    transform: translateX(-328.8vh);
-  }
-  62.5%{
-    transform: translateX(-493.2vh);
-  }
-  75%{
-    transform: translateX(-493.2vh);
-  }
-  87.5%{
-    transform: translateX(0);
-  }
+.slider {
+  display: flex;
+  height: 30em;
+}
+.slider_img img{
+  width: 62em;
+  height: 32em;
 }
 
 /* BARRA LATERAL */
@@ -77,6 +49,7 @@ body {
 
 /* APARTADOS DE PRODUCTOS */
 .line1{
+  margin-top: .5em;
   display: flex;
   width: 98%;
   margin-inline: auto;
