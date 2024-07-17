@@ -112,7 +112,6 @@ body {
 .p2:hover{
   transform: translateY(-.5em);
   transition: .5s ease;
-  /* animation: offert 1s infinite ease; */
 }
 @keyframes offert {
   0%{

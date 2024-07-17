@@ -37,7 +37,7 @@ fetch('/html/footer.html')
 });
 
 //LOADER
-fetch('/html/loader.html')
+fetch('html/loader.html')
 .then(response => response.text())
 .then(data => {
     document.getElementById('cont-loader').innerHTML = data;
