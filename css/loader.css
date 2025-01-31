@@ -1,39 +1,3 @@
-body{
-    margin: 0;
-}
-.contNav{
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    position: fixed;
-    overflow: hidden;
-    background: white;
-    z-index: 1;
-}
-
-.contNav ul{
-    display: flex;
-}
-.contNav li{
-    margin-inline: 1em;
-    list-style: none;
-    cursor: pointer;
-    transition: .5s ease;
-}
-.contNav li:hover{
-    color: red;
-    transition: .5s ease;
-}
-.menu{
-    display: inline-flex;
-    align-items: center;
-    padding-left: 2em;
-}
-.optionUser{
-    display: flex;
-    padding-right: 2em;
-    align-items: center;
-}
 
 /* LOADER */
 .cont-loader{

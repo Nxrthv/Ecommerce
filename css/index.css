@@ -1,0 +1,335 @@
+/* BODY */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* SLIDER */
+.carousel img{
+  min-width: 100vh;
+  object-fit: cover;
+}
+.carousel-inner {
+  position: relative;
+}
+.carousel-inner::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 25%;
+  background: linear-gradient(to top, white, transparent);
+}
+
+/* BARRA TAGS */
+.tag{
+  display: flex;
+  padding: .5em 2em;
+  font-weight: 500;
+  color: #595959;
+  cursor: pointer;
+  transition: .5s all;
+  align-items: center;
+  background: rgba(245, 245, 245, 0.699);
+}
+.tag:hover{
+  /* background: rgba(192, 192, 192, 0.187); */
+  box-shadow: 0 0 10px rgb(203, 203, 203);
+  transition: .3s all;
+}
+.tag img{
+  margin-left: 1em;
+  width: 40px;
+  height: 40px;
+  transition: .3s all;
+}
+.tag:hover img{
+  transform: scale(115%) rotate(10deg);
+}
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+.help-button {
+  padding: 12px 24px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.help-button:hover,
+.help-button:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 15px);
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.tooltip img{
+  transition: .3s all;
+}
+.tooltip img:hover{
+  transform: scale(1.2);
+}
+
+.tooltip-container:hover .tooltip,
+.help-button:focus + .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(99, 102, 241, 0.7);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  }
+}
+
+@media (max-width: 768px) {
+
+}
+
+
+/* APARTADOS DE PRODUCTOS */
+.line1{
+  display: flex;
+  flex-wrap: wrap;
+}
+.p1{
+  height: 300px;
+  background-size: cover;
+  transition: .5s all;
+  border-radius: 5px;
+}
+.p1:hover{
+  transform: translateY(-.5em);
+  transition: .5s ease;
+  cursor: pointer;
+}
+.button {
+  left: 1em;
+  top: 84%;
+  padding: 5px 15px;
+  background-color: white;
+  color: black;
+  font-weight: bolder;
+  border: 0px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 5px;
+  transition: all .2s ease-in-out .1s;
+}
+.p1:hover .button {
+  background-color: black;
+  color: white;
+  transform: scale(1.2) rotate(5deg);
+}
+.button:before {
+  content: '';
+  position: absolute;
+  background-color: #78A1BB;
+  height: 180%;
+  top: -30%;
+  left: -45%;
+  transform: rotateZ(20deg);
+  width: 40px;
+  transition: left .2s ease-in-out, left 0s;
+}
+.button:after {
+  content: '';
+  position: absolute;
+  background-color: #283044;
+  height: 180%;
+  top: -30%;
+  left: -40%;
+  transform: translateX(-40px) rotateZ(20deg);
+  width: 40px;
+  transition: left .2s ease-in-out, left 0s;
+}
+.p1:hover .button:after {
+  left: 150%;
+  transition: left .3s ease-in-out;
+}
+.p1:hover .button:before {
+  left: 150%;
+  transition: left .3s ease-in-out;
+}
+
+/* DISTRIBUTION */
+.distribution{
+  margin-top: 2em;
+  width: 96%;
+  display: flex;
+  margin-inline: auto;
+}
+.steps{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-inline: 1em;
+  border-radius: 2em;
+  transition: .5s ease; 
+}
+.steps:hover{
+  background: rgba(128, 128, 128, 0.187);
+  transition: .5s ease;
+}
+.steps i{
+  color: red;
+  font-size: 2.2em;
+  padding: .5em;
+}
+.info h1{
+  text-align: left;
+  font-size: 1em;
+  margin: 0;
+}
+.info p{
+  padding: 0;
+  margin: 0;
+  font-weight: 200;
+  color: gray;
+}
+
+/* CARD BETTER SELLER PRODUCTS */
+#betterPro {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding: 05px 0;
+}
+.product {
+  min-width: 13em;
+  height: min-content;
+  cursor: pointer;
+  border-left: 1px solid #dfdfdf31;
+  border-right: 1px solid #dfdfdf31;
+  padding: 0 10px;
+ }
+ .product:hover .buy_button{
+    opacity: 1;
+ }
+.img_product {
+  padding: .5em;
+  transition: .5s all;
+ }
+ .product:hover .img_product {
+  transform: scale(110%);
+ }
+ .brand_product {
+  font-size: 14px;
+  padding-inline: .5em;
+  font-weight: 700;
+  color: #646464;
+ }
+ .name_product {
+  color: #8c8c8c;
+  margin-top: 5px;
+  font-size: 15px;
+  font-weight: 500;
+  padding-inline: .5em;
+ }
+ .met_pago{
+  display: flex;
+  height: 1.8em;
+  margin-top: -.2em;
+  margin-bottom: .4em;
+  padding-inline: .5em;
+ }
+ .price {
+  text-decoration: line-through;
+  font-size: 15px;
+  color: gray;
+  padding-inline: .5em;
+  margin-top: -.3em;
+ }
+ .discount{
+  font-size: 12px;
+  color: white;
+  background: rgb(104, 173, 0);
+  padding: .2em .5em;
+  font-weight: 700;
+  margin-left: .8em;
+  position: relative;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+ }
+ .discount::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid rgb(104, 173, 0);
+}
+ .ofert{
+  font-size: 18px;
+  font-weight: 500;
+  color: red;
+  position: relative;
+  padding-inline: .5em;
+ }
+
+ /* BTN ADD CART */
+.buy_button {
+  padding: 10px;
+  width: 75%;
+  margin-inline: auto;
+  margin-top: 2em;
+  color: white;
+  font-weight: 400;
+  font-size: 11px;
+  text-align: center;
+  background-color: rgb(29, 29, 29);
+  transition: .5s ease;
+  cursor: pointer;
+  opacity: 0;
+}
+.buy_button:hover{
+  background: #000;
+  transition: .5s ease;
+}
+
+ /* PARTNERS */
+ .partners{
+  filter: grayscale(100%);
+  opacity: .5;
+  width: 95%;
+  margin: 0 auto;
+  background: white;
+  align-items: center;
+  justify-content: space-evenly;
+  display: flex;
+  border-top: 1px solid rgba(128, 128, 128, 0.416);
+}
+.partners img{
+  width: 5em;
+  margin: 2em 0;
+}
+
+@media (max-width: 768px) {
+  .p1 {
+    height: 180px;
+    background-size: contain;
+    border-bottom-left-radius: 0.3em;
+  }
+}
