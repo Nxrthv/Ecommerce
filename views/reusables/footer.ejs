@@ -1,27 +1,84 @@
 </main>
-<footer class="footer">
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>TechStore</h3>
-        <p>Your one-stop shop for all electronic needs.</p>
+<footer class="bg-zinc-900 text-zinc-300">
+  <div class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <h3 class="text-white text-lg font-bold mb-4">GEN Z</h3>
+        <p class="mb-4">
+          Tu tienda de confianza para los mejores productos electrónicos y gadgets de última generación.
+        </p>
+        <div class="flex space-x-4">
+          <a href="#" class="hover:text-white">
+            <i class="fab fa-facebook"></i>
+            <span class="sr-only">Facebook</span>
+          </a>
+          <a href="#" class="hover:text-white">
+            <i class="fab fa-instagram"></i>
+            <span class="sr-only">Instagram</span>
+          </a>
+          <a href="#" class="hover:text-white">
+            <i class="fab fa-twitter"></i>
+            <span class="sr-only">Twitter</span>
+          </a>
+          <a href="#" class="hover:text-white">
+            <i class="fab fa-youtube"></i>
+            <span class="sr-only">YouTube</span>
+          </a>
+        </div>
       </div>
-      <div class="footer-section">
-        <h3>Quick Links</h3>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/products">Products</a></li>
-          <li><a href="/cart">Cart</a></li>
+      
+      <div>
+        <h3 class="text-white text-lg font-bold mb-4">Enlaces</h3>
+        <ul class="space-y-2">
+          <li>
+            <a href="/" class="hover:text-white">Inicio</a>
+          </li>
+          <li>
+            <a href="/products" class="hover:text-white">Productos</a>
+          </li>
+          <li>
+            <a href="/categories" class="hover:text-white">Categorías</a>
+          </li>
+          <li>
+            <a href="/about" class="hover:text-white">Nosotros</a>
+          </li>
+          <li>
+            <a href="/contact" class="hover:text-white">Contacto</a>
+          </li>
         </ul>
       </div>
-      <div class="footer-section">
-        <h3>Contact Us</h3>
-        <p>Email: info@techstore.com</p>
-        <p>Phone: +1 (123) 456-7890</p>
+      
+      <div>
+        <h3 class="text-white text-lg font-bold mb-4">Categorías</h3>
+        <ul class="space-y-2">
+          <li>
+            <a href="/products?category=smartphones" class="hover:text-white">Smartphones</a>
+          </li>
+          <li>
+            <a href="/products?category=laptops" class="hover:text-white">Portátiles</a>
+          </li>
+          <li>
+            <a href="/products?category=audio" class="hover:text-white">Audio</a>
+          </li>
+          <li>
+            <a href="/products?category=wearables" class="hover:text-white">Wearables</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div>
+        <h3 class="text-white text-lg font-bold mb-4">Contacto</h3>
+        <address class="not-italic">
+          <p class="mb-2">Calle Tecnología 123</p>
+          <p class="mb-2">Ciudad Digital, CD 12345</p>
+          <p class="mb-2">info@genz.com</p>
+          <p>+34 123 456 789</p>
+        </address>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; <%= new Date().getFullYear() %> TechStore. All rights reserved.</p>
+    
+    <div class="border-t border-zinc-800 mt-8 pt-8 text-sm text-center">
+      <p>&copy; <%= new Date().getFullYear() %> GEN Z. Todos los derechos reservados.</p>
     </div>
   </div>
 </footer>

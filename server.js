@@ -1,11 +1,12 @@
 const express = require("express")
 const path = require("path")
 const cookieParser = require("cookie-parser")
+
 const session = require("express-session")
 const admin = require("firebase-admin")
-const { v4: uuidv4 } = require("uuid")
 
-// Initialize Firebase Admin
+// Inicializar Firebase Admin, definiendo la ruta del archivo .json con las credenciales
+// de la cuenta de servicio de Firebase y la URL de la base de datos
 const serviceAccount = require("./fir-d3539-firebase-adminsdk-duevp-dea02c0f78.json")
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -17,7 +18,7 @@ const db = admin.firestore()
 const app = express()
 const port = process.env.PORT || 4444
 
-// View engine setup
+// Ingeniería de vistas de EJS
 app.set("views", path.join(__dirname, "views"))
 app.set("view engine", "ejs")
 
@@ -28,7 +29,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, "public")))
 app.use(
   session({
-    secret: "electronics-store-secret",
+    secret: "gen-z-secret",
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 24 hours
@@ -43,53 +44,68 @@ app.use((req, res, next) => {
   next()
 })
 
-// Routes
+// Rutas
+app.use((req, res, next) => {
+  res.locals.currentPath = req.path;
+  next();
+});
+
+// Ruta principal
 app.get("/", async (req, res) => {
   try {
-    const productsSnapshot = await db.collection("products").limit(8).get()
-    const products = []
+    // Obtenemos hasta 8 productos de la categoria "products"
+    const productosSnapshot = await db.collection("products").limit(8).get()
+    const productos = []
 
-    productsSnapshot.forEach((doc) => {
-      products.push({
+    // Recorremos los documentos y los agregamos al array de productos
+    productosSnapshot.forEach((doc) => {
+      productos.push({
         id: doc.id,
         ...doc.data(),
       })
     })
 
-    const categoriesSnapshot = await db.collection("categories").get()
-    const categories = []
+    // Obtenemos todas las categorías desde Firestore
+    const categoriasSnapshot = await db.collection("categories").get()
+    const categorias = []
 
-    categoriesSnapshot.forEach((doc) => {
-      categories.push({
+    // Recorremos cada categoría y la agregamos al array
+    categoriasSnapshot.forEach((doc) => {
+      categorias.push({
         id: doc.id,
         ...doc.data(),
       })
     })
 
+    // Renderizamos la vista 'index.ejs' enviando los datos a la plantilla
     res.render("index", {
-      title: "Electronics Store",
-      products,
-      categories,
-      cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
+      title: "GEN Z", // Título de la página
+      productos,      // Lista de productos destacados (máx. 8)
+      categorias,     // Lista de categorías disponibles
+      cantidadCarrito: req.session.cart.reduce((total, item) => total + item.quantity, 0), // Total de ítems en el carrito
     })
   } catch (error) {
-    console.error("Error fetching data:", error)
-    res.status(500).render("error", { message: "Error fetching data" })
+    console.error("Error al obtener los datos:", error)
+    res.status(500).render("error", { message: "Error al obtener los datos" })
   }
 })
 
+//Rutas de productos
 app.get("/products", async (req, res) => {
   try {
+    // Referencia inicial a la colección de productos
     let productsRef = db.collection("products")
 
-    // Apply category filter if provided
+    // Si se recibe un filtro de categoría (por URL), aplicamos el filtro
     if (req.query.category && req.query.category !== "all") {
       productsRef = productsRef.where("category", "==", req.query.category)
     }
 
+    // Obtenemos los productos (filtrados o todos si no hay filtro)
     const productsSnapshot = await productsRef.get()
     const products = []
 
+    // Recorremos cada documento de productos y lo agregamos al array
     productsSnapshot.forEach((doc) => {
       products.push({
         id: doc.id,
@@ -97,9 +113,11 @@ app.get("/products", async (req, res) => {
       })
     })
 
+    // Obtenemos todas las categorías desde Firestore
     const categoriesSnapshot = await db.collection("categories").get()
     const categories = []
 
+    // Recorremos cada categoría y la agregamos al array
     categoriesSnapshot.forEach((doc) => {
       categories.push({
         id: doc.id,
@@ -107,14 +125,18 @@ app.get("/products", async (req, res) => {
       })
     })
 
+    // Renderizamos la vista 'products.ejs' y enviamos los datos necesarios
     res.render("products", {
       title: "All Products",
-      products,
-      categories,
-      selectedCategory: req.query.category || "all",
-      cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
+      products, // Lista de productos a mostrar
+      categories, // Lista de categorías para el sidebar
+      selectedCategory: req.query.category || "all", // Categoría activa
+      sort: req.query.sort || "default", // Orden seleccionado (si lo hay)
+      query: req.query, // Todos los parámetros de consulta para usarlos en la vista
+      cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0), // Total de productos en el carrito
     })
   } catch (error) {
+    // Si hay un error, lo mostramos en consola y mostramos una página de error
     console.error("Error fetching products:", error)
     res.status(500).render("error", { message: "Error fetching products" })
   }
@@ -144,7 +166,7 @@ app.get("/product/:id", async (req, res) => {
   }
 })
 
-// Cart routes
+// Rutas del carrito
 app.get("/cart", (req, res) => {
   res.render("cart", {
     title: "Shopping Cart",
@@ -216,7 +238,7 @@ app.post("/cart/remove", (req, res) => {
   res.redirect("/cart")
 })
 
-// Checkout routes
+// Rutas de verificacion de pedido
 app.get("/checkout", (req, res) => {
   if (req.session.cart.length === 0) {
     return res.redirect("/cart")
@@ -290,7 +312,7 @@ app.get("/order-confirmation/:id", async (req, res) => {
   }
 })
 
-// Admin routes
+// Rutas del admin
 app.get("/admin", async (req, res) => {
   try {
     const productsSnapshot = await db.collection("products").get()
@@ -426,7 +448,7 @@ app.post("/admin/product/delete/:id", async (req, res) => {
   }
 })
 
-// Start server
+// Lanzar el server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`)
 })

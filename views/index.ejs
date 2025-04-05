@@ -1,48 +1,75 @@
 <%- include('reusables/nav') %>
 
-<section class="hero">
-  <div class="container">
-    <div class="hero-content">
-      <h2>Welcome to TechStore</h2>
-      <p>Discover the latest in electronic products and gadgets</p>
-      <a href="/products" class="btn btn-primary">Shop Now</a>
+<section class="relative bg-gradient-to-r from-zinc-900 to-zinc-800 text-white">
+  <div class="container mx-auto px-4 py-20 md:py-32">
+    <div class="max-w-2xl">
+      <h2 class="text-4xl md:text-6xl font-bold mb-4">Bienvenido a GEN Z</h2>
+      <p class="text-lg md:text-xl mb-8 text-zinc-300">
+        Descubre lo último en productos electrónicos y gadgets para la nueva generación.
+      </p>
+      <a href="/products" class="inline-flex items-center px-6 py-3 rounded-md bg-red-600 hover:bg-red-700 text-white font-medium transition-colors">
+        Comprar Ahora
+        <i class="fas fa-shopping-bag ml-2"></i>
+      </a>
     </div>
   </div>
+  <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
 </section>
 
-<section class="featured-products">
-  <div class="container">
-    <h2 class="section-title">Featured Products</h2>
-    <div class="products-grid">
+<section class="py-16 px-4">
+  <div class="container mx-auto">
+    <div class="flex justify-between items-center mb-10">
+      <h2 class="text-3xl font-bold">Productos Destacados</h2>
+      <a href="/products" class="text-red-600 hover:text-red-700 flex items-center">
+        Ver todos
+        <i class="fas fa-chevron-right text-xs ml-1"></i>
+      </a>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       <% products.forEach(product => { %>
-        <div class="product-card">
-          <div class="product-image">
-            <img src="<%= product.image %>" alt="<%= product.name %>">
+        <div class="overflow-hidden transition-all duration-300 hover:shadow-lg rounded-lg border border-gray-200">
+          <div class="relative aspect-square overflow-hidden bg-gray-100">
+            <img 
+              src="<%= product.image %>" 
+              alt="<%= product.name %>" 
+              class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            >
           </div>
-          <div class="product-info">
-            <h3 class="product-title"><%= product.name %></h3>
-            <p class="product-price">$<%= product.price.toFixed(2) %></p>
-            <a href="/product/<%= product.id %>" class="btn btn-secondary">View Details</a>
+          <div class="p-4">
+            <h3 class="font-semibold text-lg truncate"><%= product.name %></h3>
+            <p class="text-xl font-bold text-red-600 mt-1">
+              $<%= product.price.toFixed(2) %>
+            </p>
+          </div>
+          <div class="p-4 pt-0">
+            <a 
+              href="/product/<%= product.id %>" 
+              class="block w-full text-center px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+            >
+              Ver Detalles
+            </a>
           </div>
         </div>
       <% }); %>
     </div>
-    <div class="view-all">
-      <a href="/products" class="btn btn-outline">View All Products</a>
-    </div>
   </div>
 </section>
 
-<section class="categories">
-  <div class="container">
-    <h2 class="section-title">Shop by Category</h2>
-    <div class="categories-grid">
+<section class="py-16 px-4 bg-gray-50">
+  <div class="container mx-auto">
+    <h2 class="text-3xl font-bold mb-10 text-center">Compra por Categoría</h2>
+    
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
       <% categories.forEach(category => { %>
-        <a href="/products?category=<%= category.id %>" class="category-card">
-          <div class="category-icon">
-            <i class="<%= category.icon %>"></i>
+        <a 
+          href="/products?category=<%= category.id %>" 
+          class="flex flex-col items-center p-6 bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:bg-gray-50"
+        >
+          <div class="p-4 rounded-full bg-red-100 mb-4">
+            <i class="fas fa-<%= category.icon %> text-2xl text-red-600"></i>
           </div>
-          <h3 class="category-title"><%= category.name %></h3>
+          <h3 class="text-lg font-medium text-center"><%= category.name %></h3>
         </a>
       <% }); %>
     </div>

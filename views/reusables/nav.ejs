@@ -4,33 +4,138 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %> | TechStore</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <div class="header-content">
-        <div class="logo">
-          <a href="/">
-            <h1>TechStore</h1>
-          </a>
+  <header class="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
+    <div class="container mx-auto px-4">
+      <div class="flex h-16 items-center justify-between">
+        <div class="flex items-center">
+          <div class="logo">
+            <a href="/" class="flex items-center">
+              <h1 class="font-bold text-2xl tracking-tight">GEN Z</h1>
+            </a>
+          </div>
         </div>
-        <nav class="nav">
-          <ul class="nav-list">
-            <li><a href="/">Home</a></li>
-            <li><a href="/products">Products</a></li>
+        
+        <nav class="hidden md:block">
+          <ul class="flex space-x-4">
+            <a href="/" class="px-3 py-2 flex items-center transition-colors
+            <%= currentPath === '/' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
+              Inicio
+            </a>
+            <a href="/products" class="px-3 py-2 flex items-center transition-colors
+            <%= currentPath === '/products' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
+              Productos
+            </a>
+            <a href="/categories" class="px-3 py-2 flex items-center transition-colors
+            <%= currentPath === '/categories' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
+              Categorías
+            </a>
+            <a href="/about" class="px-3 py-2 flex items-center transition-colors
+            <%= currentPath === '/about' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
+              Nosotros
+            </a>
+            <a href="/contact" class="px-3 py-2 flex items-center transition-colors
+            <%= currentPath === '/contact' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
+              Contacto
+            </a>
           </ul>
         </nav>
-        <div class="header-actions">
-          <a href="/cart" class="cart-icon">
-            <i class="fas fa-shopping-cart"></i>
+        
+        <div class="flex items-center gap-4">
+          <div class="hidden md:block relative">
+            <form action="/search" method="GET">
+              <div class="relative">
+                <input
+                  type="search"
+                  name="q"
+                  placeholder="Buscar..."
+                  class="w-[200px] pl-8 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                />
+                <i class="fas fa-search absolute left-2.5 top-2.5 text-gray-400"></i>
+              </div>
+            </form>
+          </div>
+          
+          <a href="/account" class="text-gray-700 hover:text-red-600 hidden md:block">
+            <i class="fas fa-user text-xl"></i>
+            <span class="sr-only">Mi cuenta</span>
+          </a>
+          
+          <a href="/cart" class="text-gray-700 hover:text-red-600 relative">
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span class="sr-only">Carrito</span>
             <% if (locals.cartCount && cartCount > 0) { %>
-              <span class="cart-count"><%= cartCount %></span>
+              <span class="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-red-600 text-xs font-medium text-white flex items-center justify-center">
+                <%= cartCount %>
+              </span>
             <% } %>
           </a>
+          
+          <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-red-600">
+            <i class="fas fa-bars text-xl"></i>
+            <span class="sr-only">Abrir menú</span>
+          </button>
         </div>
       </div>
     </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden">
+      <nav class="px-4 py-3 bg-white border-t">
+        <ul class="space-y-2">
+          <li>
+            <a href="/" class="block px-3 py-2 <%= currentPath === '/' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
+              Inicio
+            </a>
+          </li>
+          <li>
+            <a href="/products" class="block px-3 py-2 <%= currentPath === '/products' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
+              Productos
+            </a>
+          </li>
+          <li>
+            <a href="/categories" class="block px-3 py-2 <%= currentPath === '/categories' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
+              Categorías
+            </a>
+          </li>
+          <li>
+            <a href="/about" class="block px-3 py-2 <%= currentPath === '/about' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
+              Nosotros
+            </a>
+          </li>
+          <li>
+            <a href="/contact" class="block px-3 py-2 <%= currentPath === '/contact' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
+              Contacto
+            </a>
+          </li>
+          <li>
+            <form action="/search" method="GET" class="mt-3">
+              <div class="relative">
+                <input
+                  type="search"
+                  name="q"
+                  placeholder="Buscar..."
+                  class="w-full pl-8 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                />
+                <i class="fas fa-search absolute left-2.5 top-2.5 text-gray-400"></i>
+              </div>
+            </form>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </header>
+  
+  <script>
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
   <main>

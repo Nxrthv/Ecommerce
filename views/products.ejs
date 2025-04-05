@@ -1,54 +1,310 @@
 <%- include('reusables/nav') %>
 
-<section class="products-page">
-  <div class="container">
-    <div class="products-header">
-      <h2 class="section-title">All Products</h2>
+<section class="py-12 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Todos los Productos</h1>
+      
+      <!-- Mobile filter toggle -->
+      <button id="filter-toggle" class="md:hidden flex items-center text-gray-700 hover:text-red-600">
+        <i class="fas fa-filter mr-2"></i> Filtros
+      </button>
     </div>
     
-    <div class="products-container">
-      <div class="filters-sidebar">
-        <div class="filter-section">
-          <h3>Categories</h3>
-          <ul class="category-list">
+    <div class="flex flex-col md:flex-row gap-8">
+      <!-- Sidebar Filters - Hidden on mobile by default -->
+      <div id="filters-sidebar" class="hidden md:block w-full md:w-64 flex-shrink-0">
+        <div class="bg-white rounded-lg shadow-sm p-6 sticky top-20">
+          <h2 class="font-bold text-lg mb-4 pb-2 border-b">Categorías</h2>
+          
+          <ul class="space-y-2">
             <li>
-              <a href="/products" class="<%= selectedCategory === 'all' ? 'active' : '' %>">
-                All Categories
+              <a href="/products" 
+                class="block px-3 py-2 rounded-md transition-colors <%= selectedCategory === 'all' ? 'bg-red-100 text-red-600 font-medium' : 'text-gray-700 hover:bg-gray-100' %>">
+                Todas las Categorías
               </a>
             </li>
+            
             <% categories.forEach(category => { %>
               <li>
-                <a href="/products?category=<%= category.id %>" class="<%= selectedCategory === category.id ? 'active' : '' %>">
-                  <%= category.name %>
+                <a href="/products?category=<%= category.id %>" 
+                  class="block px-3 py-2 rounded-md transition-colors <%= selectedCategory === category.id ? 'bg-red-100 text-red-600 font-medium' : 'text-gray-700 hover:bg-gray-100' %>">
+                  <div class="flex items-center">
+                    <i class="fas fa-<%= category.icon || 'tag' %> w-5 mr-2 text-gray-500"></i>
+                    <%= category.name %>
+                  </div>
                 </a>
               </li>
             <% }); %>
           </ul>
+          
+          <!-- Price Range Filter (opcional) -->
+          <div class="mt-8">
+            <h2 class="font-bold text-lg mb-4 pb-2 border-b">Precio</h2>
+            <form action="/products" method="GET" class="space-y-4">
+              <% if (selectedCategory && selectedCategory !== 'all') { %>
+                <input type="hidden" name="category" value="<%= selectedCategory %>">
+              <% } %>
+              
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label for="min-price" class="block text-sm text-gray-600 mb-1">Mínimo</label>
+                  <input 
+                    type="number" 
+                    id="min-price" 
+                    name="min_price" 
+                    placeholder="0" 
+                    class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                    value="<%= locals.minPrice || '' %>"
+                  >
+                </div>
+                <div>
+                  <label for="max-price" class="block text-sm text-gray-600 mb-1">Máximo</label>
+                  <input 
+                    type="number" 
+                    id="max-price" 
+                    name="max_price" 
+                    placeholder="10000" 
+                    class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                    value="<%= locals.maxPrice || '' %>"
+                  >
+                </div>
+              </div>
+              
+              <button type="submit" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md transition-colors">
+                Aplicar Filtros
+              </button>
+            </form>
+          </div>
         </div>
       </div>
       
-      <div class="products-grid">
+      <!-- Products Grid -->
+      <div class="flex-1">
+        <% if (locals.selectedCategory && selectedCategory !== 'all') { %>
+          <div class="mb-6 flex items-center">
+            <span class="text-sm text-gray-500 mr-2">Categoría:</span>
+            <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-medium">
+              <%= categories.find(c => c.id === selectedCategory)?.name || selectedCategory %>
+            </span>
+            <a href="/products" class="ml-2 text-gray-500 hover:text-red-600">
+              <i class="fas fa-times-circle"></i>
+            </a>
+          </div>
+        <% } %>
+        
+        <!-- Sort options (opcional) -->
+        <div class="flex justify-between items-center mb-6">
+          <p class="text-gray-500 text-sm">
+            <% if (products.length === 1) { %>
+              Mostrando 1 producto
+            <% } else { %>
+              Mostrando <%= products.length %> productos
+            <% } %>
+          </p>
+          
+          <div class="flex items-center">
+            <label for="sort" class="text-sm text-gray-600 mr-2">Ordenar por:</label>
+            <select onchange="window.location.href = this.value"
+                  class="border rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-red-500">
+            <option value="/products?<%= new URLSearchParams({ ...query, sort: 'default' }).toString() %>"
+              <%= sort === 'default' ? 'selected' : '' %>>Destacados</option>
+
+            <option value="/products?<%= new URLSearchParams({ ...query, sort: 'price_asc' }).toString() %>"
+              <%= sort === 'price_asc' ? 'selected' : '' %>>Precio: Menor a mayor</option>
+
+            <option value="/products?<%= new URLSearchParams({ ...query, sort: 'price_desc' }).toString() %>"
+              <%= sort === 'price_desc' ? 'selected' : '' %>>Precio: Mayor a menor</option>
+          </select>
+          </div>
+        </div>
+        
         <% if (products.length === 0) { %>
-          <div class="no-products">
-            <p>No products found in this category.</p>
+          <div class="bg-white rounded-lg shadow-sm p-12 text-center">
+            <div class="mb-4 text-gray-400">
+              <i class="fas fa-search fa-3x"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">No se encontraron productos</h3>
+            <p class="text-gray-500 mb-6">Intenta con otra categoría o elimina los filtros aplicados.</p>
+            <a href="/products" class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors">
+              Ver todos los productos
+            </a>
           </div>
         <% } else { %>
-          <% products.forEach(product => { %>
-            <div class="product-card">
-              <div class="product-image">
-                <img src="<%= product.image %>" alt="<%= product.name %>">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <% products.forEach(product => { %>
+              <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full">
+                <div class="relative aspect-square overflow-hidden bg-gray-100">
+                  <a href="/product/<%= product.id %>">
+                    <img 
+                      src="<%= product.image %>" 
+                      alt="<%= product.name %>" 
+                      class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    >
+                  </a>
+                  
+                  <!-- Opcional: Badge para productos nuevos o en oferta -->
+                  <% if (product.isNew) { %>
+                    <span class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                      NUEVO
+                    </span>
+                  <% } %>
+                  
+                  <% if (product.discount) { %>
+                    <span class="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+                      -<%= product.discount %>%
+                    </span>
+                  <% } %>
+                </div>
+                
+                <div class="p-4 flex-grow">
+                  <% if (product.category) { %>
+                    <div class="mb-1">
+                      <span class="text-xs text-gray-500"><%= product.category %></span>
+                    </div>
+                  <% } %>
+                  
+                  <h3 class="font-semibold text-lg mb-1 line-clamp-2 hover:text-red-600">
+                    <a href="/product/<%= product.id %>"><%= product.name %></a>
+                  </h3>
+                  
+                  <div class="mt-2 mb-3">
+                    <div class="flex items-center">
+                      <% if (product.oldPrice) { %>
+                        <span class="text-gray-500 line-through text-sm mr-2">S/ <%= product.oldPrice.toFixed(2) %></span>
+                      <% } %>
+                      <span class="text-xl font-bold text-red-600">S/ <%= product.price.toFixed(2) %></span>
+                    </div>
+                    
+                    <% if (product.rating) { %>
+                      <div class="flex items-center mt-1">
+                        <div class="flex text-yellow-400">
+                          <% for (let i = 1; i <= 5; i++) { %>
+                            <% if (i <= Math.floor(product.rating)) { %>
+                              <i class="fas fa-star text-xs"></i>
+                            <% } else if (i - 0.5 <= product.rating) { %>
+                              <i class="fas fa-star-half-alt text-xs"></i>
+                            <% } else { %>
+                              <i class="far fa-star text-xs"></i>
+                            <% } %>
+                          <% } %>
+                        </div>
+                        <span class="text-xs text-gray-500 ml-1">(<%= product.reviewCount || 0 %>)</span>
+                      </div>
+                    <% } %>
+                  </div>
+                </div>
+                
+                <div class="p-4 pt-0 mt-auto">
+                  <div class="flex space-x-2">
+                    <a 
+                      href="/product/<%= product.id %>" 
+                      class="flex-1 text-center px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                    >
+                      Ver Detalles
+                    </a>
+                    <button 
+                      onclick="addToCart('<%= product.id %>')" 
+                      class="px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                      aria-label="Añadir al carrito"
+                    >
+                      <i class="fas fa-shopping-cart"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div class="product-info">
-                <h3 class="product-title"><%= product.name %></h3>
-                <p class="product-price">$<%= product.price.toFixed(2) %></p>
-                <a href="/product/<%= product.id %>" class="btn btn-secondary">View Details</a>
-              </div>
+            <% }); %>
+          </div>
+          
+          <!-- Pagination (opcional) -->
+          <% if (locals.totalPages && totalPages > 1) { %>
+            <div class="mt-12 flex justify-center">
+              <nav class="inline-flex rounded-md shadow-sm" aria-label="Pagination">
+                <% if (currentPage > 1) { %>
+                  <a 
+                    href="/products?<%= new URLSearchParams({...req.query, page: currentPage - 1}).toString() %>" 
+                    class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    <i class="fas fa-chevron-left"></i>
+                    <span class="sr-only">Anterior</span>
+                  </a>
+                <% } else { %>
+                  <span class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-gray-100 text-sm font-medium text-gray-500 cursor-not-allowed">
+                    <i class="fas fa-chevron-left"></i>
+                    <span class="sr-only">Anterior</span>
+                  </span>
+                <% } %>
+                
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                  <% if (i === currentPage) { %>
+                    <span class="relative inline-flex items-center px-4 py-2 border border-red-600 bg-red-600 text-sm font-medium text-white">
+                      <%= i %>
+                    </span>
+                  <% } else if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) { %>
+                    <a 
+                      href="/products?<%= new URLSearchParams({...req.query, page: i}).toString() %>" 
+                      class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    >
+                      <%= i %>
+                    </a>
+                  <% } else if (i === currentPage - 2 || i === currentPage + 2) { %>
+                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                      ...
+                    </span>
+                  <% } %>
+                <% } %>
+                
+                <% if (currentPage < totalPages) { %>
+                  <a 
+                    href="/products?<%= new URLSearchParams({...req.query, page: currentPage + 1}).toString() %>" 
+                    class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    <i class="fas fa-chevron-right"></i>
+                    <span class="sr-only">Siguiente</span>
+                  </a>
+                <% } else { %>
+                  <span class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-gray-100 text-sm font-medium text-gray-500 cursor-not-allowed">
+                    <i class="fas fa-chevron-right"></i>
+                    <span class="sr-only">Siguiente</span>
+                  </span>
+                <% } %>
+              </nav>
             </div>
-          <% }); %>
+          <% } %>
         <% } %>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  // Toggle mobile filters
+  document.getElementById('filter-toggle')?.addEventListener('click', function() {
+    const filtersSidebar = document.getElementById('filters-sidebar');
+    filtersSidebar.classList.toggle('hidden');
+  });
+  
+  // Add to cart function
+  function addToCart(productId) {
+    // Aquí puedes implementar la lógica para añadir al carrito
+    // Por ejemplo, una petición fetch a tu API
+    fetch('/api/cart/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productId }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Actualizar el contador del carrito o mostrar una notificación
+      alert('Producto añadido al carrito');
+      // Alternativa: usar una notificación toast en lugar de alert
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+</script>
 
 <%- include('reusables/footer') %>

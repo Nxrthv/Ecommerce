@@ -1,8 +1,63 @@
-/* Reset and Base Styles */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+/* Estilos adicionales personalizados */
+
+/* Animaciones suaves */
+a, button {
+  transition: all 0.3s ease;
+}
+
+/* Mejoras para dispositivos móviles */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Estilos para el carrito */
+.cart-icon {
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #dc2626;
+  color: white;
+  font-size: 0.75rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilos para el hero */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Estilos para las tarjetas de producto */
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Estilos para las categorías */
+.category-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Estilos globales */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Nunito", sans-serif;
+    font-weight: 300;
   }
   
   body {
@@ -33,7 +88,7 @@
     padding: 0 15px;
   }
   
-  /* Button Styles */
+  /* Estilos de botones */
   .btn {
     display: inline-block;
     padding: 10px 20px;
@@ -75,7 +130,7 @@
     color: #fff;
   }
   
-  /* Header Styles */
+  /* Estilos de la barra de navegacion */
   .header {
     background-color: #fff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -93,7 +148,8 @@
   
   .logo h1 {
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 900;
+    color: red;
   }
   
   .nav-list {
@@ -106,10 +162,6 @@
   
   .nav-list a {
     font-weight: 500;
-  }
-  
-  .nav-list a:hover {
-    color: #666;
   }
   
   .header-actions {
