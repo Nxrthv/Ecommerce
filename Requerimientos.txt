@@ -1,0 +1,16 @@
+Funcionales:
+- Panel de administrador
+- Edicion de productos
+- Registro de productos
+- Vista de usuarios
+- Vista de en conjunto de articulos desde DB en la nube
+- Vista individual de cada producto
+- Busqueda de articulos
+- Filtrado por categorias
+- Eleccion de productos (Drag and Drop)
+- Seleccionar cantidad
+- Carrito de compras
+- Suma de total de compras
+- Registro del pedido (codigo, articulos, monto, metodo de pago)
+
+No funcionales:

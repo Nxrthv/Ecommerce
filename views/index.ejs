@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gen Z - Tech & Lifestyle Store</title>
+  <link rel="shortcut icon" href="/imgs/logo.png" type="image/x-icon" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #111827;
+      --primary-light: #1f2937;
+      --secondary: #f97316;
+      --secondary-hover: #ea580c;
+      --accent: #f59e0b;
+      --light: #f9fafb;
+      --light-gray: #f3f4f6;
+      --mid-gray: #e5e7eb;
+      --dark-gray: #6b7280;
+      --dark: #111827;
+      --success: #10b981;
+      --danger: #ef4444;
+      --border-radius-sm: 4px;
+      --border-radius: 8px;
+      --border-radius-lg: 12px;
+      --box-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --box-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--dark);
+      background-color: var(--light);
+      line-height: 1.6;
+    }
+    
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    img {
+      max-width: 100%;
+    }
+    
+    /* Loader */
+    .cont-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--light);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+    
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--mid-gray);
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+    
+    .loader::after {
+      content: '';  
+      box-sizing: border-box;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-bottom-color: var(--secondary);
+    }
+    
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+    /* Header & Navigation */
+    .top-bar {
+      background-color: var(--primary);
+      color: white;
+      padding: 8px 0;
+      font-size: 0.875rem;
+    }
+    
+    .top-bar-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .top-bar a {
+      color: white;
+      opacity: 0.8;
+      transition: var(--transition);
+    }
+    
+    .top-bar a:hover {
+      opacity: 1;
+    }
+    
+    .navbar {
+      background-color: white;
+      box-shadow: var(--box-shadow-sm);
+      padding: 0;
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      padding: 15px 0;
+    }
+    
+    .navbar-brand span {
+      color: var(--secondary);
+    }
+    
+    .navbar-nav .nav-link {
+      font-weight: 500;
+      padding: 25px 15px;
+      color: var(--dark);
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 20px;
+      left: 15px;
+      width: 0;
+      height: 2px;
+      background-color: var(--secondary);
+      transition: var(--transition);
+    }
+    
+    .navbar-nav .nav-link:hover::after,
+    .navbar-nav .nav-link.active::after {
+      width: calc(100% - 30px);
+    }
+    
+    .search-form {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+    }
+    
+    .search-form input {
+      width: 100%;
+      padding: 10px 15px;
+      padding-right: 40px;
+      border: 1px solid var(--mid-gray);
+      border-radius: 50px;
+      font-size: 0.875rem;
+      transition: var(--transition);
+    }
+    
+    .search-form input:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+    }
+    
+    .search-form button {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--dark-gray);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .search-form button:hover {
+      color: var(--secondary);
+    }
+    
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .header-action-btn {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: var(--light-gray);
+      color: var(--dark);
+      transition: var(--transition);
+    }
+    
+    .header-action-btn:hover {
+      background-color: var(--mid-gray);
+    }
+    
+    .header-action-btn .badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: var(--secondary);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      height: 600px;
+      overflow: hidden;
+      background-color: var(--primary-light);
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      color: white;
+    }
+    
+    .hero-text {
+      max-width: 600px;
+    }
+    
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+    
+    .hero-image {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 50%;
+      background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80');
+      background-size: cover;
+      background-position: center;
+      clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    
+    .btn-primary {
+      background-color: var(--secondary);
+      border-color: var(--secondary);
+      color: white;
+      font-weight: 500;
+      padding: 12px 24px;
+      border-radius: 50px;
+      transition: var(--transition);
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--secondary-hover);
+      border-color: var(--secondary-hover);
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid white;
+      color: white;
+      font-weight: 500;
+      padding: 12px 24px;
+      border-radius: 50px;
+      transition: var(--transition);
+      margin-left: 15px;
+    }
+    
+    .btn-outline:hover {
+      background-color: white;
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    /* Categories */
+    .section {
+      padding: 80px 0;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: var(--secondary);
+    }
+    
+    .section-subtitle {
+      font-size: 1.125rem;
+      color: var(--dark-gray);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .category-card {
+      position: relative;
+      height: 200px;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      margin-bottom: 30px;
+    }
+    
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shadow-lg);
+    }
+    
+    .category-card-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: var(--transition);
+    }
+    
+    .category-card:hover .category-card-bg {
+      transform: scale(1.05);
+    }
+    
+    .category-card-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.2));
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+      color: white;
+    }
+    
+    .category-card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .category-card-count {
+      font-size: 0.875rem;
+      opacity: 0.8;
+    }
+    
+    /* Featured Products */
+    .product-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow-sm);
+      transition: var(--transition);
+      height: 100%;
+      position: relative;
+    }
+    
+    .product-card:hover {
+      box-shadow: var(--box-shadow);
+      transform: translateY(-5px);
+    }
+    
+    .product-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      padding: 5px 10px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      z-index: 1;
+    }
+    
+    .badge-new {
+      background-color: var(--secondary);
+      color: white;
+    }
+    
+    .badge-sale {
+      background-color: var(--danger);
+      color: white;
+    }
+    
+    .product-image {
+      position: relative;
+      height: 250px;
+      overflow: hidden;
+    }
+    
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    
+    .product-card:hover .product-image img {
+      transform: scale(1.05);
+    }
+    
+    .product-actions {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: var(--transition);
+    }
+    
+    .product-card:hover .product-actions {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .product-action-btn {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: white;
+      color: var(--dark);
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    
+    .product-action-btn:hover {
+      background-color: var(--secondary);
+      color: white;
+    }
+    
+    .product-content {
+      padding: 20px;
+    }
+    
+    .product-category {
+      font-size: 0.75rem;
+      color: var(--dark-gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+    
+    .product-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.4;
+      height: 2.8em;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    
+    .product-rating {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .rating-stars {
+      color: var(--accent);
+      margin-right: 5px;
+    }
+    
+    .rating-count {
+      font-size: 0.75rem;
+      color: var(--dark-gray);
+    }
+    
+    .product-price {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .current-price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .old-price {
+      font-size: 0.875rem;
+      color: var(--dark-gray);
+      text-decoration: line-through;
+      margin-left: 10px;
+    }
+    
+    .discount-percent {
+      font-size: 0.75rem;
+      background-color: #fee2e2;
+      color: var(--danger);
+      padding: 2px 8px;
+      border-radius: 50px;
+      margin-left: 10px;
+      font-weight: 600;
+    }
+    
+    .btn-add-cart {
+      width: 100%;
+      padding: 10px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    
+    .btn-add-cart:hover {
+      background-color: var(--secondary);
+    }
+    
+    /* Deal of the Day */
+    .deal-section {
+      background-color: var(--light-gray);
+      padding: 80px 0;
+    }
+    
+    .deal-card {
+      background-color: white;
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+    }
+    
+    .deal-content {
+      padding: 40px;
+    }
+    
+    .deal-subtitle {
+      font-size: 1rem;
+      color: var(--secondary);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    
+    .deal-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    
+    .deal-description {
+      font-size: 1.125rem;
+      color: var(--dark-gray);
+      margin-bottom: 30px;
+    }
+    
+    .deal-price {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .deal-current-price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .deal-old-price {
+      font-size: 1.25rem;
+      color: var(--dark-gray);
+      text-decoration: line-through;
+      margin-left: 15px;
+    }
+    
+    .deal-discount {
+      font-size: 1rem;
+      background-color: #fee2e2;
+      color: var(--danger);
+      padding: 5px 15px;
+      border-radius: 50px;
+      margin-left: 15px;
+      font-weight: 600;
+    }
+    
+    .deal-countdown {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .countdown-item {
+      width: 70px;
+      height: 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--light-gray);
+      border-radius: var(--border-radius);
+    }
+    
+    .countdown-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .countdown-label {
+      font-size: 0.75rem;
+      color: var(--dark-gray);
+    }
+    
+    /* Features */
+    .features-section {
+      padding: 60px 0;
+      background-color: white;
+    }
+    
+    .feature-card {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+    
+    .feature-card:hover {
+      background-color: var(--light-gray);
+    }
+    
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(249, 115, 22, 0.1);
+      color: var(--secondary);
+      border-radius: 50%;
+      margin-right: 20px;
+      font-size: 1.5rem;
+    }
+    
+    .feature-content h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .feature-content p {
+      font-size: 0.875rem;
+      color: var(--dark-gray);
+      margin: 0;
+    }
+    
+    /* Brands */
+    .brands-section {
+      padding: 60px 0;
+      background-color: white;
+    }
+    
+    .brands-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+    
+    .brand-logo {
+      height: 40px;
+      filter: grayscale(100%);
+      opacity: 0.6;
+      transition: var(--transition);
+    }
+    
+    .brand-logo:hover {
+      filter: grayscale(0);
+      opacity: 1;
+    }
+    
+    /* Newsletter */
+    .newsletter-section {
+      padding: 80px 0;
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .newsletter-content {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .newsletter-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    
+    .newsletter-description {
+      font-size: 1.125rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    .newsletter-input {
+      flex: 1;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 50px 0 0 50px;
+      font-size: 1rem;
+    }
+    
+    .newsletter-input:focus {
+      outline: none;
+    }
+    
+    .newsletter-button {
+      padding: 15px 30px;
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+      border-radius: 0 50px 50px 0;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .newsletter-button:hover {
+      background-color: var(--secondary-hover);
+    }
+    
+    /* Footer */
+    .footer {
+      background-color: var(--primary-light);
+      color: white;
+      padding: 80px 0 0;
+    }
+    
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    
+    .footer-logo span {
+      color: var(--secondary);
+    }
+    
+    .footer-description {
+      margin-bottom: 20px;
+      opacity: 0.8;
+    }
+    
+    .footer-social {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .social-link {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: white;
+      transition: var(--transition);
+    }
+    
+    .social-link:hover {
+      background-color: var(--secondary);
+      transform: translateY(-3px);
+    }
+    
+    .footer-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .footer-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: var(--secondary);
+    }
+    
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+    
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      transition: var(--transition);
+    }
+    
+    .footer-links a:hover {
+      color: white;
+      padding-left: 5px;
+    }
+    
+    .footer-contact-item {
+      display: flex;
+      margin-bottom: 15px;
+    }
+    
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+    
+    .contact-text {
+      opacity: 0.8;
+    }
+    
+    .footer-bottom {
+      background-color: var(--primary);
+      padding: 20px 0;
+      margin-top: 60px;
+    }
+    
+    .copyright {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.875rem;
+    }
+    
+    .payment-methods {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .payment-icon {
+      width: 40px;
+      height: 25px;
+      background-color: white;
+      border-radius: var(--border-radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 1199px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-section {
+        height: 500px;
+      }
+    }
+    
+    @media (max-width: 991px) {
+      .navbar-nav .nav-link {
+        padding: 15px;
+      }
+      
+      .navbar-nav .nav-link::after {
+        bottom: 10px;
+      }
+      
+      .hero-section {
+        height: auto;
+        padding: 80px 0;
+      }
+      
+      .hero-image {
+        display: none;
+      }
+      
+      .hero-text {
+        max-width: 100%;
+        text-align: center;
+      }
+      
+      .deal-content {
+        padding: 30px;
+      }
+      
+      .deal-title {
+        font-size: 2rem;
+      }
+    }
+    
+    @media (max-width: 767px) {
+      .top-bar {
+        display: none;
+      }
+      
+      .section {
+        padding: 60px 0;
+      }
+      
+      .section-title {
+        font-size: 1.75rem;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+      
+      .deal-image {
+        height: 300px;
+      }
+      
+      .deal-image img {
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      .countdown-item {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .newsletter-form {
+        flex-direction: column;
+      }
+      
+      .newsletter-input {
+        border-radius: 50px;
+        margin-bottom: 10px;
+      }
+      
+      .newsletter-button {
+        border-radius: 50px;
+      }
+    }
+    
+    @media (max-width: 575px) {
+      .btn-primary, .btn-outline {
+        padding: 10px 20px;
+        font-size: 0.875rem;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+      }
+      
+      .deal-title {
+        font-size: 1.5rem;
+      }
+      
+      .countdown-item {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .countdown-number {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loader -->
+  <div class="cont-loader">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-content">
+        <div class="top-bar-left">
+          <div><i class="fas fa-phone-alt me-2"></i> +1 234 567 890</div>
+          <div><i class="fas fa-envelope me-2"></i> support@genz.com</div>
+        </div>
+        <div class="top-bar-right">
+          <a href="#"><i class="fas fa-truck me-1"></i> Order Tracking</a>
+          <a href="#"><i class="fas fa-map-marker-alt me-1"></i> Store Locator</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        Gen<span>Z</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/shop">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/categories">Categories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/deals">Deals</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/blog">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">Contact</a>
+          </li>
+        </ul>
+        <form class="search-form me-3">
+          <input type="text" placeholder="Search products...">
+          <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+        <div class="header-actions">
+          <a href="/account" class="header-action-btn">
+            <i class="fas fa-user"></i>
+          </a>
+          <a href="/wishlist" class="header-action-btn">
+            <i class="fas fa-heart"></i>
+            <span class="badge">3</span>
+          </a>
+          <a href="/cart" class="header-action-btn">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="badge">2</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="hero-title">Discover the Latest Tech Innovations</h1>
+          <p class="hero-subtitle">Explore our premium collection of cutting-edge gadgets and electronics for the modern lifestyle.</p>
+          <div>
+            <a href="/shop" class="btn btn-primary">Shop Now</a>
+            <a href="/categories" class="btn-outline">Explore Categories</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image"></div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Shop by Category</h2>
+        <p class="section-subtitle">Browse our wide selection of products across popular categories</p>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="category-card">
+            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80')"></div>
+            <div class="category-card-overlay">
+              <h3 class="category-card-title">Smartphones</h3>
+              <p class="category-card-count">24 Products</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="category-card">
+            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80')"></div>
+            <div class="category-card-overlay">
+              <h3 class="category-card-title">Laptops</h3>
+              <p class="category-card-count">18 Products</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="category-card">
+            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80')"></div>
+            <div class="category-card-overlay">
+              <h3 class="category-card-title">Headphones</h3>
+              <p class="category-card-count">12 Products</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="category-card">
+            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1057&q=80')"></div>
+            <div class="category-card-overlay">
+              <h3 class="category-card-title">Gaming</h3>
+              <p class="category-card-count">15 Products</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="category-card">
+            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1728&q=80')"></div>
+            <div class="category-card-overlay">
+              <h3 class="category-card-title">Audio</h3>
+              <p class="category-card-count">9 Products</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="category-card">
+            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1558089687-f282ffcbc0d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80')"></div>
+            <div class="category-card-overlay">
+              <h3 class="category-card-title">Smart Home</h3>
+              <p class="category-card-count">14 Products</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="category-card">
+            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1544117519-31a4a39e9a17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80')"></div>
+            <div class="category-card-overlay">
+              <h3 class="category-card-title">Wearables</h3>
+              <p class="category-card-count">8 Products</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="category-card">
+            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1593508512255-86ab42a8e620?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80')"></div>
+            <div class="category-card-overlay">
+              <h3 class="category-card-title">Accessories</h3>
+              <p class="category-card-count">22 Products</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Featured Products</h2>
+        <p class="section-subtitle">Discover our handpicked selection of the latest tech products</p>
+      </div>
+      <div class="row g-4">
+        <% for(let i = 0; i < 8; i++) { %>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="product-card">
+            <% if(i % 4 === 0) { %>
+            <div class="product-badge badge-new">New</div>
+            <% } else if(i % 3 === 0) { %>
+            <div class="product-badge badge-sale">-20%</div>
+            <% } %>
+            <div class="product-image">
+              <img src="https://via.placeholder.com/300x300" alt="Product Image">
+              <div class="product-actions">
+                <div class="product-action-btn">
+                  <i class="far fa-heart"></i>
+                </div>
+                <div class="product-action-btn">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="product-action-btn">
+                  <i class="fas fa-exchange-alt"></i>
+                </div>
+              </div>
+            </div>
+            <div class="product-content">
+              <div class="product-category">Smartphones</div>
+              <h3 class="product-title">Premium Smartphone with Advanced Camera System</h3>
+              <div class="product-rating">
+                <div class="rating-stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                </div>
+                <div class="rating-count">(42)</div>
+              </div>
+              <div class="product-price">
+                <div class="current-price">$699.99</div>
+                <% if(i % 3 === 0) { %>
+                <div class="old-price">$899.99</div>
+                <div class="discount-percent">-20%</div>
+                <% } %>
+              </div>
+              <button class="btn-add-cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+      <div class="text-center mt-5">
+        <a href="/shop" class="btn btn-primary">View All Products</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deal of the Day -->
+  <section class="deal-section">
+    <div class="container">
+      <div class="deal-card">
+        <div class="row g-0">
+          <div class="col-lg-6">
+            <div class="deal-content">
+              <div class="deal-subtitle">Deal of the Day</div>
+              <h2 class="deal-title">Premium Noise Cancelling Headphones</h2>
+              <p class="deal-description">Experience crystal clear sound with our premium noise cancelling headphones. Perfect for music lovers and professionals alike.</p>
+              <div class="deal-price">
+                <div class="deal-current-price">$199.99</div>
+                <div class="deal-old-price">$349.99</div>
+                <div class="deal-discount">-43%</div>
+              </div>
+              <div class="deal-countdown">
+                <div class="countdown-item">
+                  <div class="countdown-number">02</div>
+                  <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                  <div class="countdown-number">18</div>
+                  <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                  <div class="countdown-number">45</div>
+                  <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                  <div class="countdown-number">22</div>
+                  <div class="countdown-label">Seconds</div>
+                </div>
+              </div>
+              <a href="/product/premium-headphones" class="btn btn-primary">Shop Now</a>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="deal-image">
+              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80" alt="Deal Product" class="w-100">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-truck"></i>
+            </div>
+            <div class="feature-content">
+              <h3>Free Shipping</h3>
+              <p>Free shipping on all orders over $59.90</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-undo"></i>
+            </div>
+            <div class="feature-content">
+              <h3>30 Days Return</h3>
+              <p>Simply return it within 30 days for an exchange</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="feature-content">
+              <h3>100% Secure Payment</h3>
+              <p>Your payment is safe with us</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-headset"></i>
+            </div>
+            <div class="feature-content">
+              <h3>24/7 Support</h3>
+              <p>Get assistance anytime, anywhere</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brands -->
+  <section class="brands-section">
+    <div class="container">
+      <div class="brands-grid">
+        <img src="https://logos-world.net/wp-content/uploads/2020/07/Asus-Logo.png" alt="Asus" class="brand-logo" />
+        <img src="https://1000logos.net/wp-content/uploads/2021/05/Intel-logo.png" alt="Intel" class="brand-logo" />
+        <img src="https://logos-world.net/wp-content/uploads/2020/03/AMD-Logo.png" alt="AMD" class="brand-logo" />
+        <img src="https://logos-world.net/wp-content/uploads/2020/04/Huawei-Logo.png" alt="Huawei" class="brand-logo" />
+        <img src="https://logos-world.net/wp-content/uploads/2020/11/HP-Logo.png" alt="HP" class="brand-logo" />
+        <img src="https://logos-world.net/wp-content/uploads/2020/04/Apple-Logo.png" alt="Apple" class="brand-logo" />
+        <img src="https://logos-world.net/wp-content/uploads/2020/04/Samsung-Logo.png" alt="Samsung" class="brand-logo" />
+        <img src="https://logos-world.net/wp-content/uploads/2020/11/PlayStation-Logo-700x394.png" alt="PlayStation" class="brand-logo" />
+        <img src="https://logos-world.net/wp-content/uploads/2020/11/Xbox-Logo.png" alt="Xbox" class="brand-logo" />
+        <img src="https://logos-world.net/wp-content/uploads/2020/11/Nvidia-Logo-700x394.png" alt="Nvidia" class="brand-logo" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-content">
+        <h2 class="newsletter-title">Subscribe to Our Newsletter</h2>
+        <p class="newsletter-description">Get the latest updates, deals and exclusive offers directly to your inbox.</p>
+        <form class="newsletter-form">
+          <input type="email" class="newsletter-input" placeholder="Your email address">
+          <button type="submit" class="newsletter-button">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+          <div class="footer-logo">Gen<span>Z</span></div>
+          <p class="footer-description">Your one-stop destination for the latest technology and gadgets. We bring you the future, today.</p>
+          <div class="footer-social">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+          <h3 class="footer-title">Shop</h3>
+          <ul class="footer-links">
+            <li><a href="/shop">All Products</a></li>
+            <li><a href="/category/smartphones">Smartphones</a></li>
+            <li><a href="/category/laptops">Laptops</a></li>
+            <li><a href="/category/gaming">Gaming</a></li>
+            <li><a href="/category/accessories">Accessories</a></li>
+            <li><a href="/deals">Deals & Offers</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
+          <h3 class="footer-title">Information</h3>
+          <ul class="footer-links">
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/faq">FAQs</a></li>
+            <li><a href="/shipping">Shipping & Delivery</a></li>
+            <li><a href="/returns">Returns & Exchanges</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h3 class="footer-title">Contact Us</h3>
+          <div class="footer-contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="contact-text">
+              123 Tech Street, Silicon Valley, CA 94043, USA
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-phone-alt"></i>
+            </div>
+            <div class="contact-text">
+              +1 234 567 890
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-text">
+              support@genz.com
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="contact-text">
+              Monday - Friday: 9:00 AM - 8:00 PM<br>
+              Saturday - Sunday: 10:00 AM - 6:00 PM
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="copyright">
+          &copy; <%= new Date().getFullYear() %> GenZ Tech Store. All rights reserved.
+        </div>
+        <div class="payment-methods">
+          <div class="payment-icon"><i class="fab fa-cc-visa"></i></div>
+          <div class="payment-icon"><i class="fab fa-cc-mastercard"></i></div>
+          <div class="payment-icon"><i class="fab fa-cc-amex"></i></div>
+          <div class="payment-icon"><i class="fab fa-cc-paypal"></i></div>
+          <div class="payment-icon"><i class="fab fa-cc-apple-pay"></i></div>
+          <div class="payment-icon"><i class="fab fa-cc-discover"></i></div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Hide loader when page is loaded
+    window.addEventListener('load', function() {
+      document.querySelector('.cont-loader').style.opacity = '0';
+      setTimeout(function() {
+        document.querySelector('.cont-loader').style.display = 'none';
+      }, 500);
+    });
+    
+    // Countdown timer
+    function updateCountdown() {
+      // This would normally calculate based on a target date
+      // For demo purposes, we're just keeping it static
+    }
+    
+    // Initialize any product carousels or sliders
+    document.addEventListener('DOMContentLoaded', function() {
+      // If you have a bestSellerProducts.js file, you can keep this
+      if (typeof loadBestSellerProducts === 'function') {
+        loadBestSellerProducts();
+      }
+      
+      updateCountdown();
+    });
+  </script>
+</body>
+</html>
