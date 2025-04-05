@@ -1,445 +1,52 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gen Z - Tech & Lifestyle Store</title>
-</head>
+<%- include('reusables/nav') %>
 
-<body>
-  <!-- Loader -->
-  <div class="cont-loader">
-    <div class="loader"></div>
-  </div>
-
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <div class="container">
-      <div class="top-bar-content">
-        <div class="top-bar-left">
-          <div><i class="fas fa-phone-alt me-2"></i> +1 234 567 890</div>
-          <div><i class="fas fa-envelope me-2"></i> support@genz.com</div>
-        </div>
-        <div class="top-bar-right">
-          <a href="#"><i class="fas fa-truck me-1"></i> Order Tracking</a>
-          <a href="#"><i class="fas fa-map-marker-alt me-1"></i> Store Locator</a>
-        </div>
-      </div>
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h2>Welcome to TechStore</h2>
+      <p>Discover the latest in electronic products and gadgets</p>
+      <a href="/products" class="btn btn-primary">Shop Now</a>
     </div>
   </div>
+</section>
 
-  <%- include("reusables/nav") %>
-
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-text">
-          <h1 class="hero-title">Discover the Latest Tech Innovations</h1>
-          <p class="hero-subtitle">Explore our premium collection of cutting-edge gadgets and electronics for the modern lifestyle.</p>
-          <div>
-            <a href="/shop" class="btn btn-primary">Shop Now</a>
-            <a href="/categories" class="btn-outline">Explore Categories</a>
+<section class="featured-products">
+  <div class="container">
+    <h2 class="section-title">Featured Products</h2>
+    <div class="products-grid">
+      <% products.forEach(product => { %>
+        <div class="product-card">
+          <div class="product-image">
+            <img src="<%= product.image %>" alt="<%= product.name %>">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title"><%= product.name %></h3>
+            <p class="product-price">$<%= product.price.toFixed(2) %></p>
+            <a href="/product/<%= product.id %>" class="btn btn-secondary">View Details</a>
           </div>
         </div>
-      </div>
+      <% }); %>
     </div>
-    <div class="hero-image"></div>
-  </section>
-
-  <!-- Categories Section -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Shop by Category</h2>
-        <p class="section-subtitle">Browse our wide selection of products across popular categories</p>
-      </div>
-      <div class="row">
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <div class="category-card">
-            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80')"></div>
-            <div class="category-card-overlay">
-              <h3 class="category-card-title">Smartphones</h3>
-              <p class="category-card-count">24 Products</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <div class="category-card">
-            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80')"></div>
-            <div class="category-card-overlay">
-              <h3 class="category-card-title">Laptops</h3>
-              <p class="category-card-count">18 Products</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <div class="category-card">
-            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80')"></div>
-            <div class="category-card-overlay">
-              <h3 class="category-card-title">Headphones</h3>
-              <p class="category-card-count">12 Products</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <div class="category-card">
-            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1057&q=80')"></div>
-            <div class="category-card-overlay">
-              <h3 class="category-card-title">Gaming</h3>
-              <p class="category-card-count">15 Products</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <div class="category-card">
-            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1728&q=80')"></div>
-            <div class="category-card-overlay">
-              <h3 class="category-card-title">Audio</h3>
-              <p class="category-card-count">9 Products</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <div class="category-card">
-            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1558089687-f282ffcbc0d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80')"></div>
-            <div class="category-card-overlay">
-              <h3 class="category-card-title">Smart Home</h3>
-              <p class="category-card-count">14 Products</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <div class="category-card">
-            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1544117519-31a4a39e9a17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80')"></div>
-            <div class="category-card-overlay">
-              <h3 class="category-card-title">Wearables</h3>
-              <p class="category-card-count">8 Products</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <div class="category-card">
-            <div class="category-card-bg" style="background-image: url('https://images.unsplash.com/photo-1593508512255-86ab42a8e620?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80')"></div>
-            <div class="category-card-overlay">
-              <h3 class="category-card-title">Accessories</h3>
-              <p class="category-card-count">22 Products</p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="view-all">
+      <a href="/products" class="btn btn-outline">View All Products</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Featured Products -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Featured Products</h2>
-        <p class="section-subtitle">Discover our handpicked selection of the latest tech products</p>
-      </div>
-      <div class="row g-4">
-        <% for(let i = 0; i < 8; i++) { %>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-          <div class="product-card">
-            <% if(i % 4 === 0) { %>
-            <div class="product-badge badge-new">New</div>
-            <% } else if(i % 3 === 0) { %>
-            <div class="product-badge badge-sale">-20%</div>
-            <% } %>
-            <div class="product-image">
-              <img src="https://via.placeholder.com/300x300" alt="Product Image">
-              <div class="product-actions">
-                <div class="product-action-btn">
-                  <i class="far fa-heart"></i>
-                </div>
-                <div class="product-action-btn">
-                  <i class="fas fa-eye"></i>
-                </div>
-                <div class="product-action-btn">
-                  <i class="fas fa-exchange-alt"></i>
-                </div>
-              </div>
-            </div>
-            <div class="product-content">
-              <div class="product-category">Smartphones</div>
-              <h3 class="product-title">Premium Smartphone with Advanced Camera System</h3>
-              <div class="product-rating">
-                <div class="rating-stars">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half-alt"></i>
-                </div>
-                <div class="rating-count">(42)</div>
-              </div>
-              <div class="product-price">
-                <div class="current-price">$699.99</div>
-                <% if(i % 3 === 0) { %>
-                <div class="old-price">$899.99</div>
-                <div class="discount-percent">-20%</div>
-                <% } %>
-              </div>
-              <button class="btn-add-cart">Add to Cart</button>
-            </div>
+<section class="categories">
+  <div class="container">
+    <h2 class="section-title">Shop by Category</h2>
+    <div class="categories-grid">
+      <% categories.forEach(category => { %>
+        <a href="/products?category=<%= category.id %>" class="category-card">
+          <div class="category-icon">
+            <i class="<%= category.icon %>"></i>
           </div>
-        </div>
-        <% } %>
-      </div>
-      <div class="text-center mt-5">
-        <a href="/shop" class="btn btn-primary">View All Products</a>
-      </div>
+          <h3 class="category-title"><%= category.name %></h3>
+        </a>
+      <% }); %>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Deal of the Day -->
-  <section class="deal-section">
-    <div class="container">
-      <div class="deal-card">
-        <div class="row g-0">
-          <div class="col-lg-6">
-            <div class="deal-content">
-              <div class="deal-subtitle">Deal of the Day</div>
-              <h2 class="deal-title">Premium Noise Cancelling Headphones</h2>
-              <p class="deal-description">Experience crystal clear sound with our premium noise cancelling headphones. Perfect for music lovers and professionals alike.</p>
-              <div class="deal-price">
-                <div class="deal-current-price">$199.99</div>
-                <div class="deal-old-price">$349.99</div>
-                <div class="deal-discount">-43%</div>
-              </div>
-              <div class="deal-countdown">
-                <div class="countdown-item">
-                  <div class="countdown-number">02</div>
-                  <div class="countdown-label">Days</div>
-                </div>
-                <div class="countdown-item">
-                  <div class="countdown-number">18</div>
-                  <div class="countdown-label">Hours</div>
-                </div>
-                <div class="countdown-item">
-                  <div class="countdown-number">45</div>
-                  <div class="countdown-label">Minutes</div>
-                </div>
-                <div class="countdown-item">
-                  <div class="countdown-number">22</div>
-                  <div class="countdown-label">Seconds</div>
-                </div>
-              </div>
-              <a href="/product/premium-headphones" class="btn btn-primary">Shop Now</a>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="deal-image">
-              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80" alt="Deal Product" class="w-100">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="features-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-truck"></i>
-            </div>
-            <div class="feature-content">
-              <h3>Free Shipping</h3>
-              <p>Free shipping on all orders over $59.90</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-undo"></i>
-            </div>
-            <div class="feature-content">
-              <h3>30 Days Return</h3>
-              <p>Simply return it within 30 days for an exchange</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-lock"></i>
-            </div>
-            <div class="feature-content">
-              <h3>100% Secure Payment</h3>
-              <p>Your payment is safe with us</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-headset"></i>
-            </div>
-            <div class="feature-content">
-              <h3>24/7 Support</h3>
-              <p>Get assistance anytime, anywhere</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Brands -->
-  <section class="brands-section">
-    <div class="container">
-      <div class="brands-grid">
-        <img src="https://logos-world.net/wp-content/uploads/2020/07/Asus-Logo.png" alt="Asus" class="brand-logo" />
-        <img src="https://1000logos.net/wp-content/uploads/2021/05/Intel-logo.png" alt="Intel" class="brand-logo" />
-        <img src="https://logos-world.net/wp-content/uploads/2020/03/AMD-Logo.png" alt="AMD" class="brand-logo" />
-        <img src="https://logos-world.net/wp-content/uploads/2020/04/Huawei-Logo.png" alt="Huawei" class="brand-logo" />
-        <img src="https://logos-world.net/wp-content/uploads/2020/11/HP-Logo.png" alt="HP" class="brand-logo" />
-        <img src="https://logos-world.net/wp-content/uploads/2020/04/Apple-Logo.png" alt="Apple" class="brand-logo" />
-        <img src="https://logos-world.net/wp-content/uploads/2020/04/Samsung-Logo.png" alt="Samsung" class="brand-logo" />
-        <img src="https://logos-world.net/wp-content/uploads/2020/11/PlayStation-Logo-700x394.png" alt="PlayStation" class="brand-logo" />
-        <img src="https://logos-world.net/wp-content/uploads/2020/11/Xbox-Logo.png" alt="Xbox" class="brand-logo" />
-        <img src="https://logos-world.net/wp-content/uploads/2020/11/Nvidia-Logo-700x394.png" alt="Nvidia" class="brand-logo" />
-      </div>
-    </div>
-  </section>
-
-  <!-- Newsletter -->
-  <section class="newsletter-section">
-    <div class="container">
-      <div class="newsletter-content">
-        <h2 class="newsletter-title">Subscribe to Our Newsletter</h2>
-        <p class="newsletter-description">Get the latest updates, deals and exclusive offers directly to your inbox.</p>
-        <form class="newsletter-form">
-          <input type="email" class="newsletter-input" placeholder="Your email address">
-          <button type="submit" class="newsletter-button">Subscribe</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
-          <div class="footer-logo">Gen<span>Z</span></div>
-          <p class="footer-description">Your one-stop destination for the latest technology and gadgets. We bring you the future, today.</p>
-          <div class="footer-social">
-            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
-          <h3 class="footer-title">Shop</h3>
-          <ul class="footer-links">
-            <li><a href="/shop">All Products</a></li>
-            <li><a href="/category/smartphones">Smartphones</a></li>
-            <li><a href="/category/laptops">Laptops</a></li>
-            <li><a href="/category/gaming">Gaming</a></li>
-            <li><a href="/category/accessories">Accessories</a></li>
-            <li><a href="/deals">Deals & Offers</a></li>
-          </ul>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
-          <h3 class="footer-title">Information</h3>
-          <ul class="footer-links">
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/contact">Contact Us</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <li><a href="/faq">FAQs</a></li>
-            <li><a href="/shipping">Shipping & Delivery</a></li>
-            <li><a href="/returns">Returns & Exchanges</a></li>
-          </ul>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <h3 class="footer-title">Contact Us</h3>
-          <div class="footer-contact-item">
-            <div class="contact-icon">
-              <i class="fas fa-map-marker-alt"></i>
-            </div>
-            <div class="contact-text">
-              123 Tech Street, Silicon Valley, CA 94043, USA
-            </div>
-          </div>
-          <div class="footer-contact-item">
-            <div class="contact-icon">
-              <i class="fas fa-phone-alt"></i>
-            </div>
-            <div class="contact-text">
-              +1 234 567 890
-            </div>
-          </div>
-          <div class="footer-contact-item">
-            <div class="contact-icon">
-              <i class="fas fa-envelope"></i>
-            </div>
-            <div class="contact-text">
-              support@genz.com
-            </div>
-          </div>
-          <div class="footer-contact-item">
-            <div class="contact-icon">
-              <i class="fas fa-clock"></i>
-            </div>
-            <div class="contact-text">
-              Monday - Friday: 9:00 AM - 8:00 PM<br>
-              Saturday - Sunday: 10:00 AM - 6:00 PM
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="container">
-        <div class="copyright">
-          &copy; <%= new Date().getFullYear() %> GenZ Tech Store. All rights reserved.
-        </div>
-        <div class="payment-methods">
-          <div class="payment-icon"><i class="fab fa-cc-visa"></i></div>
-          <div class="payment-icon"><i class="fab fa-cc-mastercard"></i></div>
-          <div class="payment-icon"><i class="fab fa-cc-amex"></i></div>
-          <div class="payment-icon"><i class="fab fa-cc-paypal"></i></div>
-          <div class="payment-icon"><i class="fab fa-cc-apple-pay"></i></div>
-          <div class="payment-icon"><i class="fab fa-cc-discover"></i></div>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Hide loader when page is loaded
-    window.addEventListener('load', function() {
-      document.querySelector('.cont-loader').style.opacity = '0';
-      setTimeout(function() {
-        document.querySelector('.cont-loader').style.display = 'none';
-      }, 500);
-    });
-    
-    // Countdown timer
-    function updateCountdown() {
-      // This would normally calculate based on a target date
-      // For demo purposes, we're just keeping it static
-    }
-    
-    // Initialize any product carousels or sliders
-    document.addEventListener('DOMContentLoaded', function() {
-      // If you have a bestSellerProducts.js file, you can keep this
-      if (typeof loadBestSellerProducts === 'function') {
-        loadBestSellerProducts();
-      }
-      
-      updateCountdown();
-    });
-  </script>
-</body>
-</html>
+<%- include('reusables/footer') %>

@@ -1,0 +1,54 @@
+<%- include('reusables/nav') %>
+
+<section class="products-page">
+  <div class="container">
+    <div class="products-header">
+      <h2 class="section-title">All Products</h2>
+    </div>
+    
+    <div class="products-container">
+      <div class="filters-sidebar">
+        <div class="filter-section">
+          <h3>Categories</h3>
+          <ul class="category-list">
+            <li>
+              <a href="/products" class="<%= selectedCategory === 'all' ? 'active' : '' %>">
+                All Categories
+              </a>
+            </li>
+            <% categories.forEach(category => { %>
+              <li>
+                <a href="/products?category=<%= category.id %>" class="<%= selectedCategory === category.id ? 'active' : '' %>">
+                  <%= category.name %>
+                </a>
+              </li>
+            <% }); %>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="products-grid">
+        <% if (products.length === 0) { %>
+          <div class="no-products">
+            <p>No products found in this category.</p>
+          </div>
+        <% } else { %>
+          <% products.forEach(product => { %>
+            <div class="product-card">
+              <div class="product-image">
+                <img src="<%= product.image %>" alt="<%= product.name %>">
+              </div>
+              <div class="product-info">
+                <h3 class="product-title"><%= product.name %></h3>
+                <p class="product-price">$<%= product.price.toFixed(2) %></p>
+                <a href="/product/<%= product.id %>" class="btn btn-secondary">View Details</a>
+              </div>
+            </div>
+          <% }); %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('reusables/footer') %>

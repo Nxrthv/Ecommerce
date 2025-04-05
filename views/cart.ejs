@@ -1,0 +1,100 @@
+<%- include('reusables/nav') %>
+
+<section class="cart-page">
+  <div class="container">
+    <h2 class="section-title">Shopping Cart</h2>
+    
+    <% if (cart.length === 0) { %>
+      <div class="empty-cart">
+        <i class="fas fa-shopping-cart fa-4x"></i>
+        <p>Your cart is empty</p>
+        <a href="/products" class="btn btn-primary">Continue Shopping</a>
+      </div>
+    <% } else { %>
+      <div class="cart-container">
+        <div class="cart-items">
+          <% cart.forEach(item => { %>
+            <div class="cart-item">
+              <div class="item-image">
+                <img src="<%= item.image %>" alt="<%= item.name %>">
+              </div>
+              <div class="item-details">
+                <h3 class="item-title"><%= item.name %></h3>
+                <p class="item-price">$<%= item.price.toFixed(2) %></p>
+              </div>
+              <div class="item-quantity">
+                <form action="/cart/update" method="POST" class="quantity-form">
+                  <input type="hidden" name="productId" value="<%= item.id %>">
+                  <div class="quantity-input">
+                    <button type="button" class="quantity-btn minus" data-id="<%= item.id %>">-</button>
+                    <input type="number" name="quantity" value="<%= item.quantity %>" min="1" class="quantity" data-id="<%= item.id %>">
+                    <button type="button" class="quantity-btn plus" data-id="<%= item.id %>">+</button>
+                  </div>
+                  <button type="submit" class="update-btn">Update</button>
+                </form>
+              </div>
+              <div class="item-total">
+                $<%= (item.price * item.quantity).toFixed(2) %>
+              </div>
+              <div class="item-remove">
+                <form action="/cart/remove" method="POST">
+                  <input type="hidden" name="productId" value="<%= item.id %>">
+                  <button type="submit" class="remove-btn">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+        
+        <div class="cart-summary">
+          <h3>Order Summary</h3>
+          <div class="summary-item">
+            <span>Subtotal</span>
+            <span>$<%= total.toFixed(2) %></span>
+          </div>
+          <div class="summary-item">
+            <span>Shipping</span>
+            <span>Free</span>
+          </div>
+          <div class="summary-total">
+            <span>Total</span>
+            <span>$<%= total.toFixed(2) %></span>
+          </div>
+          <a href="/checkout" class="btn btn-primary checkout-btn">Proceed to Checkout</a>
+          <a href="/products" class="btn btn-outline continue-shopping">Continue Shopping</a>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const minusBtns = document.querySelectorAll('.quantity-btn.minus');
+    const plusBtns = document.querySelectorAll('.quantity-btn.plus');
+    
+    minusBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const input = document.querySelector(`.quantity[data-id="${id}"]`);
+        const currentValue = parseInt(input.value);
+        if (currentValue > 1) {
+          input.value = currentValue - 1;
+        }
+      });
+    });
+    
+    plusBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const input = document.querySelector(`.quantity[data-id="${id}"]`);
+        const currentValue = parseInt(input.value);
+        input.value = currentValue + 1;
+      });
+    });
+  });
+</script>
+
+<%- include('reusables/footer') %>
