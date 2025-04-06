@@ -5,110 +5,738 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %> | TechStore Admin</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: rgba(79, 70, 229, 0.1);
+      --secondary: #f3f4f6;
+      --secondary-hover: #e5e7eb;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --success: #10b981;
+      --success-hover: #059669;
+      --warning: #f59e0b;
+      --text-primary: #111827;
+      --text-secondary: #4b5563;
+      --text-light: #9ca3af;
+      --bg-light: #f9fafb;
+      --bg-white: #ffffff;
+      --border-color: #e5e7eb;
+      --sidebar-width: 260px;
+      --header-height: 64px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --radius: 0.5rem;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-primary);
+      background-color: var(--bg-light);
+      line-height: 1.5;
+    }
+
+    .admin-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-white);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 10;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-header h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 1rem 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-nav ul {
+      list-style: none;
+    }
+
+    .sidebar-nav li {
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      border-left: 3px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-nav a:hover {
+      background-color: var(--secondary);
+      color: var(--text-primary);
+    }
+
+    .sidebar-nav li.active a {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border-left-color: var(--primary);
+    }
+
+    .sidebar-nav i {
+      width: 20px;
+      margin-right: 0.75rem;
+      font-size: 1rem;
+    }
+
+    .sidebar-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .sidebar-footer a {
+      display: flex;
+      align-items: center;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .sidebar-footer a:hover {
+      color: var(--primary);
+    }
+
+    .sidebar-footer i {
+      margin-right: 0.5rem;
+    }
+
+    /* Content Styles */
+    .content {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-header {
+      height: var(--header-height);
+      background-color: var(--bg-white);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .content-header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .content-body {
+      flex: 1;
+      padding: 1.5rem;
+    }
+
+    /* Card Styles */
+    .card {
+      background-color: var(--bg-white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    /* Form Styles */
+    .product-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-tab {
+      padding: 0.75rem 1.25rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .form-tab:hover {
+      color: var(--primary);
+    }
+
+    .form-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group input[type="url"],
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.625rem 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      color: var(--text-primary);
+      background-color: var(--bg-white);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-group input[type="text"]:focus,
+    .form-group input[type="number"]:focus,
+    .form-group input[type="url"]:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234b5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 16px;
+      padding-right: 2.5rem;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    .form-hint {
+      margin-top: 0.375rem;
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    .form-error {
+      margin-top: 0.375rem;
+      font-size: 0.75rem;
+      color: var(--danger);
+    }
+
+    .image-preview {
+      margin-top: 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 0.5rem;
+      background-color: var(--secondary);
+      position: relative;
+    }
+
+    .image-preview img {
+      display: block;
+      max-width: 100%;
+      max-height: 200px;
+      margin: 0 auto;
+      border-radius: calc(var(--radius) - 0.25rem);
+      object-fit: contain;
+    }
+
+    .image-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed var(--border-color);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .image-upload:hover {
+      border-color: var(--primary);
+      background-color: var(--primary-light);
+    }
+
+    .image-upload i {
+      font-size: 2rem;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+
+    .image-upload-text {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .image-upload-hint {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+    }
+
+    .form-section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--border-color);
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: var(--primary);
+    }
+
+    input:focus + .toggle-slider {
+      box-shadow: 0 0 1px var(--primary);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+    }
+
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .toggle-label span {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      font-weight: 500;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      border: none;
+    }
+
+    .btn i {
+      margin-right: 0.5rem;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--secondary);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--secondary-hover);
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: var(--danger-hover);
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background-color: var(--success-hover);
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .content {
+        margin-left: 0;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+        margin-right: 1rem;
+      }
+
+      .content-header {
+        padding: 0 1rem;
+      }
+
+      .content-body {
+        padding: 1rem;
+      }
+
+      .form-row {
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="admin-layout">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <h2>GEN Z - Admin</h2>
-      </div>
-      <nav class="sidebar-nav">
-        <ul>
-          <li class="active">
-            <a href="/admin">
-              <i class="fas fa-box"></i>
-              Products
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-shopping-cart"></i>
-              Orders
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-tags"></i>
-              Categories
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-users"></i>
-              Customers
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div class="sidebar-footer">
-        <a href="/" target="_blank">
-          <i class="fas fa-external-link-alt"></i>
-          View Store
-        </a>
-      </div>
-    </aside>
+    <%- include("nav-admin") %>
     
     <main class="content">
       <header class="content-header">
-        <h1><%= product ? 'Edit Product' : 'Add New Product' %></h1>
+        <div class="d-flex align-items-center">
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1><%= product ? 'Editar Producto' : 'Agregar Nuevo Producto' %></h1>
+        </div>
         <a href="/admin" class="btn btn-secondary">
           <i class="fas fa-arrow-left"></i>
-          Back to Products
+          Regresar
         </a>
       </header>
       
       <div class="content-body">
         <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><%= product ? 'Editar detalles del producto' : 'Detalles del nuevo producto' %></h2>
+          </div>
           <div class="card-body">
-            <form action="<%= product ? `/admin/product/edit/${product.id}` : '/admin/product/new' %>" method="POST" class="product-form">
-              <div class="form-group">
-                <label for="name">Product Name</label>
-                <input type="text" id="name" name="name" value="<%= product ? product.name : '' %>" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" rows="4" required><%= product ? product.description : '' %></textarea>
-              </div>
-              
-              <div class="form-row">
+            <div class="form-tabs">
+              <div class="form-tab active" data-tab="basic">Informacion Basica</div>
+              <div class="form-tab" data-tab="media">Imagen</div>
+              <div class="form-tab" data-tab="pricing">Precio/Inventario</div>
+            </div>
+            
+            <form action="<%= product ? `/admin/product/edit/${product.id}` : '/admin/product/new' %>" method="POST" class="product-form" id="product-form">
+              <!-- Apartado de informacion basica -->
+              <div class="tab-content active" id="tab-basic">
                 <div class="form-group">
-                  <label for="price">Price</label>
-                  <input type="number" id="price" name="price" step="0.01" value="<%= product ? product.price : '' %>" required>
+                  <label for="name">Titulo del Producto</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    value="<%= product ? product.name : '' %>" 
+                    required
+                    placeholder="Ingresa el nombre del producto"
+                  >
+                  <div class="form-hint">Un nombre claro y descriptivo ayuda a los clientes a encontrar su producto.</div>
                 </div>
                 
                 <div class="form-group">
-                  <label for="stock">Stock</label>
-                  <input type="number" id="stock" name="stock" value="<%= product ? product.stock : '' %>" required>
+                  <label for="description">Descripcion</label>
+                  <textarea 
+                    id="description" 
+                    name="description" 
+                    rows="6" 
+                    required
+                    placeholder="Describe los detalles del producto"
+                  ><%= product ? product.description : '' %></textarea>
+                  <div class="form-hint">Proporcione una descripción detallada de su producto, incluidas características y beneficios.</div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="category">Categoria</label>
+                  <select id="category" name="category" required>
+                    <option value="">Seleccione una Categoria</option>
+                    <% categories.forEach(category => { %>
+                      <option value="<%= category.id %>" <%= product && product.category === category.id ? 'selected' : '' %>>
+                        <%= category.name %>
+                      </option>
+                    <% }); %>
+                  </select>
+                  <div class="form-hint">Elija la categoría más relevante para su producto.</div>
                 </div>
               </div>
               
-              <div class="form-group">
-                <label for="category">Category</label>
-                <select id="category" name="category" required>
-                  <option value="">Select Category</option>
-                  <% categories.forEach(category => { %>
-                    <option value="<%= category.id %>" <%= product && product.category === category.id ? 'selected' : '' %>>
-                      <%= category.name %>
-                    </option>
-                  <% }); %>
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <label for="image">Image URL</label>
-                <input type="text" id="image" name="image" value="<%= product ? product.image : '' %>" required>
+              <!-- Apartado de Imagen -->
+              <div class="tab-content" id="tab-media">
+                <div class="form-group">
+                  <label for="image">URL de la imagen</label>
+                  <input 
+                    type="url" 
+                    id="image" 
+                    name="image" 
+                    value="<%= product ? product.image : '' %>" 
+                    required
+                    placeholder="https://example.com/image.jpg"
+                  >
+                  <div class="form-hint">Introduzca una URL directa a la imagen de su producto.</div>
+                </div>
+                
                 <% if (product && product.image) { %>
                   <div class="image-preview">
-                    <img src="<%= product.image %>" alt="<%= product.name %>">
+                    <img src="<%= product.image %>" alt="<%= product.name %>" id="image-preview">
+                  </div>
+                <% } else { %>
+                  <div class="image-preview" style="display: none;">
+                    <img src="/placeholder.svg" alt="Product preview" id="image-preview">
                   </div>
                 <% } %>
+                
+                <!-- <div class="form-group">
+                  <label>Additional Images</label>
+                  <div class="image-upload" id="additional-images-upload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <div class="image-upload-text">Drag and drop images here or click to browse</div>
+                    <div class="image-upload-hint">You can add up to 5 additional product images</div>
+                  </div>
+                </div> -->
+              </div>
+              
+              <!-- Apartado de precio e inventario -->
+              <div class="tab-content" id="tab-pricing">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="price">Precio Regular (S/.)</label>
+                    <input 
+                      type="number" 
+                      id="price" 
+                      name="price" 
+                      step="0.01" 
+                      min="0" 
+                      value="<%= product ? product.price : '' %>" 
+                      required
+                      placeholder="0.00"
+                    >
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="sale_price">Precio de Venta (S/.)</label>
+                    <input 
+                      type="number" 
+                      id="sale_price" 
+                      name="sale_price" 
+                      step="0.01" 
+                      min="0" 
+                      value="<%= product && product.sale_price ? product.sale_price : '' %>"
+                      placeholder="0.00"
+                    >
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="stock">Cantidad en Stock</label>
+                    <input 
+                      type="number" 
+                      id="stock" 
+                      name="stock" 
+                      min="0" 
+                      value="<%= product ? product.stock : '' %>" 
+                      required
+                      placeholder="0"
+                    >
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <div class="toggle-label">
+                    <label class="toggle-switch">
+                      <input 
+                        type="checkbox" 
+                        id="manage_stock" 
+                        name="manage_stock"
+                        <%= product && product.manage_stock ? 'checked' : '' %>
+                      >
+                      <span class="toggle-slider"></span>
+                    </label>
+                    <span>Seguimiento del inventario de este producto</span>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <div class="toggle-label">
+                    <label class="toggle-switch">
+                      <input 
+                        type="checkbox" 
+                        id="featured" 
+                        name="featured"
+                        <%= product && product.featured ? 'checked' : '' %>
+                      >
+                      <span class="toggle-slider"></span>
+                    </label>
+                    <span>Destaca este producto en la página de inicio</span>
+                  </div>
+                </div>
               </div>
               
               <div class="form-actions">
+                <a href="/admin" class="btn btn-secondary">Cancelar</a>
                 <button type="submit" class="btn btn-primary">
-                  <%= product ? 'Update Product' : 'Add Product' %>
+                  <i class="fas fa-save"></i>
+                  <%= product ? 'Actualizar Producto' : 'Agregar Producto' %>
                 </button>
               </div>
             </form>
@@ -118,6 +746,82 @@
     </main>
   </div>
   
-  <script src="/js/admin.js"></script>
+  <script>
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+    
+    // Form tabs functionality
+    const tabs = document.querySelectorAll('.form-tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        // Deactivate all tabs
+        tabs.forEach(t => {
+          t.classList.remove('active');
+        });
+        
+        // Activate clicked tab and its content
+        tab.classList.add('active');
+        document.getElementById(`tab-${tab.dataset.tab}`).classList.add('active');
+      });
+    });
+    
+    // Image preview functionality
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('image-preview');
+    const imagePreviewContainer = document.querySelector('.image-preview');
+    
+    imageInput.addEventListener('input', function() {
+      if (this.value) {
+        imagePreview.src = this.value;
+        imagePreviewContainer.style.display = 'block';
+      } else {
+        imagePreviewContainer.style.display = 'none';
+      }
+    });
+    
+    // Form validation
+    const productForm = document.getElementById('product-form');
+    productForm.addEventListener('submit', function(event) {
+      let isValid = true;
+      
+      // Basic validation example
+      const nameInput = document.getElementById('name');
+      const priceInput = document.getElementById('price');
+      
+      if (!nameInput.value.trim()) {
+        isValid = false;
+        // Add error class or message
+      }
+      
+      if (!priceInput.value || parseFloat(priceInput.value) < 0) {
+        isValid = false;
+        // Add error class or message
+      }
+      
+      if (!isValid) {
+        event.preventDefault();
+      }
+    });
+    
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebar');
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      
+      if (window.innerWidth <= 768 && 
+          sidebar.classList.contains('open') && 
+          !sidebar.contains(event.target) && 
+          event.target !== mobileMenuToggle) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
 </body>
 </html>
