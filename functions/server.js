@@ -19,7 +19,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 const app = express();
-const port = process.env.PORT || 4444;
+// const port = process.env.PORT || 4444;
 
 // Ingeniería de vistas de EJS
 app.set("views", path.join(__dirname, "views"));
@@ -452,8 +452,8 @@ app.post("/admin/product/delete/:id", async (req, res) => {
 });
 
 // Lanzar el server
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// });
 
 module.exports = app;
