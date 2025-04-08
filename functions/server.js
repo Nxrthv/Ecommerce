@@ -713,11 +713,11 @@ app.post("/admin/product/delete/:id", async (req, res) => {
   }
 });
 
-// if (require.main === module) {
-//   const port = process.env.PORT || 4444;
-//   app.listen(port, () => {
-//     console.log(`Servidor local escuchando en el puerto ${port}`);
-//   });
-// }
+if (require.main === module) {
+  const port = process.env.PORT || 4444;
+  app.listen(port, () => {
+    console.log(`Servidor local escuchando en el puerto ${port}`);
+  });
+}
 
 module.exports = app;

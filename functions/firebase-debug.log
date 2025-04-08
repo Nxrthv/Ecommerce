@@ -1,0 +1,484 @@
+[debug] [2025-04-08T05:02:22.080Z] ----------------------------------------------------------------------
+[debug] [2025-04-08T05:02:22.084Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Nxrth_\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2025-04-08T05:02:22.085Z] CLI Version:   14.1.0
+[debug] [2025-04-08T05:02:22.085Z] Platform:      win32
+[debug] [2025-04-08T05:02:22.085Z] Node Version:  v22.14.0
+[debug] [2025-04-08T05:02:22.085Z] Time:          Tue Apr 08 2025 00:02:22 GMT-0500 (hora estándar de Colombia)
+[debug] [2025-04-08T05:02:22.085Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-04-08T05:02:22.383Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-04-08T05:02:22.383Z] > authorizing via signed-in user (vargasesquivelandres@gmail.com)
+[debug] [2025-04-08T05:02:22.384Z] [iam] checking project fir-d3539 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2025-04-08T05:02:22.385Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:22.385Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:22.386Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions [none]
+[debug] [2025-04-08T05:02:22.387Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:02:22.387Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-04-08T05:02:22.922Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions 200
+[debug] [2025-04-08T05:02:22.922Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-04-08T05:02:22.923Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:22.923Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:22.923Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/fir-d3539/serviceAccounts/fir-d3539@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-04-08T05:02:22.923Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/fir-d3539/serviceAccounts/fir-d3539@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-04-08T05:02:24.093Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/fir-d3539/serviceAccounts/fir-d3539@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-04-08T05:02:24.093Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/fir-d3539/serviceAccounts/fir-d3539@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'fir-d3539'...
+[info] 
+[info] i  deploying functions 
+[info] +  functions: Finished running predeploy script. 
+[debug] [2025-04-08T05:02:24.100Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:24.100Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:24.100Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539 [none]
+[debug] [2025-04-08T05:02:24.391Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539 200
+[debug] [2025-04-08T05:02:24.392Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539 {"projectNumber":"1093812896000","projectId":"fir-d3539","lifecycleState":"ACTIVE","name":"FireBase","labels":{"firebase":"enabled"},"createTime":"2024-09-24T03:07:07.842413Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2025-04-08T05:02:24.394Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:24.394Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:24.394Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:24.394Z] Checked if tokens are valid: true, expires at: 1744091047997
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2025-04-08T05:02:24.395Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:24.395Z] Checked if tokens are valid: true, expires at: 1744091047997
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2025-04-08T05:02:24.395Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:24.396Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:24.396Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-04-08T05:02:24.396Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:02:24.398Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-04-08T05:02:24.399Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:02:24.401Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudbuild.googleapis.com [none]
+[debug] [2025-04-08T05:02:24.401Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudbuild.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:02:24.402Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/artifactregistry.googleapis.com [none]
+[debug] [2025-04-08T05:02:24.402Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/artifactregistry.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:02:25.624Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/artifactregistry.googleapis.com 200
+[debug] [2025-04-08T05:02:25.624Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/artifactregistry.googleapis.com [omitted]
+[info] +  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2025-04-08T05:02:25.626Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudfunctions.googleapis.com 200
+[debug] [2025-04-08T05:02:25.627Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudfunctions.googleapis.com [omitted]
+[info] +  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2025-04-08T05:02:26.001Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/runtimeconfig.googleapis.com 200
+[debug] [2025-04-08T05:02:26.001Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-04-08T05:02:26.002Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudbuild.googleapis.com 200
+[debug] [2025-04-08T05:02:26.002Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudbuild.googleapis.com [omitted]
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2025-04-08T05:02:26.003Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:26.003Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:26.003Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fir-d3539/adminSdkConfig [none]
+[debug] [2025-04-08T05:02:26.609Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fir-d3539/adminSdkConfig 200
+[debug] [2025-04-08T05:02:26.610Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fir-d3539/adminSdkConfig {"projectId":"fir-d3539","databaseURL":"https://fir-d3539-default-rtdb.firebaseio.com","storageBucket":"fir-d3539.appspot.com","locationId":"us-central"}
+[debug] [2025-04-08T05:02:26.610Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:26.611Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:02:26.611Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fir-d3539/configs [none]
+[debug] [2025-04-08T05:02:27.838Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fir-d3539/configs 200
+[debug] [2025-04-08T05:02:27.838Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fir-d3539/configs {}
+[debug] [2025-04-08T05:02:27.841Z] Validating nodejs source
+[debug] [2025-04-08T05:02:29.313Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "dev": "nodemon server.js"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^1.8.4",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^6.0.1",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2025-04-08T05:02:29.313Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2025-04-08T05:02:29.317Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-04-08T05:02:29.332Z] Found firebase-functions binary at 'C:\Users\Nxrth_\Desktop\Projectos_WEB\Ecommerce\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8884
+
+[debug] [2025-04-08T05:02:30.620Z] Got response from /__/functions.yaml {"endpoints":{"app":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"app"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-04-08T05:03:02.478Z] ----------------------------------------------------------------------
+[debug] [2025-04-08T05:03:02.482Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Nxrth_\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2025-04-08T05:03:02.483Z] CLI Version:   14.1.0
+[debug] [2025-04-08T05:03:02.483Z] Platform:      win32
+[debug] [2025-04-08T05:03:02.483Z] Node Version:  v22.14.0
+[debug] [2025-04-08T05:03:02.483Z] Time:          Tue Apr 08 2025 00:03:02 GMT-0500 (hora estándar de Colombia)
+[debug] [2025-04-08T05:03:02.483Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-04-08T05:03:02.784Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-04-08T05:03:02.785Z] > authorizing via signed-in user (vargasesquivelandres@gmail.com)
+[debug] [2025-04-08T05:03:02.785Z] [iam] checking project fir-d3539 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2025-04-08T05:03:02.787Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:02.787Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:02.788Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions [none]
+[debug] [2025-04-08T05:03:02.788Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:03:02.789Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-04-08T05:03:03.319Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions 200
+[debug] [2025-04-08T05:03:03.319Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-04-08T05:03:03.320Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:03.320Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:03.320Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/fir-d3539/serviceAccounts/fir-d3539@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-04-08T05:03:03.320Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/fir-d3539/serviceAccounts/fir-d3539@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-04-08T05:03:04.421Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/fir-d3539/serviceAccounts/fir-d3539@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-04-08T05:03:04.422Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/fir-d3539/serviceAccounts/fir-d3539@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'fir-d3539'...
+[info] 
+[info] i  deploying functions 
+[info] +  functions: Finished running predeploy script. 
+[debug] [2025-04-08T05:03:04.427Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:04.428Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:04.428Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539 [none]
+[debug] [2025-04-08T05:03:04.758Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539 200
+[debug] [2025-04-08T05:03:04.758Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539 {"projectNumber":"1093812896000","projectId":"fir-d3539","lifecycleState":"ACTIVE","name":"FireBase","labels":{"firebase":"enabled"},"createTime":"2024-09-24T03:07:07.842413Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2025-04-08T05:03:04.761Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:04.761Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:04.761Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:04.761Z] Checked if tokens are valid: true, expires at: 1744091047997
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2025-04-08T05:03:04.761Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:04.762Z] Checked if tokens are valid: true, expires at: 1744091047997
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2025-04-08T05:03:04.762Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:04.762Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:04.762Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-04-08T05:03:04.762Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:03:04.764Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-04-08T05:03:04.764Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:03:04.766Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudbuild.googleapis.com [none]
+[debug] [2025-04-08T05:03:04.766Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudbuild.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:03:04.768Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/artifactregistry.googleapis.com [none]
+[debug] [2025-04-08T05:03:04.768Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/artifactregistry.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:03:05.292Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/artifactregistry.googleapis.com 200
+[debug] [2025-04-08T05:03:05.292Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/artifactregistry.googleapis.com [omitted]
+[info] +  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2025-04-08T05:03:05.930Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudbuild.googleapis.com 200
+[debug] [2025-04-08T05:03:05.930Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudbuild.googleapis.com [omitted]
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2025-04-08T05:03:05.931Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/runtimeconfig.googleapis.com 200
+[debug] [2025-04-08T05:03:05.931Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-04-08T05:03:05.971Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudfunctions.googleapis.com 200
+[debug] [2025-04-08T05:03:05.971Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/cloudfunctions.googleapis.com [omitted]
+[info] +  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2025-04-08T05:03:05.971Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:05.972Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:05.972Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fir-d3539/adminSdkConfig [none]
+[debug] [2025-04-08T05:03:06.559Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fir-d3539/adminSdkConfig 200
+[debug] [2025-04-08T05:03:06.559Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fir-d3539/adminSdkConfig {"projectId":"fir-d3539","databaseURL":"https://fir-d3539-default-rtdb.firebaseio.com","storageBucket":"fir-d3539.appspot.com","locationId":"us-central"}
+[debug] [2025-04-08T05:03:06.560Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:06.560Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:06.560Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fir-d3539/configs [none]
+[debug] [2025-04-08T05:03:07.147Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fir-d3539/configs 200
+[debug] [2025-04-08T05:03:07.147Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/fir-d3539/configs {}
+[debug] [2025-04-08T05:03:07.149Z] Validating nodejs source
+[debug] [2025-04-08T05:03:08.533Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "dev": "nodemon server.js"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^1.8.4",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^6.0.1",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2025-04-08T05:03:08.533Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2025-04-08T05:03:08.535Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-04-08T05:03:08.548Z] Found firebase-functions binary at 'C:\Users\Nxrth_\Desktop\Projectos_WEB\Ecommerce\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8736
+
+[debug] [2025-04-08T05:03:09.767Z] Got response from /__/functions.yaml {"endpoints":{"app":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"app"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] i  extensions: ensuring required API firebaseextensions.googleapis.com is enabled... 
+[debug] [2025-04-08T05:03:13.824Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:13.824Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:13.824Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/firebaseextensions.googleapis.com [none]
+[debug] [2025-04-08T05:03:13.824Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/firebaseextensions.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:03:15.217Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/firebaseextensions.googleapis.com 200
+[debug] [2025-04-08T05:03:15.217Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/firebaseextensions.googleapis.com [omitted]
+[info] +  extensions: required API firebaseextensions.googleapis.com is enabled 
+[debug] [2025-04-08T05:03:15.217Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-04-08T05:03:15.218Z] > authorizing via signed-in user (vargasesquivelandres@gmail.com)
+[debug] [2025-04-08T05:03:15.218Z] [iam] checking project fir-d3539 for permissions ["firebase.projects.get","firebaseextensions.instances.list"]
+[debug] [2025-04-08T05:03:15.218Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:15.218Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:15.218Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions [none]
+[debug] [2025-04-08T05:03:15.218Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:03:15.218Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2025-04-08T05:03:15.636Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions 200
+[debug] [2025-04-08T05:03:15.637Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2025-04-08T05:03:15.637Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:15.638Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:15.638Z] >>> [apiv2][query] GET https://firebaseextensions.googleapis.com/v1beta/projects/fir-d3539/instances pageSize=100&pageToken=
+[debug] [2025-04-08T05:03:16.963Z] <<< [apiv2][status] GET https://firebaseextensions.googleapis.com/v1beta/projects/fir-d3539/instances 200
+[debug] [2025-04-08T05:03:16.963Z] <<< [apiv2][body] GET https://firebaseextensions.googleapis.com/v1beta/projects/fir-d3539/instances {}
+[info] i  functions: Loaded environment variables from .env. 
+[info] i  functions: preparing functions directory for uploading... 
+[info] i  functions: packaged C:\Users\Nxrth_\Desktop\Projectos_WEB\Ecommerce\functions (694.07 KB) for uploading 
+[debug] [2025-04-08T05:03:17.099Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:17.099Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:17.100Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/fir-d3539/locations/-/functions [none]
+[debug] [2025-04-08T05:03:18.291Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/fir-d3539/locations/-/functions 200
+[debug] [2025-04-08T05:03:18.291Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/fir-d3539/locations/-/functions {}
+[debug] [2025-04-08T05:03:18.292Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:18.292Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:18.292Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2025-04-08T05:03:19.653Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/-/functions 200
+[debug] [2025-04-08T05:03:19.653Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/-/functions {"functions":[{"name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"build":"projects/1093812896000/locations/us-central1/builds/b9756e53-c1bf-41cc-90e4-3d5a9d6eaeba","runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-sources-1093812896000-us-central1","object":"app/function-source.zip","generation":"1744087481503887"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","serviceAccount":"projects/fir-d3539/serviceAccounts/1093812896000-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/fir-d3539/locations/us-central1/services/app","timeoutSeconds":60,"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"maxInstanceCount":3,"ingressSettings":"ALLOW_ALL","uri":"https://app-2b2uhlbf7a-uc.a.run.app","serviceAccountEmail":"1093812896000-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"app-00010-rog","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2025-04-08T04:45:33.938182353Z","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"f0890eb1abb966c2d82e3b4c0f6571dddf446b81"},"environment":"GEN_2","url":"https://us-central1-fir-d3539.cloudfunctions.net/app","createTime":"2025-04-06T21:06:24.852261620Z","satisfiesPzi":true}]}
+[info] i  functions: ensuring required API run.googleapis.com is enabled... 
+[debug] [2025-04-08T05:03:19.658Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:19.658Z] Checked if tokens are valid: true, expires at: 1744091047997
+[info] i  functions: ensuring required API eventarc.googleapis.com is enabled... 
+[debug] [2025-04-08T05:03:19.659Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:19.659Z] Checked if tokens are valid: true, expires at: 1744091047997
+[info] i  functions: ensuring required API pubsub.googleapis.com is enabled... 
+[debug] [2025-04-08T05:03:19.659Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:19.659Z] Checked if tokens are valid: true, expires at: 1744091047997
+[info] i  functions: ensuring required API storage.googleapis.com is enabled... 
+[debug] [2025-04-08T05:03:19.659Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:19.660Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:19.660Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/run.googleapis.com [none]
+[debug] [2025-04-08T05:03:19.660Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/run.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:03:19.660Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/eventarc.googleapis.com [none]
+[debug] [2025-04-08T05:03:19.660Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/eventarc.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:03:19.663Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/pubsub.googleapis.com [none]
+[debug] [2025-04-08T05:03:19.663Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/pubsub.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:03:19.665Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/storage.googleapis.com [none]
+[debug] [2025-04-08T05:03:19.665Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/storage.googleapis.com x-goog-quota-user=projects/fir-d3539
+[debug] [2025-04-08T05:03:20.052Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/run.googleapis.com 200
+[debug] [2025-04-08T05:03:20.052Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/run.googleapis.com [omitted]
+[info] +  functions: required API run.googleapis.com is enabled 
+[debug] [2025-04-08T05:03:20.862Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/storage.googleapis.com 200
+[debug] [2025-04-08T05:03:20.862Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/storage.googleapis.com [omitted]
+[info] +  functions: required API storage.googleapis.com is enabled 
+[debug] [2025-04-08T05:03:20.999Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/pubsub.googleapis.com 200
+[debug] [2025-04-08T05:03:20.999Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/pubsub.googleapis.com [omitted]
+[info] +  functions: required API pubsub.googleapis.com is enabled 
+[debug] [2025-04-08T05:03:21.001Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/eventarc.googleapis.com 200
+[debug] [2025-04-08T05:03:21.001Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/fir-d3539/services/eventarc.googleapis.com [omitted]
+[info] +  functions: required API eventarc.googleapis.com is enabled 
+[info] i  functions: generating the service identity for pubsub.googleapis.com... 
+[debug] [2025-04-08T05:03:21.002Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:21.002Z] Checked if tokens are valid: true, expires at: 1744091047997
+[info] i  functions: generating the service identity for eventarc.googleapis.com... 
+[debug] [2025-04-08T05:03:21.003Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:21.003Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:21.003Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/1093812896000/services/pubsub.googleapis.com:generateServiceIdentity [none]
+[debug] [2025-04-08T05:03:21.004Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/1093812896000/services/eventarc.googleapis.com:generateServiceIdentity [none]
+[debug] [2025-04-08T05:03:21.396Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1beta1/projects/1093812896000/services/eventarc.googleapis.com:generateServiceIdentity 200
+[debug] [2025-04-08T05:03:21.396Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/1093812896000/services/eventarc.googleapis.com:generateServiceIdentity {"name":"operations/finished.DONE_OPERATION","done":true,"response":{"@type":"type.googleapis.com/google.api.serviceusage.v1beta1.ServiceIdentity","email":"service-1093812896000@gcp-sa-eventarc.iam.gserviceaccount.com","uniqueId":"109463867869355243473"}}
+[debug] [2025-04-08T05:03:21.432Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1beta1/projects/1093812896000/services/pubsub.googleapis.com:generateServiceIdentity 200
+[debug] [2025-04-08T05:03:21.432Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/1093812896000/services/pubsub.googleapis.com:generateServiceIdentity {"name":"operations/finished.DONE_OPERATION","done":true,"response":{"@type":"type.googleapis.com/google.api.serviceusage.v1beta1.ServiceIdentity","email":"service-1093812896000@gcp-sa-pubsub.iam.gserviceaccount.com","uniqueId":"110667660752955114231"}}
+[debug] [2025-04-08T05:03:21.435Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:21.435Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:21.435Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539 [none]
+[debug] [2025-04-08T05:03:22.536Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539 200
+[debug] [2025-04-08T05:03:22.536Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-d3539 {"projectNumber":"1093812896000","projectId":"fir-d3539","lifecycleState":"ACTIVE","name":"FireBase","labels":{"firebase":"enabled"},"createTime":"2024-09-24T03:07:07.842413Z"}
+[debug] [2025-04-08T05:03:22.537Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:22.538Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:22.538Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/fir-d3539/billingInfo [none]
+[debug] [2025-04-08T05:03:23.088Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/fir-d3539/billingInfo 200
+[debug] [2025-04-08T05:03:23.088Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/fir-d3539/billingInfo {"name":"projects/fir-d3539/billingInfo","projectId":"fir-d3539","billingAccountName":"billingAccounts/01DA0A-CCCACE-5984D4","billingEnabled":true}
+[debug] [2025-04-08T05:03:23.090Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:23.090Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:23.090Z] >>> [apiv2][query] POST https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/functions:generateUploadUrl [none]
+[debug] [2025-04-08T05:03:24.112Z] <<< [apiv2][status] POST https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/functions:generateUploadUrl 200
+[debug] [2025-04-08T05:03:24.113Z] <<< [apiv2][body] POST https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/functions:generateUploadUrl {"uploadUrl":"https://storage.googleapis.com/gcf-v2-uploads-1093812896000.us-central1.cloudfunctions.appspot.com/9d698cb8-c2c5-43ee-9971-41514b40d687.zip?GoogleAccessId=service-1093812896000@gcf-admin-robot.iam.gserviceaccount.com&Expires=1744090404&Signature=S2lB60o6H%2FnQ1zMFBaT2V5RH8ru8MNtUD0VMUMNOzu1XxR3nWNQeLs4rqWKaWimKtxtk5bSSPghxwewPUwld8%2BK0KprajbfHbNkW3s1ZypZmx9jrXxQCZA0fRQJCcm0raSWjJR4YLFVPdmMy0lVBd%2FD0QwDXFjwQpWIXsF70dpfRyxM5HwCs3GLp%2FwCbXXg1YkW12HcglsT1kXwjvqJxNq8cu%2B4Gxh6J66Zmo7gOl38deeNZ0gVnO%2FKtznO2INXCTDetAegb3gv%2FwYU8%2F2S278Ax0HWJIXYaFVsjAt98o5Dr4ltRJWzKS%2Bj%2FM1dtzwhBvYGBzbNhP0BSX%2BIf9tNlIQ%3D%3D","storageSource":{"bucket":"gcf-v2-uploads-1093812896000.us-central1.cloudfunctions.appspot.com","object":"9d698cb8-c2c5-43ee-9971-41514b40d687.zip"}}
+[debug] [2025-04-08T05:03:24.114Z] >>> [apiv2][query] PUT https://storage.googleapis.com/gcf-v2-uploads-1093812896000.us-central1.cloudfunctions.appspot.com/9d698cb8-c2c5-43ee-9971-41514b40d687.zip GoogleAccessId=service-1093812896000%40gcf-admin-robot.iam.gserviceaccount.com&Expires=1744090404&Signature=S2lB60o6H%2FnQ1zMFBaT2V5RH8ru8MNtUD0VMUMNOzu1XxR3nWNQeLs4rqWKaWimKtxtk5bSSPghxwewPUwld8%2BK0KprajbfHbNkW3s1ZypZmx9jrXxQCZA0fRQJCcm0raSWjJR4YLFVPdmMy0lVBd%2FD0QwDXFjwQpWIXsF70dpfRyxM5HwCs3GLp%2FwCbXXg1YkW12HcglsT1kXwjvqJxNq8cu%2B4Gxh6J66Zmo7gOl38deeNZ0gVnO%2FKtznO2INXCTDetAegb3gv%2FwYU8%2F2S278Ax0HWJIXYaFVsjAt98o5Dr4ltRJWzKS%2Bj%2FM1dtzwhBvYGBzbNhP0BSX%2BIf9tNlIQ%3D%3D
+[debug] [2025-04-08T05:03:24.114Z] >>> [apiv2][body] PUT https://storage.googleapis.com/gcf-v2-uploads-1093812896000.us-central1.cloudfunctions.appspot.com/9d698cb8-c2c5-43ee-9971-41514b40d687.zip [stream]
+[debug] [2025-04-08T05:03:25.712Z] <<< [apiv2][status] PUT https://storage.googleapis.com/gcf-v2-uploads-1093812896000.us-central1.cloudfunctions.appspot.com/9d698cb8-c2c5-43ee-9971-41514b40d687.zip 200
+[debug] [2025-04-08T05:03:25.713Z] <<< [apiv2][body] PUT https://storage.googleapis.com/gcf-v2-uploads-1093812896000.us-central1.cloudfunctions.appspot.com/9d698cb8-c2c5-43ee-9971-41514b40d687.zip [omitted]
+[info] +  functions: functions folder uploaded successfully 
+[info] i  functions: updating Node.js 22 (2nd Gen) function app(us-central1)... 
+[debug] [2025-04-08T05:03:25.720Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:25.720Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:25.720Z] >>> [apiv2][query] PATCH https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/functions/app updateMask=name%2CbuildConfig.runtime%2CbuildConfig.entryPoint%2CbuildConfig.source.storageSource.bucket%2CbuildConfig.source.storageSource.object%2CbuildConfig.environmentVariables%2CbuildConfig.sourceToken%2CserviceConfig.environmentVariables%2CserviceConfig.ingressSettings%2CserviceConfig.timeoutSeconds%2CserviceConfig.serviceAccountEmail%2CserviceConfig.availableMemory%2CserviceConfig.minInstanceCount%2CserviceConfig.maxInstanceCount%2CserviceConfig.maxInstanceRequestConcurrency%2CserviceConfig.availableCpu%2CserviceConfig.vpcConnector%2CserviceConfig.vpcConnectorEgressSettings%2Clabels%2CbuildConfig.buildEnvironmentVariables
+[debug] [2025-04-08T05:03:25.720Z] >>> [apiv2][body] PATCH https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/functions/app {"name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-uploads-1093812896000.us-central1.cloudfunctions.appspot.com","object":"9d698cb8-c2c5-43ee-9971-41514b40d687.zip"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""}},"serviceConfig":{"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"ingressSettings":null,"timeoutSeconds":null,"serviceAccountEmail":null,"availableMemory":"256Mi","minInstanceCount":null,"maxInstanceCount":null,"maxInstanceRequestConcurrency":80,"availableCpu":"1","vpcConnector":null,"vpcConnectorEgressSettings":null},"labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"8305d2c345d7122bcf611df2a27f14294bd498dc"}}
+[debug] [2025-04-08T05:03:27.606Z] <<< [apiv2][status] PATCH https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/functions/app 200
+[debug] [2025-04-08T05:03:27.607Z] <<< [apiv2][body] PATCH https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/functions/app {"name":"projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-04-08T05:03:27.497563398Z","target":"projects/fir-d3539/locations/us-central1/functions/app","verb":"update","cancelRequested":false,"apiVersion":"v2"},"done":false}
+[debug] [2025-04-08T05:03:27.608Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:27.608Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:27.608Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d [none]
+[debug] [2025-04-08T05:03:28.557Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d 200
+[debug] [2025-04-08T05:03:28.557Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d {"name":"projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-04-08T05:03:27.497563398Z","target":"projects/fir-d3539/locations/us-central1/functions/app","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-sources-1093812896000-us-central1","object":"app/function-source.zip","generation":"1744088607400479"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","serviceAccount":"projects/fir-d3539/serviceAccounts/1093812896000-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/fir-d3539/locations/us-central1/services/app","timeoutSeconds":60,"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://app-2b2uhlbf7a-uc.a.run.app","serviceAccountEmail":"1093812896000-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"app-00010-rog","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"8305d2c345d7122bcf611df2a27f14294bd498dc"},"environment":"GEN_2","url":"https://us-central1-fir-d3539.cloudfunctions.net/app","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/61765383-c24b-4a6a-83d2-16e36cd2f466?project=1093812896000"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466"},"done":false}
+[debug] [2025-04-08T05:03:29.066Z] [update-default-us-central1-app] Retrying task index 0
+[debug] [2025-04-08T05:03:29.066Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:29.067Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:29.067Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d [none]
+[debug] [2025-04-08T05:03:30.036Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d 200
+[debug] [2025-04-08T05:03:30.036Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d {"name":"projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-04-08T05:03:27.497563398Z","target":"projects/fir-d3539/locations/us-central1/functions/app","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-sources-1093812896000-us-central1","object":"app/function-source.zip","generation":"1744088607400479"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","serviceAccount":"projects/fir-d3539/serviceAccounts/1093812896000-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/fir-d3539/locations/us-central1/services/app","timeoutSeconds":60,"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://app-2b2uhlbf7a-uc.a.run.app","serviceAccountEmail":"1093812896000-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"app-00010-rog","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"8305d2c345d7122bcf611df2a27f14294bd498dc"},"environment":"GEN_2","url":"https://us-central1-fir-d3539.cloudfunctions.net/app","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/61765383-c24b-4a6a-83d2-16e36cd2f466?project=1093812896000"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466"},"done":false}
+[debug] [2025-04-08T05:03:31.041Z] [update-default-us-central1-app] Retrying task index 0
+[debug] [2025-04-08T05:03:31.041Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:31.041Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:31.042Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d [none]
+[debug] [2025-04-08T05:03:32.156Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d 200
+[debug] [2025-04-08T05:03:32.156Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d {"name":"projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-04-08T05:03:27.497563398Z","target":"projects/fir-d3539/locations/us-central1/functions/app","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-sources-1093812896000-us-central1","object":"app/function-source.zip","generation":"1744088607400479"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","serviceAccount":"projects/fir-d3539/serviceAccounts/1093812896000-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/fir-d3539/locations/us-central1/services/app","timeoutSeconds":60,"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://app-2b2uhlbf7a-uc.a.run.app","serviceAccountEmail":"1093812896000-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"app-00010-rog","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"8305d2c345d7122bcf611df2a27f14294bd498dc"},"environment":"GEN_2","url":"https://us-central1-fir-d3539.cloudfunctions.net/app","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/61765383-c24b-4a6a-83d2-16e36cd2f466?project=1093812896000"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466"},"done":false}
+[debug] [2025-04-08T05:03:34.163Z] [update-default-us-central1-app] Retrying task index 0
+[debug] [2025-04-08T05:03:34.164Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:34.164Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:34.164Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d [none]
+[debug] [2025-04-08T05:03:35.691Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d 200
+[debug] [2025-04-08T05:03:35.691Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d {"name":"projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-04-08T05:03:27.497563398Z","target":"projects/fir-d3539/locations/us-central1/functions/app","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-sources-1093812896000-us-central1","object":"app/function-source.zip","generation":"1744088607400479"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","serviceAccount":"projects/fir-d3539/serviceAccounts/1093812896000-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/fir-d3539/locations/us-central1/services/app","timeoutSeconds":60,"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://app-2b2uhlbf7a-uc.a.run.app","serviceAccountEmail":"1093812896000-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"app-00010-rog","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"8305d2c345d7122bcf611df2a27f14294bd498dc"},"environment":"GEN_2","url":"https://us-central1-fir-d3539.cloudfunctions.net/app","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/61765383-c24b-4a6a-83d2-16e36cd2f466?project=1093812896000"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466"},"done":false}
+[debug] [2025-04-08T05:03:39.701Z] [update-default-us-central1-app] Retrying task index 0
+[debug] [2025-04-08T05:03:39.701Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:39.702Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:39.702Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d [none]
+[debug] [2025-04-08T05:03:40.636Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d 200
+[debug] [2025-04-08T05:03:40.637Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d {"name":"projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-04-08T05:03:27.497563398Z","target":"projects/fir-d3539/locations/us-central1/functions/app","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-sources-1093812896000-us-central1","object":"app/function-source.zip","generation":"1744088607400479"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","serviceAccount":"projects/fir-d3539/serviceAccounts/1093812896000-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/fir-d3539/locations/us-central1/services/app","timeoutSeconds":60,"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://app-2b2uhlbf7a-uc.a.run.app","serviceAccountEmail":"1093812896000-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"app-00010-rog","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"8305d2c345d7122bcf611df2a27f14294bd498dc"},"environment":"GEN_2","url":"https://us-central1-fir-d3539.cloudfunctions.net/app","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/61765383-c24b-4a6a-83d2-16e36cd2f466?project=1093812896000"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466"},"done":false}
+[debug] [2025-04-08T05:03:48.640Z] [update-default-us-central1-app] Retrying task index 0
+[debug] [2025-04-08T05:03:48.640Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:48.640Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:48.640Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d [none]
+[debug] [2025-04-08T05:03:49.721Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d 200
+[debug] [2025-04-08T05:03:49.721Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d {"name":"projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-04-08T05:03:27.497563398Z","target":"projects/fir-d3539/locations/us-central1/functions/app","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-sources-1093812896000-us-central1","object":"app/function-source.zip","generation":"1744088607400479"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","serviceAccount":"projects/fir-d3539/serviceAccounts/1093812896000-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/fir-d3539/locations/us-central1/services/app","timeoutSeconds":60,"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://app-2b2uhlbf7a-uc.a.run.app","serviceAccountEmail":"1093812896000-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"app-00010-rog","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"8305d2c345d7122bcf611df2a27f14294bd498dc"},"environment":"GEN_2","url":"https://us-central1-fir-d3539.cloudfunctions.net/app","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/61765383-c24b-4a6a-83d2-16e36cd2f466?project=1093812896000"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466"},"done":false}
+[debug] [2025-04-08T05:03:59.739Z] [update-default-us-central1-app] Retrying task index 0
+[debug] [2025-04-08T05:03:59.740Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:59.740Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:03:59.740Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d [none]
+[debug] [2025-04-08T05:04:00.951Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d 200
+[debug] [2025-04-08T05:04:00.951Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d {"name":"projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-04-08T05:03:27.497563398Z","target":"projects/fir-d3539/locations/us-central1/functions/app","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-sources-1093812896000-us-central1","object":"app/function-source.zip","generation":"1744088607400479"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","serviceAccount":"projects/fir-d3539/serviceAccounts/1093812896000-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/fir-d3539/locations/us-central1/services/app","timeoutSeconds":60,"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://app-2b2uhlbf7a-uc.a.run.app","serviceAccountEmail":"1093812896000-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"app-00010-rog","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"8305d2c345d7122bcf611df2a27f14294bd498dc"},"environment":"GEN_2","url":"https://us-central1-fir-d3539.cloudfunctions.net/app","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/61765383-c24b-4a6a-83d2-16e36cd2f466?project=1093812896000"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466"},"done":false}
+[debug] [2025-04-08T05:04:10.954Z] [update-default-us-central1-app] Retrying task index 0
+[debug] [2025-04-08T05:04:10.954Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:04:10.955Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:04:10.955Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d [none]
+[debug] [2025-04-08T05:04:12.001Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d 200
+[debug] [2025-04-08T05:04:12.001Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d {"name":"projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-04-08T05:03:27.497563398Z","target":"projects/fir-d3539/locations/us-central1/functions/app","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-sources-1093812896000-us-central1","object":"app/function-source.zip","generation":"1744088607400479"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","serviceAccount":"projects/fir-d3539/serviceAccounts/1093812896000-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/fir-d3539/locations/us-central1/services/app","timeoutSeconds":60,"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://app-2b2uhlbf7a-uc.a.run.app","serviceAccountEmail":"1093812896000-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"app-00010-rog","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"8305d2c345d7122bcf611df2a27f14294bd498dc"},"environment":"GEN_2","url":"https://us-central1-fir-d3539.cloudfunctions.net/app","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/61765383-c24b-4a6a-83d2-16e36cd2f466?project=1093812896000"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION","buildName":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466"},"done":false}
+[debug] [2025-04-08T05:04:22.012Z] [update-default-us-central1-app] Retrying task index 0
+[debug] [2025-04-08T05:04:22.012Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:04:22.012Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:04:22.012Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d [none]
+[debug] [2025-04-08T05:04:23.087Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d 200
+[debug] [2025-04-08T05:04:23.087Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d {"name":"projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-04-08T05:03:27.497563398Z","target":"projects/fir-d3539/locations/us-central1/functions/app","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-sources-1093812896000-us-central1","object":"app/function-source.zip","generation":"1744088607400479"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","serviceAccount":"projects/fir-d3539/serviceAccounts/1093812896000-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/fir-d3539/locations/us-central1/services/app","timeoutSeconds":60,"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://app-2b2uhlbf7a-uc.a.run.app","serviceAccountEmail":"1093812896000-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"app-00010-rog","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"8305d2c345d7122bcf611df2a27f14294bd498dc"},"environment":"GEN_2","url":"https://us-central1-fir-d3539.cloudfunctions.net/app","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build finished","state":"COMPLETE","resource":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/61765383-c24b-4a6a-83d2-16e36cd2f466?project=1093812896000"},{"name":"SERVICE","message":"Updating Cloud Run service","state":"IN_PROGRESS","resource":"projects/fir-d3539/locations/us-central1/services/app","resourceUri":"https://console.cloud.google.com/run/detail/us-central1/app?project=fir-d3539","stateMessages":[{"severity":"INFO","type":"CloudRunServiceNewRevisionTrafficInfo","message":"A new revision will be deployed serving with 100% traffic."}]}],"sourceToken":"Clhwcm9qZWN0cy8xMDkzODEyODk2MDAwL2xvY2F0aW9ucy91cy1jZW50cmFsMS9idWlsZHMvNjE3NjUzODMtYzI0Yi00YTZhLTgzZDItMTZlMzZjZDJmNDY2Elp1cy1jZW50cmFsMS1kb2NrZXIucGtnLmRldi9maXItZDM1MzkvZ2NmLWFydGlmYWN0cy9maXItLWQzNTM5X191cy0tY2VudHJhbDFfX2FwcDp2ZXJzaW9uXzEYgILR4uofIjZwcm9qZWN0cy9maXItZDM1MzkvbG9jYXRpb25zL3VzLWNlbnRyYWwxL2Z1bmN0aW9ucy9hcHAqCwjM3NK/BhCQ+7sRMghub2RlanMyMjp2CiNnY3IuaW8vZ2FlLXJ1bnRpbWVzL25vZGVqczIyOnN0YWJsZRJPdXMtY2VudHJhbDEtZG9ja2VyLnBrZy5kZXYvc2VydmVybGVzcy1ydW50aW1lcy9nb29nbGUtMjItZnVsbC9ydW50aW1lcy9ub2RlanMyMkAB","operationType":"UPDATE_FUNCTION","buildName":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466"},"done":false}
+[debug] [2025-04-08T05:04:23.087Z] Got source token Clhwcm9qZWN0cy8xMDkzODEyODk2MDAwL2xvY2F0aW9ucy91cy1jZW50cmFsMS9idWlsZHMvNjE3NjUzODMtYzI0Yi00YTZhLTgzZDItMTZlMzZjZDJmNDY2Elp1cy1jZW50cmFsMS1kb2NrZXIucGtnLmRldi9maXItZDM1MzkvZ2NmLWFydGlmYWN0cy9maXItLWQzNTM5X191cy0tY2VudHJhbDFfX2FwcDp2ZXJzaW9uXzEYgILR4uofIjZwcm9qZWN0cy9maXItZDM1MzkvbG9jYXRpb25zL3VzLWNlbnRyYWwxL2Z1bmN0aW9ucy9hcHAqCwjM3NK/BhCQ+7sRMghub2RlanMyMjp2CiNnY3IuaW8vZ2FlLXJ1bnRpbWVzL25vZGVqczIyOnN0YWJsZRJPdXMtY2VudHJhbDEtZG9ja2VyLnBrZy5kZXYvc2VydmVybGVzcy1ydW50aW1lcy9nb29nbGUtMjItZnVsbC9ydW50aW1lcy9ub2RlanMyMkAB for region us-central1
+[debug] [2025-04-08T05:04:33.089Z] [update-default-us-central1-app] Retrying task index 0
+[debug] [2025-04-08T05:04:33.089Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:04:33.089Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:04:33.089Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d [none]
+[debug] [2025-04-08T05:04:34.165Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d 200
+[debug] [2025-04-08T05:04:34.165Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d {"name":"projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-04-08T05:03:27.497563398Z","target":"projects/fir-d3539/locations/us-central1/functions/app","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-sources-1093812896000-us-central1","object":"app/function-source.zip","generation":"1744088607400479"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","serviceAccount":"projects/fir-d3539/serviceAccounts/1093812896000-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/fir-d3539/locations/us-central1/services/app","timeoutSeconds":60,"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://app-2b2uhlbf7a-uc.a.run.app","serviceAccountEmail":"1093812896000-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"app-00010-rog","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"8305d2c345d7122bcf611df2a27f14294bd498dc"},"environment":"GEN_2","url":"https://us-central1-fir-d3539.cloudfunctions.net/app","satisfiesPzi":true},"stages":[{"name":"BUILD","message":"Build finished","state":"COMPLETE","resource":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/61765383-c24b-4a6a-83d2-16e36cd2f466?project=1093812896000"},{"name":"SERVICE","message":"Updating Cloud Run service","state":"IN_PROGRESS","resource":"projects/fir-d3539/locations/us-central1/services/app","resourceUri":"https://console.cloud.google.com/run/detail/us-central1/app?project=fir-d3539","stateMessages":[{"severity":"INFO","type":"CloudRunServiceNewRevisionTrafficInfo","message":"A new revision will be deployed serving with 100% traffic."}]}],"sourceToken":"Clhwcm9qZWN0cy8xMDkzODEyODk2MDAwL2xvY2F0aW9ucy91cy1jZW50cmFsMS9idWlsZHMvNjE3NjUzODMtYzI0Yi00YTZhLTgzZDItMTZlMzZjZDJmNDY2Elp1cy1jZW50cmFsMS1kb2NrZXIucGtnLmRldi9maXItZDM1MzkvZ2NmLWFydGlmYWN0cy9maXItLWQzNTM5X191cy0tY2VudHJhbDFfX2FwcDp2ZXJzaW9uXzEYgILR4uofIjZwcm9qZWN0cy9maXItZDM1MzkvbG9jYXRpb25zL3VzLWNlbnRyYWwxL2Z1bmN0aW9ucy9hcHAqCwjM3NK/BhCQ+7sRMghub2RlanMyMjp2CiNnY3IuaW8vZ2FlLXJ1bnRpbWVzL25vZGVqczIyOnN0YWJsZRJPdXMtY2VudHJhbDEtZG9ja2VyLnBrZy5kZXYvc2VydmVybGVzcy1ydW50aW1lcy9nb29nbGUtMjItZnVsbC9ydW50aW1lcy9ub2RlanMyMkAB","operationType":"UPDATE_FUNCTION","buildName":"projects/1093812896000/locations/us-central1/builds/61765383-c24b-4a6a-83d2-16e36cd2f466"},"done":false}
+[debug] [2025-04-08T05:04:34.166Z] Got source token Clhwcm9qZWN0cy8xMDkzODEyODk2MDAwL2xvY2F0aW9ucy91cy1jZW50cmFsMS9idWlsZHMvNjE3NjUzODMtYzI0Yi00YTZhLTgzZDItMTZlMzZjZDJmNDY2Elp1cy1jZW50cmFsMS1kb2NrZXIucGtnLmRldi9maXItZDM1MzkvZ2NmLWFydGlmYWN0cy9maXItLWQzNTM5X191cy0tY2VudHJhbDFfX2FwcDp2ZXJzaW9uXzEYgILR4uofIjZwcm9qZWN0cy9maXItZDM1MzkvbG9jYXRpb25zL3VzLWNlbnRyYWwxL2Z1bmN0aW9ucy9hcHAqCwjM3NK/BhCQ+7sRMghub2RlanMyMjp2CiNnY3IuaW8vZ2FlLXJ1bnRpbWVzL25vZGVqczIyOnN0YWJsZRJPdXMtY2VudHJhbDEtZG9ja2VyLnBrZy5kZXYvc2VydmVybGVzcy1ydW50aW1lcy9nb29nbGUtMjItZnVsbC9ydW50aW1lcy9ub2RlanMyMkAB for region us-central1
+[debug] [2025-04-08T05:04:44.181Z] [update-default-us-central1-app] Retrying task index 0
+[debug] [2025-04-08T05:04:44.181Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:04:44.181Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:04:44.181Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d [none]
+[debug] [2025-04-08T05:04:45.285Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d 200
+[debug] [2025-04-08T05:04:45.285Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d {"name":"projects/fir-d3539/locations/us-central1/operations/operation-1744088606732-6323d45dc71d1-0e4e1a90-ba537c9d","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-04-08T05:03:27.497563398Z","endTime":"2025-04-08T05:04:38.258237030Z","target":"projects/fir-d3539/locations/us-central1/functions/app","verb":"update","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/fir-d3539/locations/us-central1/functions/app","buildConfig":{"runtime":"nodejs22","entryPoint":"app","source":{"storageSource":{"bucket":"gcf-v2-sources-1093812896000-us-central1","object":"app/function-source.zip","generation":"1744088607400479"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","serviceAccount":"projects/fir-d3539/serviceAccounts/1093812896000-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/fir-d3539/locations/us-central1/services/app","timeoutSeconds":60,"environmentVariables":{"ADMIN_EMAIL":"admin@genz.com","ADMIN_PASSWORD":"admin1234","FIREBASE_CONFIG":"{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}","GCLOUD_PROJECT":"fir-d3539","EVENTARC_CLOUD_EVENT_SOURCE":"projects/fir-d3539/locations/us-central1/services/app","FUNCTION_TARGET":"app","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","uri":"https://app-2b2uhlbf7a-uc.a.run.app","serviceAccountEmail":"1093812896000-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"app-00010-rog","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"8305d2c345d7122bcf611df2a27f14294bd498dc"},"environment":"GEN_2","url":"https://us-central1-fir-d3539.cloudfunctions.net/app","satisfiesPzi":true},"stages":[{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"UPDATE_FUNCTION"},"done":true,"error":{"code":3,"message":"Could not create or update Cloud Run service app, Container Healthcheck failed. Revision 'app-00011-mag' is not ready and cannot serve traffic. The user-provided container failed to start and listen on the port defined provided by the PORT=8080 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=fir-d3539&resource=cloud_run_revision/service_name/app/revision_name/app-00011-mag&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22app%22%0Aresource.labels.revision_name%3D%22app-00011-mag%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start"}}
+[debug] [2025-04-08T05:04:45.286Z] Got source token undefined for region us-central1
+[error] Could not create or update Cloud Run service app, Container Healthcheck failed. Revision 'app-00011-mag' is not ready and cannot serve traffic. The user-provided container failed to start and listen on the port defined provided by the PORT=8080 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.
+
+Logs URL: https://console.cloud.google.com/logs/viewer?project=fir-d3539&resource=cloud_run_revision/service_name/app/revision_name/app-00011-mag&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22app%22%0Aresource.labels.revision_name%3D%22app-00011-mag%22 
+For more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start
+[debug] [2025-04-08T05:04:45.294Z] Total Function Deployment time: 79561
+[debug] [2025-04-08T05:04:45.294Z] 1 Functions Deployed
+[debug] [2025-04-08T05:04:45.295Z] 1 Functions Errored
+[debug] [2025-04-08T05:04:45.295Z] 0 Function Deployments Aborted
+[debug] [2025-04-08T05:04:45.295Z] Average Function Deployment time: 79560
+[info] 
+[info] Functions deploy had errors with the following functions:
+	app(us-central1)
+[debug] [2025-04-08T05:04:45.563Z] Not printing URL for HTTPS function. Typically this means it didn't match a filter or we failed deployment
+[debug] [2025-04-08T05:04:45.564Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:04:45.564Z] Checked if tokens are valid: true, expires at: 1744091047997
+[debug] [2025-04-08T05:04:45.564Z] >>> [apiv2][query] GET https://artifactregistry.googleapis.com/v1/projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts [none]
+[debug] [2025-04-08T05:04:46.769Z] <<< [apiv2][status] GET https://artifactregistry.googleapis.com/v1/projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts 200
+[debug] [2025-04-08T05:04:46.770Z] <<< [apiv2][body] GET https://artifactregistry.googleapis.com/v1/projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts {"name":"projects/fir-d3539/locations/us-central1/repositories/gcf-artifacts","format":"DOCKER","description":"This repository is created and used by Cloud Functions for storing function docker images.","labels":{"goog-managed-by":"cloudfunctions"},"createTime":"2025-04-06T21:06:33.482106Z","updateTime":"2025-04-08T05:03:55.372239Z","mode":"STANDARD_REPOSITORY","cleanupPolicies":{"firebase-functions-cleanup":{"id":"firebase-functions-cleanup","action":"DELETE","condition":{"tagState":"ANY","olderThan":"604800s"}}},"sizeBytes":"242593010","vulnerabilityScanningConfig":{"lastEnableTime":"2025-04-06T21:06:25.048356451Z","enablementState":"SCANNING_DISABLED","enablementStateReason":"API containerscanning.googleapis.com is not enabled."},"satisfiesPzi":true,"registryUri":"us-central1-docker.pkg.dev/fir-d3539/gcf-artifacts"}
+[debug] [2025-04-08T05:04:46.770Z] Functions deploy failed.
+[debug] [2025-04-08T05:04:46.770Z] {
+  "endpoint": {
+    "id": "app",
+    "project": "fir-d3539",
+    "region": "us-central1",
+    "entryPoint": "app",
+    "platform": "gcfv2",
+    "runtime": "nodejs22",
+    "httpsTrigger": {},
+    "labels": {
+      "deployment-tool": "cli-firebase"
+    },
+    "serviceAccount": null,
+    "ingressSettings": null,
+    "availableMemoryMb": null,
+    "timeoutSeconds": null,
+    "maxInstances": null,
+    "minInstances": null,
+    "concurrency": 80,
+    "vpc": null,
+    "environmentVariables": {
+      "ADMIN_EMAIL": "admin@genz.com",
+      "ADMIN_PASSWORD": "admin1234",
+      "FIREBASE_CONFIG": "{\"projectId\":\"fir-d3539\",\"databaseURL\":\"https://fir-d3539-default-rtdb.firebaseio.com\",\"storageBucket\":\"fir-d3539.appspot.com\",\"locationId\":\"us-central\"}",
+      "GCLOUD_PROJECT": "fir-d3539",
+      "EVENTARC_CLOUD_EVENT_SOURCE": "projects/fir-d3539/locations/us-central1/services/app"
+    },
+    "codebase": "default",
+    "runServiceId": "app",
+    "cpu": 1,
+    "securityLevel": "SECURE_ALWAYS",
+    "targetedByOnly": false,
+    "hash": "8305d2c345d7122bcf611df2a27f14294bd498dc"
+  },
+  "op": "update",
+  "original": {
+    "name": "FirebaseError",
+    "children": [],
+    "exit": 1,
+    "message": "Could not create or update Cloud Run service app, Container Healthcheck failed. Revision 'app-00011-mag' is not ready and cannot serve traffic. The user-provided container failed to start and listen on the port defined provided by the PORT=8080 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=fir-d3539&resource=cloud_run_revision/service_name/app/revision_name/app-00011-mag&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22app%22%0Aresource.labels.revision_name%3D%22app-00011-mag%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start",
+    "original": {
+      "code": 3,
+      "message": "Could not create or update Cloud Run service app, Container Healthcheck failed. Revision 'app-00011-mag' is not ready and cannot serve traffic. The user-provided container failed to start and listen on the port defined provided by the PORT=8080 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=fir-d3539&resource=cloud_run_revision/service_name/app/revision_name/app-00011-mag&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22app%22%0Aresource.labels.revision_name%3D%22app-00011-mag%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start"
+    },
+    "status": 3,
+    "code": 3
+  }
+}
+[debug] [2025-04-08T05:04:46.856Z] Error: Failed to update function app in region us-central1
+    at C:\Users\Nxrth_\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\release\fabricator.js:399:19
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Fabricator.updateV2Function (C:\Users\Nxrth_\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\release\fabricator.js:388:32)
+    at async Fabricator.updateEndpoint (C:\Users\Nxrth_\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\release\fabricator.js:155:13)
+    at async handle (C:\Users\Nxrth_\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\release\fabricator.js:89:17)
+[error] 
+[error] Error: There was an error deploying functions
