@@ -1,9 +1,9 @@
 <%- include('reusables/nav') %>
 
-<section class="relative bg-gradient-to-r from-zinc-900 to-zinc-800 text-white">
+<section class="relative bg-[url('/assets/banner.png')] bg-cover bg-center text-white">
   <div class="container mx-auto px-4 py-20 md:py-32">
     <div class="max-w-2xl">
-      <h2 class="text-4xl md:text-6xl font-bold mb-4">Bienvenido a GEN Z</h2>
+      <h2 class="text-4xl md:text-6xl font-bold mb-4">Bienvenido a <span class="verdana font-bold">GEN Z</span></h2>
       <p class="text-lg md:text-xl mb-8 text-zinc-300">
         Descubre lo último en productos electrónicos y gadgets para la nueva generación.
       </p>
@@ -13,13 +13,13 @@
       </a>
     </div>
   </div>
-  <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+  <div class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
 </section>
 
-<section class="py-16 px-4">
+<section class="py-10 px-4">
   <div class="container mx-auto">
     <div class="flex justify-between items-center mb-10">
-      <h2 class="text-3xl font-bold">Productos Destacados</h2>
+      <h2 class="text-3xl font-bold">Articulos Destacados</h2>
       <a href="/products" class="text-red-600 hover:text-red-700 flex items-center">
         Ver todos
         <i class="fas fa-chevron-right text-xs ml-1"></i>
@@ -37,9 +37,9 @@
             >
           </div>
           <div class="p-4">
-            <h3 class="font-semibold text-lg truncate"><%= product.name %></h3>
+            <h3 class="font-semibold text-md truncate"><%= product.name %></h3>
             <p class="text-xl font-bold text-red-600 mt-1">
-              $<%= product.price.toFixed(2) %>
+              <small class="font-bold text-sm">S/ </small><%= product.price.toFixed(2) %>
             </p>
           </div>
           <div class="p-4 pt-0">
@@ -56,11 +56,11 @@
   </div>
 </section>
 
-<section class="py-16 px-4 bg-gray-50">
+<section class="py-10 px-4 bg-gray-50">
   <div class="container mx-auto">
     <h2 class="text-3xl font-bold mb-10 text-center">Compra por Categoría</h2>
     
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
       <% categorias.forEach(category => { %>
         <a 
           href="/products?category=<%= category.id %>" 
@@ -69,7 +69,7 @@
           <div class="p-4 rounded-full bg-red-100 mb-4">
             <i class="<%= category.icon %> text-2xl text-red-600"></i>
           </div>
-          <h3 class="text-lg font-medium text-center"><%= category.name %></h3>
+          <h3 class="text-sm font-medium text-center"><%= category.name %></h3>
         </a>
       <% }); %>
     </div>

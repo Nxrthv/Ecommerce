@@ -1,8 +1,8 @@
 <%- include('reusables/nav') %>
 
-<section class="py-12">
+<section class="py-6">
   <div class="container mx-auto px-4">
-    <!-- Breadcrumbs -->
+    <!-- Paginacion -->
     <nav class="flex mb-8 text-sm" aria-label="Breadcrumb">
       <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
@@ -114,9 +114,9 @@
         <!-- Price -->
         <div class="mb-6">
           <% if (product.oldPrice) { %>
-            <p class="text-gray-500 line-through text-lg">$<%= product.oldPrice.toFixed(2) %></p>
+            <p class="text-gray-500 line-through text-lg"><small class="font-bold text-sm">S/ </small><%= product.oldPrice.toFixed(2) %></p>
           <% } %>
-          <p class="text-3xl font-bold text-red-600">$<%= product.price.toFixed(2) %></p>
+          <p class="text-3xl font-bold text-red-600"><small class="font-bold text-xl">S/ </small><%= product.price.toFixed(2) %></p>
           
           <% if (product.discount) { %>
             <p class="text-sm text-green-600 mt-1">
@@ -159,7 +159,6 @@
                 <i class="fas fa-minus"></i>
               </button>
               <input 
-                type="number" 
                 id="quantity" 
                 name="quantity" 
                 value="1" 

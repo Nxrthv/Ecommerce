@@ -1,5 +1,17 @@
 <%- include('reusables/nav') %>
 
+<% 
+// Pagination configuration
+const productsPerPage = 12; // Fixed limit of 12 products per page
+const currentPage = locals.currentPage || 1;
+const totalProducts = locals.totalProducts || products.length;
+const totalPages = locals.totalPages || Math.ceil(totalProducts / productsPerPage);
+
+// If the backend doesn't handle pagination, we can simulate it client-side
+// (though in production, pagination should be handled by the backend)
+const paginatedProducts = locals.paginatedProducts || products.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
+%>
+
 <section class="py-12 bg-gray-50">
   <div class="container mx-auto px-1">
     <div class="flex justify-between items-center mb-8">
@@ -38,8 +50,8 @@
             <% }); %>
           </ul>
           
-          <!-- Price Range Filter (opcional) -->
-          <div class="mt-8">
+          <!-- Price Range Filter -->
+          <!-- <div class="mt-8">
             <h2 class="font-bold text-lg mb-4 pb-2 border-b">Precio</h2>
             <form action="/products" method="GET" class="space-y-4">
               <% if (selectedCategory && selectedCategory !== 'all') { %>
@@ -75,7 +87,7 @@
                 Aplicar Filtros
               </button>
             </form>
-          </div>
+          </div> -->
         </div>
       </div>
       
@@ -93,33 +105,35 @@
           </div>
         <% } %>
         
-        <!-- Sort options (opcional) -->
-        <div class="flex justify-between items-center mb-6">
-          <p class="text-gray-500 text-sm">
-            <% if (products.length === 1) { %>
-              Mostrando 1 producto
+        <!-- Sort options and product count -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+          <p class="text-gray-600 text-sm mb-3 sm:mb-0">
+            <% if (totalProducts > 0) { %>
+              Mostrando <%= Math.min(paginatedProducts.length, productsPerPage) %> de <%= totalProducts %> productos
             <% } else { %>
-              Mostrando <%= products.length %> productos
+              No se encontraron productos
             <% } %>
           </p>
           
           <div class="flex items-center">
             <label for="sort" class="text-sm text-gray-600 mr-2">Ordenar por:</label>
-            <select onchange="window.location.href = this.value"
+            <select id="sort" onchange="window.location.href = this.value"
                   class="border rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-red-500">
-            <option value="/products?<%= new URLSearchParams({ ...query, sort: 'default' }).toString() %>"
-              <%= sort === 'default' ? 'selected' : '' %>>Destacados</option>
-
-            <option value="/products?<%= new URLSearchParams({ ...query, sort: 'price_asc' }).toString() %>"
-              <%= sort === 'price_asc' ? 'selected' : '' %>>Precio: Menor a mayor</option>
-
-            <option value="/products?<%= new URLSearchParams({ ...query, sort: 'price_desc' }).toString() %>"
-              <%= sort === 'price_desc' ? 'selected' : '' %>>Precio: Mayor a menor</option>
-          </select>
+              <option value="/products?<%= new URLSearchParams({ ...query, sort: 'default', page: 1 }).toString() %>"
+                <%= sort === 'default' ? 'selected' : '' %>>Destacados</option>
+              <option value="/products?<%= new URLSearchParams({ ...query, sort: 'price_asc', page: 1 }).toString() %>"
+                <%= sort === 'price_asc' ? 'selected' : '' %>>Precio: Menor a mayor</option>
+              <option value="/products?<%= new URLSearchParams({ ...query, sort: 'price_desc', page: 1 }).toString() %>"
+                <%= sort === 'price_desc' ? 'selected' : '' %>>Precio: Mayor a menor</option>
+              <option value="/products?<%= new URLSearchParams({ ...query, sort: 'newest', page: 1 }).toString() %>"
+                <%= sort === 'newest' ? 'selected' : '' %>>Más recientes</option>
+              <option value="/products?<%= new URLSearchParams({ ...query, sort: 'rating', page: 1 }).toString() %>"
+                <%= sort === 'rating' ? 'selected' : '' %>>Mejor valorados</option>
+            </select>
           </div>
         </div>
         
-        <% if (products.length === 0) { %>
+        <% if (paginatedProducts.length === 0) { %>
           <div class="bg-white rounded-lg shadow-sm p-12 text-center">
             <div class="mb-4 text-gray-400">
               <i class="fas fa-search fa-3x"></i>
@@ -132,8 +146,9 @@
           </div>
         <% } else { %>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <% products.forEach(product => { %>
-              <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full">
+            <% paginatedProducts.forEach(product => { %>
+              <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full border border-gray-200">
+                <!-- Product Image with Badges -->
                 <div class="relative aspect-square overflow-hidden bg-gray-100">
                   <a href="/product/<%= product.id %>">
                     <img 
@@ -143,7 +158,6 @@
                     >
                   </a>
                   
-                  <!-- Opcional: Badge para productos nuevos o en oferta -->
                   <% if (product.isNew) { %>
                     <span class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
                       NUEVO
@@ -152,11 +166,12 @@
                   
                   <% if (product.discount) { %>
                     <span class="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
-                      -<%= product.discount %>%
+                      <%= product.discount %>% DSCTO
                     </span>
                   <% } %>
                 </div>
                 
+                <!-- Product Info -->
                 <div class="p-4 flex-grow">
                   <% if (product.category) { %>
                     <div class="mb-1">
@@ -164,65 +179,94 @@
                     </div>
                   <% } %>
                   
-                  <h3 class="font-semibold text-lg mb-1 line-clamp-2 hover:text-red-600">
-                    <a href="/product/<%= product.id %>"><%= product.name %></a>
+                  <!-- Product Title -->
+                  <h3 class="font-semibold text-md mb-1 line-clamp-2">
+                    <a href="/product/<%= product.id %>" class="hover:text-red-600"><%= product.name %></a>
                   </h3>
                   
-                  <div class="mt-2 mb-3">
-                    <div class="flex items-center">
-                      <% if (product.oldPrice) { %>
-                        <span class="text-gray-500 line-through text-sm mr-2">S/ <%= product.oldPrice.toFixed(2) %></span>
-                      <% } %>
-                      <span class="text-xl font-bold text-red-600">S/ <%= product.price.toFixed(2) %></span>
-                    </div>
-                    
-                    <% if (product.rating) { %>
-                      <div class="flex items-center mt-1">
-                        <div class="flex text-yellow-400">
-                          <% for (let i = 1; i <= 5; i++) { %>
-                            <% if (i <= Math.floor(product.rating)) { %>
-                              <i class="fas fa-star text-xs"></i>
-                            <% } else if (i - 0.5 <= product.rating) { %>
-                              <i class="fas fa-star-half-alt text-xs"></i>
-                            <% } else { %>
-                              <i class="far fa-star text-xs"></i>
-                            <% } %>
-                          <% } %>
-                        </div>
-                        <span class="text-xs text-gray-500 ml-1">(<%= product.reviewCount || 0 %>)</span>
+                  <!-- Product Specs -->
+                  <% if (product.specs) { %>
+                    <p class="text-xs text-gray-600 mb-2 line-clamp-2"><%= product.specs %></p>
+                  <% } %>
+                  
+                  <!-- Pricing -->
+                  <div class="mt-2">
+                    <% if (product.oldPrice) { %>
+                      <div class="flex items-center">
+                        <span class="text-sm text-gray-500 line-through"><small class="font-bold text-sm">S/ </small><%= product.oldPrice.toFixed(2) %></span>
                       </div>
                     <% } %>
+                    <div class="flex items-center">
+                      <span class="text-xl font-bold text-red-600"><small class="font-bold text-sm">S/ </small><%= product.price.toFixed(2) %></span>
+                    </div>
                   </div>
+                  
+                  <!-- Installment Info -->
+                  <% if (product.installments && product.installmentPrice) { %>
+                    <p class="text-xs text-green-600 mt-1">
+                      <%= product.installments %> cuotas de S/ <%= product.installmentPrice.toFixed(2) %>
+                    </p>
+                  <% } %>
+                  
+                  <!-- Ratings -->
+                  <% if (product.rating) { %>
+                    <div class="flex items-center mt-2">
+                      <div class="flex text-yellow-400">
+                        <% for (let i = 1; i <= 5; i++) { %>
+                          <% if (i <= Math.floor(product.rating)) { %>
+                            <i class="fas fa-star text-xs"></i>
+                          <% } else if (i - 0.5 <= product.rating) { %>
+                            <i class="fas fa-star-half-alt text-xs"></i>
+                          <% } else { %>
+                            <i class="far fa-star text-xs"></i>
+                          <% } %>
+                        <% } %>
+                      </div>
+                      <span class="text-xs text-gray-500 ml-1">(<%= product.reviewCount || 0 %>)</span>
+                    </div>
+                  <% } %>
+                  
+                  <!-- Shipping Info -->
+                  <div class="mt-2">
+                    <a href="#" class="text-xs text-blue-600 hover:underline">Consultar envío</a>
+                  </div>
+                  
+                  <!-- Seller Info -->
+                  <% if (product.seller) { %>
+                    <div class="mt-1 text-xs text-gray-500">
+                      Por <%= product.seller %>
+                    </div>
+                  <% } %>
                 </div>
                 
+                <!-- Action Buttons -->
                 <div class="p-4 pt-0 mt-auto">
-                  <div class="flex space-x-2">
-                    <a 
-                      href="/product/<%= product.id %>" 
-                      class="flex-1 text-center px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-                    >
-                      Ver Detalles
-                    </a>
-                    <button 
-                      onclick="addToCart('<%= product.id %>')" 
-                      class="px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-                      aria-label="Añadir al carrito"
-                    >
-                      <i class="fas fa-shopping-cart"></i>
-                    </button>
-                  </div>
+                  <button 
+                    onclick="addToCart('<%= product.id %>')" 
+                    class="block w-full text-center px-3 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors"
+                  >
+                    Añadir al carrito
+                  </button>
+                  
+                  <a 
+                    href="/product/<%= product.id %>" 
+                    class="block w-full text-center px-4 py-2 mt-2 text-gray-700 hover:text-red-600 text-sm transition-colors"
+                  >
+                    Ver Detalles
+                  </a>
                 </div>
               </div>
             <% }); %>
           </div>
           
-          <!-- Pagination (opcional) -->
-          <% if (locals.totalPages && totalPages > 1) { %>
+          <!-- Pagination - Always show if totalPages > 1 -->
+          <% if (totalPages > 1) { %>
             <div class="mt-12 flex justify-center">
               <nav class="inline-flex rounded-md shadow-sm" aria-label="Pagination">
+                <!-- Previous Page Button -->
                 <% if (currentPage > 1) { %>
                   <a 
-                    href="/products?<%= new URLSearchParams({...req.query, page: currentPage - 1}).toString() %>" 
+                    href="/products?<%= new URLSearchParams({...query, page: currentPage - 1}).toString() %>" 
                     class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
                   >
                     <i class="fas fa-chevron-left"></i>
@@ -235,28 +279,49 @@
                   </span>
                 <% } %>
                 
-                <% for (let i = 1; i <= totalPages; i++) { %>
+                <!-- Page Numbers -->
+                <% 
+                // Determine which page numbers to show
+                let startPage = Math.max(1, currentPage - 2);
+                let endPage = Math.min(totalPages, startPage + 4);
+                
+                if (endPage - startPage < 4) {
+                  startPage = Math.max(1, endPage - 4);
+                }
+                
+                for (let i = startPage; i <= endPage; i++) { 
+                %>
                   <% if (i === currentPage) { %>
-                    <span class="relative inline-flex items-center px-4 py-2 border border-red-600 bg-red-600 text-sm font-medium text-white">
+                    <span class="relative inline-flex items-center px-4 py-2 border border-red-600 bg-red-600 text-sm font-medium text-white" aria-current="page">
                       <%= i %>
                     </span>
-                  <% } else if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) { %>
+                  <% } else { %>
                     <a 
-                      href="/products?<%= new URLSearchParams({...req.query, page: i}).toString() %>" 
+                      href="/products?<%= new URLSearchParams({...query, page: i}).toString() %>" 
                       class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
                     >
                       <%= i %>
                     </a>
-                  <% } else if (i === currentPage - 2 || i === currentPage + 2) { %>
-                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                      ...
-                    </span>
                   <% } %>
                 <% } %>
                 
+                <!-- Ellipsis if needed -->
+                <% if (endPage < totalPages) { %>
+                  <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                    ...
+                  </span>
+                  <a 
+                    href="/products?<%= new URLSearchParams({...query, page: totalPages}).toString() %>" 
+                    class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    <%= totalPages %>
+                  </a>
+                <% } %>
+                
+                <!-- Next Page Button -->
                 <% if (currentPage < totalPages) { %>
                   <a 
-                    href="/products?<%= new URLSearchParams({...req.query, page: currentPage + 1}).toString() %>" 
+                    href="/products?<%= new URLSearchParams({...query, page: currentPage + 1}).toString() %>" 
                     class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
                   >
                     <i class="fas fa-chevron-right"></i>

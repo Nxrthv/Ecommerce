@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %> | TechStore</title>
+  <title><%= title %> | GEN Z - Tienda Tecnológica</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/css/styles.css">
 </head>
@@ -16,7 +15,7 @@
         <div class="flex items-center">
           <div class="logo">
             <a href="/" class="flex items-center">
-              <h1 class="font-bold text-2xl tracking-tight">GEN Z</h1>
+              <h1 class="font-bold verdana text-2xl tracking-tight"><i class="fa-solid fa-bolt"></i> GEN Z</h1>
             </a>
           </div>
         </div>
@@ -31,40 +30,55 @@
             <%= currentPath === '/products' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
               Productos
             </a>
-            <a href="/categories" class="px-3 py-2 flex items-center transition-colors
-            <%= currentPath === '/categories' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
-              Categorías
-            </a>
-            <a href="/about" class="px-3 py-2 flex items-center transition-colors
+            <!-- <a href="/error" class="px-3 py-2 flex items-center transition-colors
             <%= currentPath === '/about' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
               Nosotros
             </a>
-            <a href="/contact" class="px-3 py-2 flex items-center transition-colors
+            <a href="/error" class="px-3 py-2 flex items-center transition-colors
             <%= currentPath === '/contact' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
               Contacto
-            </a>
+            </a> -->
           </ul>
         </nav>
         
         <div class="flex items-center gap-4">
           <div class="hidden md:block relative">
-            <form action="/search" method="GET">
+            <form action="/error" method="GET">
               <div class="relative">
                 <input
                   type="search"
                   name="q"
                   placeholder="Buscar..."
-                  class="w-[200px] pl-8 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  class="w-[500px] rounded rounded-lg pl-9 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
-                <i class="fas fa-search absolute left-2.5 top-2.5 text-gray-400"></i>
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
               </div>
             </form>
           </div>
           
-          <a href="/account" class="text-gray-700 hover:text-red-600 hidden md:block">
-            <i class="fas fa-user text-xl"></i>
-            <span class="sr-only">Mi cuenta</span>
-          </a>
+          <div class="relative group">
+            <a href="/auth" class="text-gray-700 hover:text-red-600 hidden md:block">
+              <i class="fas fa-user text-xl"></i>
+            </a>
+          
+            <% if (user) { %>
+              <!-- Menú desplegable cuando hay sesión -->
+              <div class="absolute right-0 w-48 bg-white border rounded shadow-lg hidden group-hover:block z-50">
+                <div class="px-4 py-2 text-sm text-gray-800 font-semibold border-b">
+                  Hola, <%= user.name %>
+                </div>
+                <a href="/orders" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Mis pedidos
+                </a>
+                <form action="/auth/logout" method="POST">
+                  <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Cerrar sesión
+                  </button>
+                </form>
+              </div>
+            <% } else { %>
+            <% } %>
+          </div>                  
           
           <a href="/cart" class="text-gray-700 hover:text-red-600 relative">
             <i class="fas fa-shopping-cart text-xl"></i>
@@ -98,21 +112,16 @@
               Productos
             </a>
           </li>
-          <li>
-            <a href="/categories" class="block px-3 py-2 <%= currentPath === '/categories' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
-              Categorías
-            </a>
-          </li>
-          <li>
-            <a href="/about" class="block px-3 py-2 <%= currentPath === '/about' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
+          <!-- <li>
+            <a href="/error" class="block px-3 py-2 <%= currentPath === '/about' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
               Nosotros
             </a>
           </li>
           <li>
-            <a href="/contact" class="block px-3 py-2 <%= currentPath === '/contact' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
+            <a href="/error" class="block px-3 py-2 <%= currentPath === '/contact' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
               Contacto
             </a>
-          </li>
+          </li> -->
           <li>
             <form action="/search" method="GET" class="mt-3">
               <div class="relative">
@@ -138,4 +147,45 @@
       mobileMenu.classList.toggle('hidden');
     });
   </script>
+  <script>
+    const accountBtn = document.getElementById("account-btn");
+    const dropdown = document.getElementById("orders-dropdown");
+  
+    accountBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      
+      // Alternar visibilidad
+      if (dropdown.classList.contains("hidden")) {
+        dropdown.classList.remove("hidden");
+  
+        try {
+          const res = await fetch("/account/orders");
+          const data = await res.json();
+  
+          if (data.length === 0) {
+            dropdown.innerHTML = "<p class='text-sm text-gray-600'>No tienes pedidos aún.</p>";
+          } else {
+            dropdown.innerHTML = data.map(order => `
+              <div class="mb-2 border-b pb-2">
+                <p><strong>ID:</strong> ${order.orderId}</p>
+                <p><strong>Total:</strong> S/ ${order.total}</p>
+                <p><strong>Estado:</strong> ${order.status}</p>
+              </div>
+            `).join("");
+          }
+        } catch (error) {
+          dropdown.innerHTML = "<p class='text-sm text-red-600'>Error al cargar los pedidos.</p>";
+        }
+      } else {
+        dropdown.classList.add("hidden");
+      }
+    });
+  
+    // Cerrar si se hace clic fuera
+    document.addEventListener("click", (e) => {
+      if (!accountBtn.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.add("hidden");
+      }
+    });
+  </script>  
   <main>

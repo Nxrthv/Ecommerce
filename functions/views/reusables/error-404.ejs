@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --primary: #e11d48;
+      --primary-hover: #be123c;
+      --primary-light: rgba(225, 29, 72, 0.1);
+      --secondary: #f3f4f6;
+      --secondary-hover: #e5e7eb;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --success: #10b981;
+      --success-hover: #059669;
+      --warning: #f59e0b;
+      --text-primary: #111827;
+      --text-secondary: #4b5563;
+      --text-light: #9ca3af;
+      --bg-light: #f9fafb;
+      --bg-white: #ffffff;
+      --border-color: #e5e7eb;
+      --header-height: 72px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 0.5rem;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-primary);
+      background-color: var(--bg-light);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Error Page Styles */
+    .error-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .error-image {
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 2rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    .error-code {
+      font-size: 8rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 1rem;
+      text-shadow: 4px 4px 0px var(--primary-light);
+    }
+
+    .error-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .error-message {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      max-width: 600px;
+    }
+
+    .error-actions {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      border: none;
+    }
+
+    .btn i {
+      margin-right: 0.5rem;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--secondary);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--secondary-hover);
+    }
+
+    /* Search Box */
+    .search-box {
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 3rem;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+    }
+
+    /* Popular Links */
+    .popular-links {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .popular-links-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .popular-link {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background-color: var(--bg-white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+    }
+
+    .popular-link:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .popular-link i {
+      margin-right: 0.75rem;
+      color: var(--primary);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .error-code {
+        font-size: 6rem;
+      }
+      
+      .error-title {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .error-code {
+        font-size: 4rem;
+      }
+      
+      .error-title {
+        font-size: 1.5rem;
+      }
+      
+      .links-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <%- include("nav") %>
+
+  <!-- Vista Error -->
+  <main class="error-container">
+    <!-- <div class="error-image">
+      <svg width="100%" height="100%" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+        <path d="M250 150C250 150 220 120 180 120C140 120 110 150 110 150C110 150 140 180 180 180C220 180 250 150 250 150Z" fill="#e11d48" opacity="0.2"/>
+        <path d="M390 150C390 150 360 120 320 120C280 120 250 150 250 150C250 150 280 180 320 180C360 180 390 150 390 150Z" fill="#e11d48" opacity="0.2"/>
+        <path d="M110 150C110 150 170 250 250 250C330 250 390 150 390 150" stroke="#e11d48" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <path d="M180 120C180 120 200 100 250 100C300 100 320 120 320 120" stroke="#e11d48" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <circle cx="180" cy="150" r="15" fill="#e11d48"/>
+        <circle cx="320" cy="150" r="15" fill="#e11d48"/>
+        <path d="M200 300C200 300 230 320 250 320C270 320 300 300 300 300" stroke="#e11d48" stroke-width="8" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div> -->
+    
+    <h1 class="error-code">404</h1>
+    <h2 class="error-title">Ups! Vista en Desarrollo 🫢</h2>
+    <p class="error-message">
+      Esta vista se encuentra actualmente en desarrollo o mantenimiento
+    </p>
+    
+    <div class="error-actions">
+      <a href="/" class="btn btn-primary">
+        <i class="fas fa-home"></i>
+        Regresar al Inicio
+      </a>
+      <button onclick="window.history.back()" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i>
+        Pagina anterior
+      </button>
+    </div>
+    
+    <div class="search-box">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-input" placeholder="Buscar productos, categorías o páginas...">
+    </div>
+    
+    <div class="popular-links">
+      <h3 class="popular-links-title">Destinos populares</h3>
+      <div class="links-grid">
+        <a href="/products" class="popular-link">
+          <i class="fas fa-box"></i>
+          Productos
+        </a>
+        <a href="/products" class="popular-link">
+          <i class="fas fa-tag"></i>
+          Ofertas especiales
+        </a>
+        <a href="/error" class="popular-link">
+          <i class="fas fa-fire"></i>
+          Novedades
+        </a>
+        <a href="/categories" class="popular-link">
+          <i class="fas fa-th-large"></i>
+          Categorias
+        </a>
+        <a href="/error" class="popular-link">
+          <i class="fas fa-headset"></i>
+          Contactanos
+        </a>
+        <a href="/error" class="popular-link">
+          <i class="fas fa-user"></i>
+          Mi cuenta
+        </a>
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    // Search functionality
+    const searchInput = document.querySelector('.search-input');
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        window.location.href = `/search?q=${encodeURIComponent(this.value)}`;
+      }
+    });
+  </script>
+</body>
+</html>

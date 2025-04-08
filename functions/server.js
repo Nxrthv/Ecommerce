@@ -4,6 +4,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const {v4: uuidv4} = require("uuid");
+const bcrypt = require("bcrypt");
 
 const session = require("express-session");
 const admin = require("firebase-admin");
@@ -11,6 +12,7 @@ const admin = require("firebase-admin");
 // Inicializar Firebase Admin, definiendo la ruta del archivo .json con las credenciales
 // de la cuenta de servicio de Firebase y la URL de la base de datos
 const serviceAccount = require("./fir-d3539-firebase-adminsdk-duevp-dea02c0f78.json");
+const { user } = require("firebase-functions/v1/auth");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://fir-d3539-default-rtdb.firebaseio.com/",
@@ -19,7 +21,6 @@ admin.initializeApp({
 const db = admin.firestore();
 
 const app = express();
-// const port = process.env.PORT || 4444;
 
 // Ingeniería de vistas de EJS
 app.set("views", path.join(__dirname, "views"));
@@ -39,6 +40,15 @@ app.use(
     }),
 );
 
+// Middleware para verificar si el usuario está autenticado
+function requireAuth(req, res, next) {
+  if (!req.session.user) {
+    req.session.message = "Debes iniciar sesión para ver tu carrito";
+    return res.redirect("/auth"); // Redirige al login si no hay sesión activa
+  }
+  next(); // Continúa a la ruta protegida
+}
+
 // Shopping cart middleware
 app.use((req, res, next) => {
   if (!req.session.cart) {
@@ -50,7 +60,15 @@ app.use((req, res, next) => {
 // Rutas
 app.use((req, res, next) => {
   res.locals.currentPath = req.path;
+  res.locals.user = req.session.user || null;
   next();
+});
+
+// Ruta de Error 404
+app.use("/error", (req, res) => {
+  res.render("reusables/error-404", {
+    title: "Error 404"
+  });
 });
 
 // Ruta principal
@@ -82,7 +100,7 @@ app.get("/", async (req, res) => {
 
     // Renderizamos la vista 'index.ejs' enviando los datos a la plantilla
     res.render("index", {
-      title: "GEN Z", // Título de la página
+      title: "Inicio", // Título de la página
       productos, // Lista de productos destacados (máx. 8)
       categorias, // Lista de categorías disponibles
       cantidadCarrito: req.session.cart.reduce((total, item) => total + item.quantity, 0), // Total de ítems en el carrito
@@ -130,7 +148,7 @@ app.get("/products", async (req, res) => {
 
     // Renderizamos la vista 'products.ejs' y enviamos los datos necesarios
     res.render("products", {
-      title: "All Products",
+      title: "Todos los Productos", // Título de la página
       products, // Lista de productos a mostrar
       categories, // Lista de categorías para el sidebar
       selectedCategory: req.query.category || "all", // Categoría activa
@@ -170,9 +188,27 @@ app.get("/product/:id", async (req, res) => {
 });
 
 // Rutas del carrito
-app.get("/cart", (req, res) => {
+app.use(async (req, res, next) => {
+  if (req.session.user) {
+    const userId = req.session.user.uid;
+
+    try {
+      const cartDoc = await db.collection("carts").doc(userId).get();
+      req.session.cart = cartDoc.exists ? cartDoc.data().items : [];
+    } catch (error) {
+      console.error("Error al cargar carrito del usuario:", error);
+      req.session.cart = [];
+    }
+  } else {
+    req.session.cart = req.session.cart || [];
+  }
+
+  next();
+});
+
+app.get("/cart", requireAuth, (req, res) => {
   res.render("cart", {
-    title: "Shopping Cart",
+    title: "Carrito de Compras",
     cart: req.session.cart,
     total: req.session.cart.reduce((total, item) => total + item.price * item.quantity, 0),
     cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
@@ -210,10 +246,17 @@ app.post("/cart/add", async (req, res) => {
       });
     }
 
+    if (req.session.user) {
+      const userId = req.session.user.uid;
+      await db.collection("carts").doc(userId).set({
+        items: req.session.cart,
+      });
+    }
+
     res.redirect("/cart");
   } catch (error) {
-    console.error("Error adding to cart:", error);
-    res.status(500).json({error: "Error adding to cart"});
+    console.error("Error al agregar al carrito:", error);
+    res.status(500).json({error: "Error al agregar al carrito"});
   }
 });
 
@@ -241,17 +284,147 @@ app.post("/cart/remove", (req, res) => {
   res.redirect("/cart");
 });
 
-// Rutas de verificacion de pedido
+// Rutas de verificacion
+
+//Usuarios
+app.get("/auth", (req, res) => {
+  res.render("auth", {
+    title: "Bienvenid@",
+    user: req.session.user || null,
+  });
+});
+
+app.get("/account", requireAuth, (req, res) => {
+  res.render("account", {
+    user: req.session.user,
+    title: "Mi Cuenta",
+  });
+});
+
+app.get("/account/orders", async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ error: "No autorizado" });
+  }
+
+  try {
+    const ordersSnapshot = await db
+      .collection("orders")
+      .where("customer.uid", "==", req.session.user.uid)
+      .orderBy("orderDate", "desc")
+      .get();
+
+    const orders = [];
+    ordersSnapshot.forEach((doc) => {
+      orders.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+
+    res.json(orders);
+  } catch (error) {
+    console.error("Error al obtener pedidos:", error);
+    res.status(500).json({ error: "Error al obtener pedidos" });
+  }
+});
+
+app.post("/auth/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error al cerrar sesión:", err);
+    }
+    res.redirect("/");
+  });
+});
+
+app.post("/auth/signup", async (req, res) => {
+
+  const { name, email, password } = req.body;
+
+  try {
+    // Verificar si ya existe el correo
+    const userSnapshot = await db.collection("users").where("email", "==", email).get();
+    if (!userSnapshot.empty) {
+      return res.status(400).send("Este correo ya está registrado.");
+    }
+
+    // Encriptar la contraseña
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Crear nuevo usuario
+    await db.collection("users").add({
+      name,
+      email,
+      password: hashedPassword,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    // Guardar sesión
+    req.session.user = { name, email };
+
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error en el registro:", error);
+    res.status(500).send("Error al registrar usuario");
+  }
+});
+
+app.post("/auth/signin", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+     // Verifica que se recibieron ambos datos
+     if (!email || !password) {
+      return res.status(400).send("Debes ingresar correo y contraseña.");
+    }
+
+    // Buscar al usuario por email
+    const userSnapshot = await db.collection("users").where("email", "==", email).limit(1).get();
+
+    if (userSnapshot.empty) {
+      return res.status(401).send("Correo o contraseña incorrectos.");
+    }
+
+    const userDoc = userSnapshot.docs[0];
+    const user = userDoc.data();
+
+    // Comparar contraseña ingresada con la almacenada
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).send("Correo o contraseña incorrectos.");
+    }
+
+    // Guardar datos del usuario en sesión
+    req.session.user = {
+      name: user.name,
+      email: user.email,
+      id: userDoc.id,
+    };
+
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error al iniciar sesión:", error);
+    res.status(500).send("Error al iniciar sesión");
+  }
+});
+
+//Pedidos
 app.get("/checkout", (req, res) => {
-  if (req.session.cart.length === 0) {
+  if (!req.session.user) {
+    return res.redirect("/auth"); // Redirige al login si no hay sesión
+  }
+
+  if (!req.session.cart || req.session.cart.length === 0) {
     return res.redirect("/cart");
   }
 
   res.render("checkout", {
-    title: "Checkout",
+    title: "Verificar Pedido",
     cart: req.session.cart,
     total: req.session.cart.reduce((total, item) => total + item.price * item.quantity, 0),
     cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
+    user: req.session.user, // Puedes usar esto para precargar los datos
   });
 });
 
@@ -259,11 +432,11 @@ app.post("/checkout", async (req, res) => {
   try {
     const {name, email, address, city, zip, paymentMethod} = req.body;
 
-    // Calculate delivery date (7 days from now)
+    // Fecha estimada de entrega (7 días)
     const deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + 7);
 
-    // Create order in Firebase
+    // Guardar pedido en Firestore
     const orderRef = await db.collection("orders").add({
       customer: {
         name,
@@ -281,8 +454,9 @@ app.post("/checkout", async (req, res) => {
       orderId: uuidv4().substring(0, 8).toUpperCase(),
     });
 
-    // Clear cart
+    // Limpiar carrito de sesión y Firestore
     req.session.cart = [];
+    await db.collection("carts").doc(req.session.user.uid).delete();
 
     res.redirect(`/order-confirmation/${orderRef.id}`);
   } catch (error) {
@@ -305,7 +479,7 @@ app.get("/order-confirmation/:id", async (req, res) => {
     };
 
     res.render("order-confirmation", {
-      title: "Order Confirmation",
+      title: "Confirmación de Pedido",
       order,
       cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
     });
@@ -451,9 +625,11 @@ app.post("/admin/product/delete/:id", async (req, res) => {
   }
 });
 
-// Lanzar el server
-// app.listen(port, () => {
-//   console.log(`Server running on port ${port}`);
-// });
+// if (require.main === module) {
+//   const port = process.env.PORT || 4444;
+//   app.listen(port, () => {
+//     console.log(`Servidor local escuchando en el puerto ${port}`);
+//   });
+// }
 
 module.exports = app;
