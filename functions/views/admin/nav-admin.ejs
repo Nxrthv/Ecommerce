@@ -15,7 +15,7 @@
       --bg-light: #f9fafb;
       --bg-white: #ffffff;
       --border-color: #e5e7eb;
-      --sidebar-width: 260px;
+      --sidebar-width: 220px;
       --header-height: 64px;
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -197,7 +197,7 @@
 
     .search-box {
       position: relative;
-      width: 300px;
+      width: 600px;
     }
 
     .search-box input {
@@ -349,36 +349,6 @@
       color: var(--danger);
     }
 
-    /* Pagination */
-    .pagination {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 1.5rem;
-      gap: 0.25rem;
-    }
-
-    .pagination-item {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .pagination-item:hover {
-      background-color: var(--secondary);
-    }
-
-    .pagination-item.active {
-      background-color: var(--primary);
-      color: white;
-    }
-
     /* Mobile Menu Toggle */
     .mobile-menu-toggle {
       display: none;
@@ -477,12 +447,12 @@
                 Ordenes
               </a>
             </li>
-            <li>
+            <!-- <li>
               <a href="#">
                 <i class="fas fa-tags"></i>
                 Categorias
               </a>
-            </li>
+            </li> -->
             <li>
               <a href="#">
                 <i class="fas fa-users"></i>
@@ -504,9 +474,9 @@
           </ul>
         </nav>
         <div class="sidebar-footer">
-          <a href="/" target="_blank">
+          <a href="/logout">
             <i class="fas fa-external-link-alt"></i>
-            View Store
+            Salir
           </a>
         </div>
       </aside>

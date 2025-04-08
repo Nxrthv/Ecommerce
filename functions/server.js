@@ -5,6 +5,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const {v4: uuidv4} = require("uuid");
 const bcrypt = require("bcrypt");
+require ("dotenv").config();
 
 const session = require("express-session");
 const admin = require("firebase-admin");
@@ -26,7 +27,7 @@ const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-// Middleware
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -48,6 +49,20 @@ function requireAuth(req, res, next) {
   }
   next(); // Continúa a la ruta protegida
 }
+
+// Middleware para verificar si el usuario es admin
+function verificarAdmin(req, res, next) {
+  if (req.session.user && req.session.user.role === "admin") {
+    return next();
+  }
+  res.redirect("/auth"); // Redirige si no hay sesión activa o no es admin
+}
+
+// Middleware para evitar el almacenamiento en caché
+// app.use((req, res, next) => {
+//   res.setHeader("Cache-Control", "no-store");
+//   next();
+// });
 
 // Shopping cart middleware
 app.use((req, res, next) => {
@@ -189,8 +204,8 @@ app.get("/product/:id", async (req, res) => {
 
 // Rutas del carrito
 app.use(async (req, res, next) => {
-  if (req.session.user) {
-    const userId = req.session.user.uid;
+  if (req.session.user && req.session.user.id) {
+    const userId = req.session.user.id;
 
     try {
       const cartDoc = await db.collection("carts").doc(userId).get();
@@ -206,13 +221,30 @@ app.use(async (req, res, next) => {
   next();
 });
 
-app.get("/cart", requireAuth, (req, res) => {
-  res.render("cart", {
-    title: "Carrito de Compras",
-    cart: req.session.cart,
-    total: req.session.cart.reduce((total, item) => total + item.price * item.quantity, 0),
-    cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
-  });
+app.get("/cart", requireAuth, async (req, res) => {
+  const user = req.session.user;
+
+  if (!user || !user.id) {
+    console.error("ID de usuario no disponible en la sesión");
+    return res.redirect("/auth");
+  }
+
+  try {
+    // Si quieres cargar el carrito desde Firestore
+    const carritoDoc = await db.collection("carritos").doc(user.id).get();
+
+    const cartData = carritoDoc.exists ? carritoDoc.data().items : [];
+
+    res.render("cart", {
+      title: "Carrito de Compras",
+      cart: req.session.cart,
+      total: req.session.cart.reduce((total, item) => total + item.price * item.quantity, 0),
+      cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
+    });
+  } catch (error) {
+    console.error("Error al cargar carrito del usuario:", error);
+    res.status(500).send("Error al cargar el carrito");
+  }
 });
 
 app.post("/cart/add", async (req, res) => {
@@ -246,12 +278,14 @@ app.post("/cart/add", async (req, res) => {
       });
     }
 
-    if (req.session.user) {
-      const userId = req.session.user.uid;
+    if (req.session.user && req.session.user.id) {
+      const userId = req.session.user.id;
       await db.collection("carts").doc(userId).set({
         items: req.session.cart,
       });
     }
+
+    console.log("Carrito actualizado:", req.session.cart);
 
     res.redirect("/cart");
   } catch (error) {
@@ -260,8 +294,12 @@ app.post("/cart/add", async (req, res) => {
   }
 });
 
-app.post("/cart/update", (req, res) => {
-  const {productId, quantity} = req.body;
+app.post("/cart/update", async (req, res) => {
+  const { productId, quantity } = req.body;
+
+  if (!req.session.cart) {
+    req.session.cart = [];
+  }
 
   const itemIndex = req.session.cart.findIndex((item) => item.id === productId);
 
@@ -273,13 +311,41 @@ app.post("/cart/update", (req, res) => {
     }
   }
 
+  // Si hay un usuario logueado, actualiza Firestore
+  if (req.session.user && req.session.user.id) {
+    try {
+      const userId = req.session.user.id;
+      await db.collection("carts").doc(userId).set({
+        items: req.session.cart,
+      });
+    } catch (error) {
+      console.error("Error al actualizar carrito en Firestore:", error);
+    }
+  }
+
   res.redirect("/cart");
 });
 
-app.post("/cart/remove", (req, res) => {
-  const {productId} = req.body;
+app.post("/cart/remove", async (req, res) => {
+  const { productId } = req.body;
 
+  // Asegura que el carrito exista
+  req.session.cart = req.session.cart || [];
+
+  // Remueve el producto del carrito de la sesión
   req.session.cart = req.session.cart.filter((item) => item.id !== productId);
+
+  // Si el usuario está autenticado, también actualiza el carrito en Firestore
+  if (req.session.user && req.session.user.id) {
+    try {
+      const userId = req.session.user.id;
+      await db.collection("carts").doc(userId).set({
+        items: req.session.cart,
+      });
+    } catch (error) {
+      console.error("Error al actualizar carrito en Firestore:", error);
+    }
+  }
 
   res.redirect("/cart");
 });
@@ -373,12 +439,20 @@ app.post("/auth/signin", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-     // Verifica que se recibieron ambos datos
-     if (!email || !password) {
-      return res.status(400).send("Debes ingresar correo y contraseña.");
+    // Comprobación de credenciales de administrador
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      req.session.user = {
+        name: "Administrador",
+        email,
+        role: "admin"
+      };
+      return res.redirect("/admin"); // Redirigir a dashboard admin
     }
 
-    // Buscar al usuario por email
+    // Verifica repitencia de correo
     const userSnapshot = await db.collection("users").where("email", "==", email).limit(1).get();
 
     if (userSnapshot.empty) {
@@ -388,14 +462,14 @@ app.post("/auth/signin", async (req, res) => {
     const userDoc = userSnapshot.docs[0];
     const user = userDoc.data();
 
-    // Comparar contraseña ingresada con la almacenada
+    // Comparar contraseña ingresada con la almacenada hasheada
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
       return res.status(401).send("Correo o contraseña incorrectos.");
     }
 
-    // Guardar datos del usuario en sesión
+    // Guardar el inicio de sesión del usuario
     req.session.user = {
       name: user.name,
       email: user.email,
@@ -490,7 +564,7 @@ app.get("/order-confirmation/:id", async (req, res) => {
 });
 
 // Rutas del admin
-app.get("/admin", async (req, res) => {
+app.get("/admin", verificarAdmin, async (req, res) => {
   try {
     const productsSnapshot = await db.collection("products").get();
     const products = [];
@@ -510,6 +584,18 @@ app.get("/admin", async (req, res) => {
     console.error("Error fetching products:", error);
     res.status(500).render("error", {message: "Error fetching products"});
   }
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error al cerrar sesión:", err);
+      return res.status(500).send("Error al cerrar sesión");
+    }
+
+    res.clearCookie("connect.sid");
+    res.redirect("/");
+  });
 });
 
 app.get("/admin/product/new", async (req, res) => {
@@ -537,10 +623,11 @@ app.get("/admin/product/new", async (req, res) => {
 
 app.post("/admin/product/new", async (req, res) => {
   try {
-    const {name, description, price, category, image, stock} = req.body;
+    const {name, brand, description, price, category, image, stock} = req.body;
 
     await db.collection("products").add({
       name,
+      brand,
       description,
       price: Number.parseFloat(price),
       category,
@@ -592,13 +679,14 @@ app.get("/admin/product/edit/:id", async (req, res) => {
 
 app.post("/admin/product/edit/:id", async (req, res) => {
   try {
-    const {name, description, price, category, image, stock} = req.body;
+    const {name, brand, description, price, category, image, stock} = req.body;
 
     await db
         .collection("products")
         .doc(req.params.id)
         .update({
           name,
+          brand,
           description,
           price: Number.parseFloat(price),
           category,

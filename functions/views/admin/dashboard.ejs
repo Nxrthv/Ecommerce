@@ -16,7 +16,7 @@
           <button class="mobile-menu-toggle" id="mobile-menu-toggle">
             <i class="fas fa-bars"></i>
           </button>
-          <h1>Articulos</h1>
+          <h1>Todos los Productos</h1>
         </div>
         <div class="d-flex align-items-center">
           <a href="/admin/product/new" class="btn btn-primary">
@@ -29,7 +29,6 @@
       <div class="content-body">
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">Todos los Productos</h2>
             <div class="table-controls">
               <div class="search-box">
                 <i class="fas fa-search"></i>
@@ -45,7 +44,7 @@
                     <th>Imagen</th>
                     <th>Titulo</th>
                     <th>Costo</th>
-                    <th>Categoria</th>
+                    <th>Marca</th>
                     <th>Stock</th>
                     <th>Estado</th>
                     <th>Acciones</th>
@@ -59,7 +58,7 @@
                       </td>
                       <td width="380px"><%= product.name %></td>
                       <td>S/. <%= product.price.toFixed(2) %></td>
-                      <td><%= product.category %></td>
+                      <td class="uppercase tracking-wider"><%= product.brand.toUpperCase() %></td>  
                       <td><%= product.stock %></td>
                       <td>
                         <% if (product.stock > 10) { %>
@@ -98,5 +97,24 @@
       </div>
     </main>
   </div>
+  <script>
+    const searchInput = document.getElementById('product-search');
+  
+    searchInput.addEventListener('input', function () {
+      const searchValue = this.value.toLowerCase();
+      const rows = document.querySelectorAll('table.data-table tbody tr');
+  
+      rows.forEach((row) => {
+        const nameCell = row.querySelector('td:nth-child(2)').textContent.toLowerCase(); // Título
+        const brandCell = row.querySelector('td:nth-child(4)').textContent.toLowerCase(); // Marca
+  
+        if (nameCell.includes(searchValue) || brandCell.includes(searchValue)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  </script>  
 </body>
 </html>

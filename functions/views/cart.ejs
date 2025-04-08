@@ -26,9 +26,9 @@
                 <form action="/cart/update" method="POST" class="quantity-form">
                   <input type="hidden" name="productId" value="<%= item.id %>">
                   <div class="quantity-input">
-                    <!-- <button type="button" class="quantity-btn minus" data-id="<%= item.id %>">-</button> -->
+                    <button type="button" class="quantity-btn minus" data-id="<%= item.id %>">-</button>
                     <input name="quantity" value="<%= item.quantity %>" min="1" class="quantity" data-id="<%= item.id %>">
-                    <!-- <button type="button" class="quantity-btn plus" data-id="<%= item.id %>">+</button> -->
+                    <button type="button" class="quantity-btn plus" data-id="<%= item.id %>">+</button>
                   </div>
                   <button type="submit" class="update-btn">Actualizar</button>
                 </form>
