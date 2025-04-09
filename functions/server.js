@@ -38,6 +38,8 @@ app.use(
       resave: false,
       saveUninitialized: true,
       cookie: {maxAge: 24 * 60 * 60 * 1000}, // 24 hours
+      sameSite: "lax", // Cambia a "lax" o incluso "none" si usas HTTPS
+      secure: true // IMPORTANTE: debe ser `true` si estás usando HTTPS
     }),
 );
 
