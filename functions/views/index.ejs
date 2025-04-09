@@ -3,11 +3,11 @@
 <section class="relative bg-[url('/assets/banner.png')] bg-cover bg-center text-white">
   <div class="container mx-auto px-4 py-20 md:py-32">
     <div class="max-w-2xl">
-      <h2 class="text-4xl md:text-6xl font-bold mb-4">Bienvenido a <span class="verdana font-bold">GEN Z</span></h2>
-      <p class="text-lg md:text-xl mb-8 text-zinc-300">
+      <h2 class="text-2xl md:text-6xl font-bold mb-4">Bienvenido a <span class="roboto font-bold">GEN Z</span></h2>
+      <p class="text-sm md:text-xl mb-8 text-zinc-300">
         Descubre lo último en productos electrónicos y gadgets para la nueva generación.
       </p>
-      <a href="/products" class="inline-flex items-center px-6 py-3 rounded-md bg-red-600 hover:bg-red-700 text-white font-medium transition-colors">
+      <a href="/products" class="inline-flex text-xs md:text-md items-center px-3 md:px-6 py-3 rounded-md bg-red-600 hover:bg-red-700 text-white font-medium transition-colors">
         Comprar Ahora
         <i class="fas fa-shopping-bag ml-2"></i>
       </a>
@@ -19,16 +19,16 @@
 <section class="py-10 px-4">
   <div class="container mx-auto">
     <div class="flex justify-between items-center mb-10">
-      <h2 class="text-3xl font-bold">Articulos Destacados</h2>
+      <h2 class="text-lg md:text-3xl font-bold">Articulos Destacados</h2>
       <a href="/products" class="text-red-600 hover:text-red-700 flex items-center">
         Ver todos
         <i class="fas fa-chevron-right text-xs ml-1"></i>
       </a>
     </div>
     
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 grid-cols-2 lg:grid-cols-5 gap-6">
       <% productos.forEach(product => { %>
-        <div class="overflow-hidden transition-all duration-300 hover:shadow-lg rounded-lg border border-gray-200">
+        <a href="/product/<%= product.id %>" class="overflow-hidden transition-all duration-300 hover:shadow-lg rounded-lg border border-gray-200">
           <div class="relative aspect-square overflow-hidden bg-gray-100">
             <img 
               src="<%= product.image %>" 
@@ -36,21 +36,14 @@
               class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
             >
           </div>
-          <div class="p-4">
-            <h3 class="font-semibold text-md truncate"><%= product.name %></h3>
-            <p class="text-xl font-bold text-red-600 mt-1">
-              <small class="font-bold text-sm">S/ </small><%= product.price.toFixed(2) %>
+          <div class="p-4 ">
+            <p class="text-xs font-semibold text-gray-600 mt-1"><%= product.brand %></p>
+            <h3 class="font-semibold text-xs md:text-md text-gray-500 line-clamp-2"><%= product.name %></h3>
+            <p class="text-md md:text-xl font-bold text-green-600 mt-3">
+              <small class="text-xs font-bold md:text-sm">S/ </small><%= product.price.toFixed(2) %>
             </p>
           </div>
-          <div class="p-4 pt-0">
-            <a 
-              href="/product/<%= product.id %>" 
-              class="block w-full text-center px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-            >
-              Ver Detalles
-            </a>
-          </div>
-        </div>
+        </a>
       <% }); %>
     </div>
   </div>
@@ -60,16 +53,16 @@
   <div class="container mx-auto">
     <h2 class="text-3xl font-bold mb-10 text-center">Compra por Categoría</h2>
     
-    <div class="grid grid-cols-2 md:grid-cols-6 gap-6">
+    <div class="grid grid-cols-3 md:grid-cols-6 md:gap-6">
       <% categorias.forEach(category => { %>
         <a 
           href="/products?category=<%= category.id %>" 
           class="flex flex-col items-center p-6 bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:bg-gray-50"
         >
           <div class="p-4 rounded-full bg-red-100 mb-4">
-            <i class="<%= category.icon %> text-2xl text-red-600"></i>
+            <i class="<%= category.icon %> md:text-2xl text-red-600"></i>
           </div>
-          <h3 class="text-sm font-medium text-center"><%= category.name %></h3>
+          <h3 class="text-xs md:text-sm font-medium text-center"><%= category.name %></h3>
         </a>
       <% }); %>
     </div>

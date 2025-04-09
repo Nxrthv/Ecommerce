@@ -80,7 +80,7 @@
             <% } %>
           </div>                  
           
-          <a href="/cart" class="text-gray-700 hover:text-red-600 relative">
+          <a href="/cart" class="text-gray-700 hover:text-red-600 relative <%= currentPath === '/cart' ? 'text-red-600 hover:bg-text-500' : 'text-gray-700' %>">
             <i class="fas fa-shopping-cart text-xl"></i>
             <span class="sr-only">Carrito</span>
             <% if (locals.cartCount && cartCount > 0) { %>

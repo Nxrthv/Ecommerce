@@ -90,7 +90,7 @@ app.use("/error", (req, res) => {
 app.get("/", async (req, res) => {
   try {
     // Obtenemos hasta 8 productos de la categoria "products"
-    const productosSnapshot = await db.collection("products").limit(8).get();
+    const productosSnapshot = await db.collection("products").limit(15).get();
     const productos = [];
 
     // Recorremos los documentos y los agregamos al array de productos
@@ -274,6 +274,7 @@ app.post("/cart/add", async (req, res) => {
         name: product.name,
         price: product.price,
         image: product.image,
+        brand: product.brand,
         quantity: Number.parseInt(quantity),
       });
     }
@@ -713,11 +714,11 @@ app.post("/admin/product/delete/:id", async (req, res) => {
   }
 });
 
-if (require.main === module) {
-  const port = process.env.PORT || 4444;
-  app.listen(port, () => {
-    console.log(`Servidor local escuchando en el puerto ${port}`);
-  });
-}
+// if (require.main === module) {
+//   const port = process.env.PORT || 4444;
+//   app.listen(port, () => {
+//     console.log(`Servidor local escuchando en el puerto ${port}`);
+//   });
+// }
 
 module.exports = app;

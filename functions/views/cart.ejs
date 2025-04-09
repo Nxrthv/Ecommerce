@@ -1,69 +1,69 @@
 <%- include('reusables/nav') %>
 
-<section class="cart-page">
-  <div class="container">
-    <h2 class="section-title">Tus  Compras</h2>
-    
+<section class="py-8">
+  <div class="max-w-7xl mx-auto px-4">
+    <h2 class="text-2xl font-bold text-center mb-6">Tu Carrito</h2>
+
     <% if (cart.length === 0) { %>
-      <div class="empty-cart">
-        <i class="fas fa-shopping-cart fa-4x"></i>
-        <p>Tu carrito aun esta vacio 😿</p>
-        <a href="/products" class="btn btn-primary">¡Compremos algo! 🛍️</a>
+      <div class="text-center bg-white p-10 rounded shadow">
+        <i class="fas fa-shopping-cart fa-4x text-gray-300 mb-4"></i>
+        <p class="text-lg mb-4">Tu carrito aún está vacío 😿</p>
+        <a href="/products" class="inline-block px-6 py-3 bg-black text-white rounded hover:bg-gray-800 transition">
+          ¡Compremos algo! 🛍️
+        </a>
       </div>
     <% } else { %>
-      <div class="cart-container">
-        <div class="cart-items">
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="md:col-span-2 space-y-4 bg-white p-4 rounded shadow">
           <% cart.forEach(item => { %>
-            <div class="cart-item">
-              <div class="item-image">
-                <img src="<%= item.image %>" alt="<%= item.name %>">
+            <div class="flex flex-wrap md:flex-nowrap items-center gap-4 border-b pb-4">
+              <div class="w-20 h-20 flex-shrink-0">
+                <img src="<%= item.image %>" alt="<%= item.name %>" class="w-full h-full object-cover rounded">
               </div>
-              <div class="item-details">
-                <h3 class="item-title"><%= item.name %></h3>
-                <p class="item-price">$<%= item.price.toFixed(2) %></p>
+              <div class="flex-1 md:max-w-[450px]">
+                <p class="text-sm font-bold text-gray-700 truncate"><%= item.brand %></p>
+                <h3 class="text-gray-500 text-sm line-clamp-2"><%= item.name %></h3>
               </div>
-              <div class="item-quantity">
-                <form action="/cart/update" method="POST" class="quantity-form">
+              <div>
+                <form action="/cart/update" method="POST" class="flex flex-col items-center">
                   <input type="hidden" name="productId" value="<%= item.id %>">
-                  <div class="quantity-input">
-                    <button type="button" class="quantity-btn minus" data-id="<%= item.id %>">-</button>
-                    <input name="quantity" value="<%= item.quantity %>" min="1" class="quantity" data-id="<%= item.id %>">
-                    <button type="button" class="quantity-btn plus" data-id="<%= item.id %>">+</button>
+                  <div class="flex items-center border rounded overflow-hidden">
+                    <button type="button" class="px-2 py-1 bg-gray-100 text-sm quantity-btn minus" data-id="<%= item.id %>">-</button>
+                    <input name="quantity" value="<%= item.quantity %>" min="1" class="w-12 text-center outline-none text-sm quantity" data-id="<%= item.id %>">
+                    <button type="button" class="px-2 py-1 bg-gray-100 text-sm quantity-btn plus" data-id="<%= item.id %>">+</button>
                   </div>
-                  <button type="submit" class="update-btn">Actualizar</button>
+                  <button type="submit" class="text-sm text-blue-600 mt-1 hover:underline">Actualizar</button>
                 </form>
               </div>
-              <div class="item-total">
-                <small class="font-bold text-xs">S/ </small><%= (item.price * item.quantity).toFixed(2) %>
-              </div>
-              <div class="item-remove">
+              <div class="text-right flex gap-2 items-center mx-auto">
+                <p class="text-gray-700 font-bold text-sm"><small class="font-semibold">S/</small> <%= (item.price * item.quantity).toFixed(2) %></p>
                 <form action="/cart/remove" method="POST">
                   <input type="hidden" name="productId" value="<%= item.id %>">
-                  <button type="submit" class="remove-btn">
+                  <button type="submit" class="text-red-500 hover:text-red-700">
                     <i class="fas fa-trash"></i>
                   </button>
                 </form>
               </div>
             </div>
-          <% }); %>
+          <% }) %>
         </div>
-        
-        <div class="cart-summary">
-          <h3>Detalle del Pedido</h3>
-          <div class="summary-item">
+
+        <div class="bg-white p-6 rounded shadow h-fit">
+          <h3 class="text-lg font-semibold mb-4 border-b pb-2">Detalle del Pedido</h3>
+          <div class="flex justify-between mb-2 text-sm">
             <span>Subtotal</span>
-            <span><small class="text-xs">S/ </small><%= total.toFixed(2) %></span>
+            <span>S/ <%= total.toFixed(2) %></span>
           </div>
-          <div class="summary-item">
-            <span>Envio</span>
+          <div class="flex justify-between mb-2 text-sm">
+            <span>Envío</span>
             <span>Gratis</span>
           </div>
-          <div class="summary-total">
+          <div class="flex justify-between font-bold text-md border-t pt-2 mb-4">
             <span>Total</span>
-            <span><small class="text-xs">S/ </small><%= total.toFixed(2) %></span>
+            <span>S/ <%= total.toFixed(2) %></span>
           </div>
-          <a href="/checkout" class="btn btn-primary checkout-btn">Proceder con la Compra</a>
-          <a href="/products" class="btn btn-outline continue-shopping">Seguir Comprando</a>
+          <a href="/checkout" class="block w-full text-center bg-black text-white py-2 rounded hover:bg-gray-800 transition mb-2">Proceder con la Compra</a>
+          <a href="/products" class="block w-full text-center border border-black py-2 rounded hover:bg-black hover:text-white transition">Seguir Comprando</a>
         </div>
       </div>
     <% } %>
@@ -71,12 +71,12 @@
 </section>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const minusBtns = document.querySelectorAll('.quantity-btn.minus');
     const plusBtns = document.querySelectorAll('.quantity-btn.plus');
-    
+
     minusBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
+      btn.addEventListener('click', function () {
         const id = this.getAttribute('data-id');
         const input = document.querySelector(`.quantity[data-id="${id}"]`);
         const currentValue = parseInt(input.value);
@@ -85,9 +85,9 @@
         }
       });
     });
-    
+
     plusBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
+      btn.addEventListener('click', function () {
         const id = this.getAttribute('data-id');
         const input = document.querySelector(`.quantity[data-id="${id}"]`);
         const currentValue = parseInt(input.value);

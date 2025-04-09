@@ -12,10 +12,10 @@ const totalPages = locals.totalPages || Math.ceil(totalProducts / productsPerPag
 const paginatedProducts = locals.paginatedProducts || products.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
 %>
 
-<section class="py-12 bg-gray-50">
-  <div class="container mx-auto px-1">
-    <div class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-900">Todos los Productos</h1>
+<section class="py-6 bg-gray-50">
+  <div class="container mx-auto">
+    <div class="flex justify-between px-2 items-center mb-8">
+      <h1 class="text-lg md:text-3xl font-bold text-gray-900">Todos los Productos</h1>
       
       <!-- Mobile filter toggle -->
       <button id="filter-toggle" class="md:hidden flex items-center text-gray-700 hover:text-red-600">
@@ -23,8 +23,7 @@ const paginatedProducts = locals.paginatedProducts || products.slice((currentPag
       </button>
     </div>
     
-    <div class="flex flex-col md:flex-row gap-8">
-      <!-- Sidebar Filters - Hidden on mobile by default -->
+    <div class="flex flex-col md:flex-row gap-4">
       <div id="filters-sidebar" class="hidden md:block w-full md:w-64 flex-shrink-0">
         <div class="bg-white rounded-lg shadow-sm p-2 sticky top-20">
           <h2 class="font-bold text-lg mb-4 pb-2 border-b">Categorías</h2>
@@ -145,9 +144,9 @@ const paginatedProducts = locals.paginatedProducts || products.slice((currentPag
             </a>
           </div>
         <% } else { %>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div class="grid grid-cols-1 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
             <% paginatedProducts.forEach(product => { %>
-              <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full border border-gray-200">
+              <div class="bg-white overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full border border-gray-200">
                 <!-- Product Image with Badges -->
                 <div class="relative aspect-square overflow-hidden bg-gray-100">
                   <a href="/product/<%= product.id %>">
@@ -157,103 +156,37 @@ const paginatedProducts = locals.paginatedProducts || products.slice((currentPag
                       class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                     >
                   </a>
-                  
-                  <% if (product.isNew) { %>
-                    <span class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
-                      NUEVO
-                    </span>
-                  <% } %>
-                  
-                  <% if (product.discount) { %>
-                    <span class="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
-                      <%= product.discount %>% DSCTO
-                    </span>
-                  <% } %>
                 </div>
                 
                 <!-- Product Info -->
                 <div class="p-4 flex-grow">
                   <% if (product.category) { %>
-                    <div class="mb-1">
-                      <span class="text-xs text-gray-500"><%= product.category %></span>
+                    <div class="mb-1 leading-none">
+                      <span class="text-sm font-bold text-gray-500"><%= product.brand %></span>
                     </div>
                   <% } %>
                   
                   <!-- Product Title -->
-                  <h3 class="font-semibold text-md mb-1 line-clamp-2">
+                  <h3 class="font-semibold text-sm leading-tight md:text-md mb-1 line-clamp-2">
                     <a href="/product/<%= product.id %>" class="hover:text-red-600"><%= product.name %></a>
                   </h3>
                   
-                  <!-- Product Specs -->
-                  <% if (product.specs) { %>
-                    <p class="text-xs text-gray-600 mb-2 line-clamp-2"><%= product.specs %></p>
-                  <% } %>
-                  
                   <!-- Pricing -->
                   <div class="mt-2">
-                    <% if (product.oldPrice) { %>
-                      <div class="flex items-center">
-                        <span class="text-sm text-gray-500 line-through"><small class="font-bold text-sm">S/ </small><%= product.oldPrice.toFixed(2) %></span>
-                      </div>
-                    <% } %>
                     <div class="flex items-center">
-                      <span class="text-xl font-bold text-red-600"><small class="font-bold text-sm">S/ </small><%= product.price.toFixed(2) %></span>
+                      <span class="md:text-xl font-bold text-green-600"><small class="font-bold text-sm">S/ </small><%= product.price.toFixed(2) %></span>
                     </div>
                   </div>
-                  
-                  <!-- Installment Info -->
-                  <% if (product.installments && product.installmentPrice) { %>
-                    <p class="text-xs text-green-600 mt-1">
-                      <%= product.installments %> cuotas de S/ <%= product.installmentPrice.toFixed(2) %>
-                    </p>
-                  <% } %>
-                  
-                  <!-- Ratings -->
-                  <% if (product.rating) { %>
-                    <div class="flex items-center mt-2">
-                      <div class="flex text-yellow-400">
-                        <% for (let i = 1; i <= 5; i++) { %>
-                          <% if (i <= Math.floor(product.rating)) { %>
-                            <i class="fas fa-star text-xs"></i>
-                          <% } else if (i - 0.5 <= product.rating) { %>
-                            <i class="fas fa-star-half-alt text-xs"></i>
-                          <% } else { %>
-                            <i class="far fa-star text-xs"></i>
-                          <% } %>
-                        <% } %>
-                      </div>
-                      <span class="text-xs text-gray-500 ml-1">(<%= product.reviewCount || 0 %>)</span>
-                    </div>
-                  <% } %>
                   
                   <!-- Shipping Info -->
                   <div class="mt-2">
-                    <a href="#" class="text-xs text-blue-600 hover:underline">Consultar envío</a>
+                    <a class="text-xs text-green-800 hover:underline">Envio Gratuito</a>
                   </div>
                   
                   <!-- Seller Info -->
-                  <% if (product.seller) { %>
                     <div class="mt-1 text-xs text-gray-500">
-                      Por <%= product.seller %>
+                      Por GEN Z
                     </div>
-                  <% } %>
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="p-4 pt-0 mt-auto">
-                  <button 
-                    onclick="addToCart('<%= product.id %>')" 
-                    class="block w-full text-center px-3 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors"
-                  >
-                    Añadir al carrito
-                  </button>
-                  
-                  <a 
-                    href="/product/<%= product.id %>" 
-                    class="block w-full text-center px-4 py-2 mt-2 text-gray-700 hover:text-red-600 text-sm transition-colors"
-                  >
-                    Ver Detalles
-                  </a>
                 </div>
               </div>
             <% }); %>

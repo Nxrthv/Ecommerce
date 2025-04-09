@@ -1,14 +1,12 @@
 <%- include('reusables/nav') %>
 
 <section class="py-6">
-  <div class="container mx-auto px-4">
+  <div class="container max-w-7xl mx-auto px-4">
     <!-- Paginacion -->
     <nav class="flex mb-8 text-sm" aria-label="Breadcrumb">
       <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
-          <a href="/" class="text-gray-600 hover:text-red-600">
-            <i class="fas fa-home mr-2"></i>
-            Inicio
+          <a href="/" class="text-gray-600 hover:text-red-600">Inicio
           </a>
         </li>
         <li>
@@ -40,32 +38,24 @@
       </ol>
     </nav>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-start">
       <!-- Product Images -->
       <div class="space-y-4">
         <!-- Main Image -->
-        <div class="relative aspect-square overflow-hidden bg-white rounded-lg border">
+        <div class="relative aspect-square  bg-white rounded-lg border">
+          <div class="p-4 pb-0">
+            <p class="md:text-3xl font-bold text-gray-500 mb-2"><%= product.brand %></p>
+            <h1 class="md:text-3xl font-bold text-gray-700 mb-2 leading-tight"><%= product.name %></h1>
+          </div>
           <img 
             id="main-product-image" 
             src="<%= product.image %>" 
             alt="<%= product.name %>" 
-            class="w-full h-full object-contain p-4"
+            class="w-full h-full object-contain p-0 md:p-4"
           >
-          
-          <% if (product.discount) { %>
-            <div class="absolute top-4 left-4 bg-red-600 text-white text-sm font-bold px-2 py-1 rounded">
-              -<%= product.discount %>%
-            </div>
-          <% } %>
-          
-          <% if (product.isNew) { %>
-            <div class="absolute top-4 right-4 bg-green-500 text-white text-sm font-bold px-2 py-1 rounded">
-              NUEVO
-            </div>
-          <% } %>
         </div>
         
-        <!-- Thumbnail Gallery (si hay imágenes adicionales) -->
+        <!-- Galeria de imagenes (si hay mas adicionales)
         <% if (product.gallery && product.gallery.length > 0) { %>
           <div class="flex space-x-2 overflow-x-auto pb-2">
             <div 
@@ -84,72 +74,50 @@
               </div>
             <% }); %>
           </div>
-        <% } %>
+        <% } %> -->
       </div>
       
-      <!-- Product Info -->
+      <!-- Informacion -->
       <div class="flex flex-col">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2"><%= product.name %></h1>
-        
-        <!-- Ratings (si están disponibles) -->
-        <% if (product.rating) { %>
-          <div class="flex items-center mb-4">
-            <div class="flex text-yellow-400">
-              <% for (let i = 1; i <= 5; i++) { %>
-                <% if (i <= Math.floor(product.rating)) { %>
-                  <i class="fas fa-star"></i>
-                <% } else if (i - 0.5 <= product.rating) { %>
-                  <i class="fas fa-star-half-alt"></i>
-                <% } else { %>
-                  <i class="far fa-star"></i>
-                <% } %>
-              <% } %>
-            </div>
-            <span class="text-sm text-gray-500 ml-2">
-              <%= product.rating %> (<%= product.reviewCount || 0 %> reseñas)
-            </span>
-          </div>
-        <% } %>
-        
         <!-- Price -->
         <div class="mb-6">
-          <% if (product.oldPrice) { %>
-            <p class="text-gray-500 line-through text-lg"><small class="font-bold text-sm">S/ </small><%= product.oldPrice.toFixed(2) %></p>
-          <% } %>
-          <p class="text-3xl font-bold text-red-600"><small class="font-bold text-xl">S/ </small><%= product.price.toFixed(2) %></p>
+          <!-- <% if (product.oldPrice) { %>
+            <p class="text-gray-500 line-through md:text-lg"><small class="font-bold text-sm">S/ </small><%= product.oldPrice.toFixed(2) %></p>
+          <% } %> -->
+          <p class="text-3xl px-2 font-bold text-gray-700"><small class="font-bold text-xl">S/ </small><%= product.price.toFixed(2) %></p>
           
-          <% if (product.discount) { %>
+          <!-- <% if (product.discount) { %>
             <p class="text-sm text-green-600 mt-1">
               Ahorras: $<%= (product.oldPrice - product.price).toFixed(2) %> (<%= product.discount %>%)
             </p>
-          <% } %>
+          <% } %> -->
         </div>
         
-        <!-- Stock Status -->
+        <!-- Stock del Producto -->
         <div class="mb-6">
           <% if (product.stock > 10) { %>
-            <div class="flex items-center text-green-600">
+            <div class="px-2 flex items-center text-green-600">
               <i class="fas fa-check-circle mr-2"></i>
               <span>En stock (<%= product.stock %> disponibles)</span>
             </div>
           <% } else if (product.stock > 0) { %>
-            <div class="flex items-center text-orange-500">
+            <div class="px-2 flex items-center text-orange-500">
               <i class="fas fa-exclamation-circle mr-2"></i>
               <span>¡Quedan pocos! Solo <%= product.stock %> disponibles</span>
             </div>
           <% } else { %>
-            <div class="flex items-center text-red-600">
+            <div class="px-2 flex items-center text-red-600">
               <i class="fas fa-times-circle mr-2"></i>
               <span>Agotado</span>
             </div>
           <% } %>
         </div>
         
-        <!-- Add to Cart Form -->
+        <!-- Cantidad -->
         <form action="/cart/add" method="POST" class="mb-8">
           <input type="hidden" name="productId" value="<%= product.id %>">
           
-          <div class="mb-6">
+          <div class="px-2 mb-6">
             <label for="quantity" class="block text-sm font-medium text-gray-700 mb-2">Cantidad:</label>
             <div class="flex w-full max-w-[180px]">
               <button 
@@ -175,7 +143,8 @@
             </div>
           </div>
           
-          <div class="flex flex-col sm:flex-row gap-4">
+          <!-- Agregar al Carrito -->
+          <div class="flex flex-col sm:flex-row gap-4 px-2">
             <button 
               type="submit" 
               class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-md font-medium transition-colors flex items-center justify-center"
@@ -194,34 +163,6 @@
             </button>
           </div>
         </form>
-        
-        <!-- Product Meta -->
-        <div class="border-t border-gray-200 pt-6 space-y-2 text-sm">
-          <% if (product.sku) { %>
-            <p class="flex">
-              <span class="text-gray-500 w-24">SKU:</span>
-              <span class="text-gray-700"><%= product.sku %></span>
-            </p>
-          <% } %>
-          
-          <% if (product.category) { %>
-            <p class="flex">
-              <span class="text-gray-500 w-24">Categoría:</span>
-              <a href="/products?category=<%= product.categoryId %>" class="text-red-600 hover:underline">
-                <%= product.category %>
-              </a>
-            </p>
-          <% } %>
-          
-          <% if (product.brand) { %>
-            <p class="flex">
-              <span class="text-gray-500 w-24">Marca:</span>
-              <a href="/products?brand=<%= product.brandId %>" class="text-red-600 hover:underline">
-                <%= product.brand %>
-              </a>
-            </p>
-          <% } %>
-        </div>
         
         <!-- Share -->
         <div class="mt-6 flex items-center">
