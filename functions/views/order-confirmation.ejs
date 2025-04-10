@@ -4,33 +4,33 @@
   <div class="container">
     <div class="confirmation-header">
       <i class="fas fa-check-circle"></i>
-      <h2>Thank You for Your Order!</h2>
-      <p>Your order has been placed successfully.</p>
+      <h2>¡Gracias por su pedido!</h2>
+      <p>Su pedido se ha realizado correctamente.</p>
     </div>
     
     <div class="order-details">
       <div class="order-info">
-        <h3>Order Information</h3>
-        <p><strong>Order ID:</strong> <%= order.orderId %></p>
-        <p><strong>Date:</strong> <%= new Date(order.orderDate.toDate()).toLocaleDateString() %></p>
-        <p><strong>Estimated Delivery:</strong> <%= new Date(order.deliveryDate).toLocaleDateString() %></p>
+        <h3>Información del pedido</h3>
+        <p><strong>Número de pedido:</strong> <%= order.orderId %></p>
+        <p><strong>Fecha:</strong> <%= new Date(order.orderDate.toDate()).toLocaleDateString() %></p>
+        <p><strong>Entrega estimada:</strong> <%= new Date(order.deliveryDate).toLocaleDateString() %></p>
       </div>
       
       <div class="shipping-info">
-        <h3>Shipping Address</h3>
+        <h3>Dirección de envío</h3>
         <p><%= order.customer.name %></p>
         <p><%= order.customer.address %></p>
         <p><%= order.customer.city %>, <%= order.customer.zip %></p>
       </div>
       
       <div class="payment-info">
-        <h3>Payment Method</h3>
+        <h3>Método de pago</h3>
         <p><%= order.paymentMethod === 'credit-card' ? 'Credit Card' : 'PayPal' %></p>
       </div>
     </div>
     
     <div class="order-items">
-      <h3>Order Items</h3>
+      <h3>Articulos Ordenados</h3>
       <div class="items-list">
         <% order.items.forEach(item => { %>
           <div class="order-item">
@@ -39,19 +39,19 @@
             </div>
             <div class="item-details">
               <h4><%= item.name %></h4>
-              <p>Qty: <%= item.quantity %></p>
-              <p>$<%= (item.price * item.quantity).toFixed(2) %></p>
+              <p>Cantidad: <%= item.quantity %></p>
+              <p>S/ <%= (item.price * item.quantity).toFixed(2) %></p>
             </div>
           </div>
         <% }); %>
       </div>
       <div class="order-total">
-        <p><strong>Total:</strong> $<%= order.total.toFixed(2) %></p>
+        <p><strong>Total:</strong> S/ <%= order.total.toFixed(2) %></p>
       </div>
     </div>
     
     <div class="confirmation-actions">
-      <a href="/products" class="btn btn-primary">Continue Shopping</a>
+      <a href="/products" class="btn btn-primary">Continuar comprando</a>
     </div>
   </div>
 </section>

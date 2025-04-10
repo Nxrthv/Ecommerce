@@ -14,6 +14,7 @@ const admin = require("firebase-admin");
 // de la cuenta de servicio de Firebase y la URL de la base de datos
 const serviceAccount = require("./fir-d3539-firebase-adminsdk-duevp-dea02c0f78.json");
 const { user } = require("firebase-functions/v1/auth");
+const { title } = require("process");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://fir-d3539-default-rtdb.firebaseio.com/",
@@ -507,62 +508,149 @@ app.get("/checkout", (req, res) => {
 
 app.post("/checkout", async (req, res) => {
   try {
-    const {name, email, address, city, zip, paymentMethod} = req.body;
+    const { identification, delivery, payment } = req.body;
 
-    // Fecha estimada de entrega (7 días)
+    // Validar datos esenciales
+    if (
+      !identification?.email ||
+      !identification?.firstName ||
+      !identification?.lastName ||
+      !delivery?.deliveryMethod ||
+      !payment?.paymentMethod
+    ) {
+      return res.status(400).json({ message: "Faltan campos obligatorios." });
+    }
+
+    const fullName = `${identification.firstName} ${identification.lastName}`;
     const deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + 7);
 
-    // Guardar pedido en Firestore
-    const orderRef = await db.collection("orders").add({
+    const newOrder = {
       customer: {
-        name,
-        email,
-        address,
-        city,
-        zip,
+        name: fullName,
+        email: identification.email,
+        phone: identification.phone || "",
+        dni: identification.dni || "",
       },
+      delivery,
+      payment,
       items: req.session.cart,
-      total: req.session.cart.reduce((total, item) => total + item.price * item.quantity, 0),
-      paymentMethod,
-      status: "pending",
+      total: req.session.cart.reduce((t, i) => t + i.price * i.quantity, 0),
+      status: "Procesado",
       orderDate: admin.firestore.FieldValue.serverTimestamp(),
-      deliveryDate: deliveryDate,
+      deliveryDate,
       orderId: uuidv4().substring(0, 8).toUpperCase(),
-    });
+    };
 
-    // Limpiar carrito de sesión y Firestore
+    const orderRef = await db.collection("orders").add(newOrder);
+
     req.session.cart = [];
-    await db.collection("carts").doc(req.session.user.uid).delete();
 
-    res.redirect(`/order-confirmation/${orderRef.id}`);
+    // Limpiar carrito en Firestore si hay sesión iniciada
+    if (req.session.user?.uid) {
+      await db.collection("carts").doc(req.session.user.uid).set({ items: [] });
+    }
+
+    return res.redirect(`/order-confirmation/${orderRef.id}`);
   } catch (error) {
-    console.error("Error processing order:", error);
-    res.status(500).render("error", {message: "Error processing order"});
+    console.error("Error procesando la orden:", error);
+    res.status(500).json({ message: "Error al procesar la orden" });
   }
 });
 
 app.get("/order-confirmation/:id", async (req, res) => {
+  const orderId = req.params.id;
+
+  if (!orderId) {
+    return res.status(400).render("reusables/error-404", { message: "ID de pedido no proporcionado." });
+  }
+
+  try {
+    const orderDoc = await db.collection("orders").doc(orderId).get();
+
+    if (!orderDoc.exists) {
+      return res.status(404).render("reusables/error-404", { message: "Pedido no encontrado" });
+    }
+
+    const order = {
+      id: orderDoc.id,
+      ...orderDoc.data()
+    };
+
+    // ✅ Limpia el carrito después de confirmar que el pedido existe
+    req.session.cart = [];
+
+    if (req.session.user) {
+      const userId = req.session.user.uid;
+      await db.collection("carts").doc(userId).set({ items: [] });
+    }
+
+    res.render("order-confirmation", {
+      title: "Confirmación de Pedido",
+      order,
+      cartCount: 0,
+    });
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    res.status(500).render("reusables/error-404", { message: "Error fetching order" });
+  }
+});
+
+app.get("/orders", async (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/auth");
+  }
+
+  try {
+    const snapshot = await db
+      .collection("orders")
+      .where("customer.email", "==", req.session.user.email)
+      .orderBy("orderDate", "desc")
+      .get();
+
+    const orders = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    res.render("orders-list", {
+      title: "Mis Pedidos",
+      orders,
+    });
+  } catch (error) {
+    console.error("Error al obtener pedidos:", error);
+    res.status(500).render("reusables/error-404", {
+      message: "No se pudieron cargar tus pedidos.",
+    });
+  }
+});
+
+app.get("/orders/:id", async (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/auth");
+  }
+
   try {
     const orderDoc = await db.collection("orders").doc(req.params.id).get();
 
     if (!orderDoc.exists) {
-      return res.status(404).render("error", {message: "Order not found"});
+      return res.status(404).render("error", { message: "Pedido no encontrado" });
     }
 
     const order = {
       id: orderDoc.id,
       ...orderDoc.data(),
     };
-
-    res.render("order-confirmation", {
-      title: "Confirmación de Pedido",
+    
+    res.render("orders-view", {
+      title: "Mis Pedidos",
       order,
-      cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
-    });
+    });       
   } catch (error) {
-    console.error("Error fetching order:", error);
-    res.status(500).render("error", {message: "Error fetching order"});
+    console.error("Error al obtener pedido:", error);
+    res.status(500).render("reusables/error-404", {
+      message: "No se pudo cargar el pedido.",
+    });
   }
 });
 
@@ -716,11 +804,11 @@ app.post("/admin/product/delete/:id", async (req, res) => {
   }
 });
 
-// if (require.main === module) {
-//   const port = process.env.PORT || 4444;
-//   app.listen(port, () => {
-//     console.log(`Servidor local escuchando en el puerto ${port}`);
-//   });
-// }
+if (require.main === module) {
+  const port = process.env.PORT || 4444;
+  app.listen(port, () => {
+    console.log(`Servidor local escuchando en el puerto ${port}`);
+  });
+}
 
 module.exports = app;

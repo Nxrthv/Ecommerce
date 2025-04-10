@@ -1,0 +1,296 @@
+<%- include('reusables/nav') %>
+
+<div class="bg-gray-100 py-8">
+  <div class="container max-w-6xl mx-auto px-4">
+    <!-- orderss Header -->
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-800 mb-2">Mis Pedidos</h1>
+          <p class="text-gray-600">Consulta y gestiona todos tus pedidos</p>
+        </div>
+        <div class="flex items-center">
+          <div class="relative">
+            <input 
+              type="text" 
+              placeholder="Buscar pedido..." 
+              class="w-full px-4 py-2 pr-10 borders borders-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <i class="fas fa-search text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- orderss Filter -->
+    <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+      <div class="flex flex-wrap items-center gap-4">
+        <div class="font-medium text-gray-700">Filtrar por:</div>
+        
+        <div class="flex-1 flex flex-wrap gap-2">
+          <button class="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium">
+            Todos
+          </button>
+          <button class="px-4 py-2 bg-white borders borders-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50">
+            En proceso
+          </button>
+          <button class="px-4 py-2 bg-white borders borders-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50">
+            Enviados
+          </button>
+          <button class="px-4 py-2 bg-white borders borders-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50">
+            Entregados
+          </button>
+          <button class="px-4 py-2 bg-white borders borders-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50">
+            Cancelados
+          </button>
+        </div>
+        
+        <div>
+          <select class="px-4 py-2 borders borders-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+            <option value="newest">Más recientes</option>
+            <option value="oldest">Más antiguos</option>
+            <option value="highest">Mayor precio</option>
+            <option value="lowest">Menor precio</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <!-- orderss List -->
+    <% if (orders && orders.length > 0) { %>
+      <div class="space-y-4">
+        <% orders.forEach(orders => { %>
+          <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+            <!-- orders Header -->
+            <div class="p-4 md:p-6 borders-b borders-gray-200">
+              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                  <div class="flex items-center gap-3 mb-2">
+                    <h2 class="text-lg font-bold text-gray-800">Pedido #<%= orders.id %></h2>
+                    
+                    <!-- orders Status Badge -->
+                    <% if (orders.status === 'Procesado') { %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        En proceso
+                      </span>
+                    <% } else if (orders.status === 'Enviado') { %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                        Enviado
+                      </span>
+                    <% } else if (orders.status === 'Entregado') { %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Entregado
+                      </span>
+                    <% } else if (orders.status === 'Cancelado') { %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                        Cancelado
+                      </span>
+                    <% } else { %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                        <%= orders.status %>
+                      </span>
+                    <% } %>
+                  </div>
+                  
+                  <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600">
+                    <div class="flex items-center">
+                      <i class="far fa-calendar-alt mr-1"></i>
+                      <span><%= new Date(orders.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+                    </div>
+                    <div class="flex items-center">
+                      <i class="fas fa-box mr-1"></i>
+                      <span><%= orders.items.length %> productos</span>
+                    </div>
+                    <div class="flex items-center font-medium">
+                      <i class="fas fa-money-bill-wave mr-1"></i>
+                      <span>Total: S/ <%= orders.total.toFixed(2) %></span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-2">
+                  <a 
+                    href="/orders/<%= orders.id %>" 
+                    class="inline-flex items-center justify-center px-4 py-2 borders borders-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700"
+                  >
+                    Ver detalles
+                  </a>
+                  
+                  <% if (orders.status === 'processing') { %>
+                    <button 
+                      class="inline-flex items-center justify-center px-4 py-2 borders borders-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                    >
+                      Cancelar pedido
+                    </button>
+                  <% } %>
+                  
+                  <% if (orders.status === 'shipped' && orders.trackingNumber) { %>
+                    <a 
+                      href="#" 
+                      class="inline-flex items-center justify-center px-4 py-2 borders borders-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                    >
+                      <i class="fas fa-map-marker-alt mr-1"></i>
+                      Seguir envío
+                    </a>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+            
+            <!-- orders Products Preview -->
+            <div class="p-4 md:p-6">
+              <div class="flex flex-col md:flex-row gap-4">
+                <!-- Product Images -->
+                <div class="flex flex-wrap gap-2">
+                  <% 
+                    // Show up to 4 product images
+                    const previewItems = orders.items.slice(0, 4);
+                    const remainingItems = orders.items.length > 4 ? orders.items.length - 4 : 0;
+                  %>
+                  
+                  <% previewItems.forEach(item => { %>
+                    <div class="relative w-16 h-16 bg-gray-100 rounded-md overflow-hidden">
+                      <img 
+                        src="<%= item.image %>" 
+                        alt="<%= item.name %>" 
+                        class="w-full h-full object-contain"
+                      >
+                    </div>
+                  <% }); %>
+                  
+                  <% if (remainingItems > 0) { %>
+                    <div class="relative w-16 h-16 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center">
+                      <span class="text-sm font-medium text-gray-700">+<%= remainingItems %></span>
+                    </div>
+                  <% } %>
+                </div>
+                
+                <!-- Delivery Info -->
+                <div class="flex-1 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div>
+                    <h3 class="text-sm font-medium text-gray-900 mb-1">Método de entrega</h3>
+                    <p class="text-sm text-gray-600">
+                      <%= orders.deliveryMethod === 'home' ? 'Envío a domicilio' : 'Recojo en tienda' %>
+                    </p>
+                    
+                    <% if (orders.estimatedDelivery) { %>
+                      <p class="text-sm text-gray-600 mt-1">
+                        <% if (orders.status === 'delivered') { %>
+                          Entregado el <%= new Date(orders.deliveryDate).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                        <% } else { %>
+                          Entrega estimada: <%= new Date(orders.estimatedDelivery).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                        <% } %>
+                      </p>
+                    <% } %>
+                  </div>
+                  
+                  <div>
+                    <h3 class="text-sm font-medium text-gray-900 mb-1">Método de pago</h3>
+                    <p class="text-sm text-gray-600">
+                      <% if (orders.paymentMethod === 'card') { %>
+                        Tarjeta terminada en <%= orders.cardLastFour || '****' %>
+                      <% } else if (orders.paymentMethod === 'yape') { %>
+                        Yape
+                      <% } else if (orders.paymentMethod === 'plin') { %>
+                        Plin
+                      <% } else { %>
+                        <%= orders.paymentMethod %>
+                      <% } %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- orders Actions -->
+            <div class="bg-gray-50 px-4 py-3 flex flex-wrap gap-3">
+              <% if (orders.status === 'delivered') { %>
+                <button type="button" class="text-sm text-blue-600 hover:text-blue-800 flex items-center">
+                  <i class="fas fa-star mr-1"></i>
+                  Calificar productos
+                </button>
+              <% } %>
+              
+              <button type="button" class="text-sm text-blue-600 hover:text-blue-800 flex items-center">
+                <i class="fas fa-redo mr-1"></i>
+                Comprar de nuevo
+              </button>
+              
+              <button type="button" class="text-sm text-blue-600 hover:text-blue-800 flex items-center">
+                <i class="fas fa-download mr-1"></i>
+                Descargar factura
+              </button>
+              
+              <button type="button" class="text-sm text-blue-600 hover:text-blue-800 flex items-center">
+                <i class="fas fa-headset mr-1"></i>
+                Ayuda con este pedido
+              </button>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="mt-6 flex items-center justify-between">
+        <div class="flex-1 flex justify-between sm:hidden">
+          <a href="#" class="relative inline-flex items-center px-4 py-2 borders borders-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+            Anterior
+          </a>
+          <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 borders borders-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+            Siguiente
+          </a>
+        </div>
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+          <div>
+            <p class="text-sm text-gray-700">
+              Mostrando <span class="font-medium">1</span> a <span class="font-medium"><%= Math.min(orders.length, 10) %></span> de <span class="font-medium"><%= orders.length %></span> resultados
+            </p>
+          </div>
+          <div>
+            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+              <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md borders borders-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">Anterior</span>
+                <i class="fas fa-chevron-left text-xs"></i>
+              </a>
+              <a href="#" aria-current="page" class="z-10 bg-red-50 borders-red-500 text-red-600 relative inline-flex items-center px-4 py-2 borders text-sm font-medium">
+                1
+              </a>
+              <a href="#" class="bg-white borders-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 borders text-sm font-medium">
+                2
+              </a>
+              <a href="#" class="bg-white borders-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 borders text-sm font-medium">
+                3
+              </a>
+              <span class="relative inline-flex items-center px-4 py-2 borders borders-gray-300 bg-white text-sm font-medium text-gray-700">
+                ...
+              </span>
+              <a href="#" class="bg-white borders-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 borders text-sm font-medium">
+                8
+              </a>
+              <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md borders borders-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">Siguiente</span>
+                <i class="fas fa-chevron-right text-xs"></i>
+              </a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    <% } else { %>
+      <!-- Empty State -->
+      <div class="bg-white rounded-lg shadow-sm p-8 text-center">
+        <div class="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+          <i class="fas fa-shopping-bag text-gray-400 text-2xl"></i>
+        </div>
+        <h2 class="text-xl font-bold text-gray-800 mb-2">No tienes pedidos</h2>
+        <p class="text-gray-600 mb-6">Parece que aún no has realizado ningún pedido.</p>
+        <a href="/products" class="inline-flex items-center justify-center px-4 py-2 borders borders-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700">
+          Explorar productos
+        </a>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('reusables/footer') %>
