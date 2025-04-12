@@ -1,2 +1,3 @@
-node_modules
-fir-d3539-firebase-adminsdk-duevp-dea02c0f78.json
+node_modules/
+*.local
+functions/*.json
