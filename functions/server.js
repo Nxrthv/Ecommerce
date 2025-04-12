@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -12,7 +10,7 @@ const admin = require("firebase-admin");
 
 // Inicializar Firebase Admin, definiendo la ruta del archivo .json con las credenciales
 // de la cuenta de servicio de Firebase y la URL de la base de datos
-const serviceAccount = require("./fir-d3539-firebase-adminsdk-duevp-dea02c0f78.json");
+const serviceAccount = require("./fir-d3539-firebase-adminsdk-duevp-421d2d4301.json");
 const { user } = require("firebase-functions/v1/auth");
 const { title } = require("process");
 admin.initializeApp({
@@ -67,7 +65,7 @@ function verificarAdmin(req, res, next) {
 //   next();
 // });
 
-// Shopping cart middleware
+// Middelware para cargar el carrito con verificacion de usuario
 app.use((req, res, next) => {
   if (!req.session.cart) {
     req.session.cart = [];
@@ -75,21 +73,21 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rutas
+// Localizacion de las vistas con Path
 app.use((req, res, next) => {
   res.locals.currentPath = req.path;
   res.locals.user = req.session.user || null;
   next();
 });
 
-// Ruta de Error 404
+// Error 404
 app.use("/error", (req, res) => {
   res.render("reusables/error-404", {
     title: "Error 404"
   });
 });
 
-// Ruta principal
+// Index.ejs
 app.get("/", async (req, res) => {
   try {
     // Obtenemos hasta 8 productos de la categoria "products"
@@ -129,7 +127,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-// Rutas de productos
+// Productos por categoria
 app.get("/products", async (req, res) => {
   try {
     // Referencia inicial a la colección de productos
@@ -181,6 +179,7 @@ app.get("/products", async (req, res) => {
   }
 });
 
+// Productos individuales
 app.get("/product/:id", async (req, res) => {
   try {
     const productDoc = await db.collection("products").doc(req.params.id).get();
@@ -205,12 +204,15 @@ app.get("/product/:id", async (req, res) => {
   }
 });
 
-// Rutas del carrito
-app.use(async (req, res, next) => {
+// Carrito
+app.get("/cart", requireAuth, async (req, res) => {
+
+  // Verificamos el inicio de sesion de usuario
   if (req.session.user && req.session.user.id) {
     const userId = req.session.user.id;
 
     try {
+      // Obtenemos el carrito del usuario
       const cartDoc = await db.collection("carts").doc(userId).get();
       req.session.cart = cartDoc.exists ? cartDoc.data().items : [];
     } catch (error) {
@@ -218,26 +220,12 @@ app.use(async (req, res, next) => {
       req.session.cart = [];
     }
   } else {
+    // Si no hay usuario, creamos un carrito vacío
     req.session.cart = req.session.cart || [];
   }
 
-  next();
-});
-
-app.get("/cart", requireAuth, async (req, res) => {
-  const user = req.session.user;
-
-  if (!user || !user.id) {
-    console.error("ID de usuario no disponible en la sesión");
-    return res.redirect("/auth");
-  }
-
   try {
-    // Si quieres cargar el carrito desde Firestore
-    const carritoDoc = await db.collection("carritos").doc(user.id).get();
-
-    const cartData = carritoDoc.exists ? carritoDoc.data().items : [];
-
+    // Obtenemos los productos del carrito
     res.render("cart", {
       title: "Carrito de Compras",
       cart: req.session.cart,
@@ -250,28 +238,29 @@ app.get("/cart", requireAuth, async (req, res) => {
   }
 });
 
+// Agregar al Carrito
 app.post("/cart/add", async (req, res) => {
   try {
+    // Obtenemos el producto del id de la coleccion "products" de firebase y la cantidad
     const {productId, quantity} = req.body;
     const productDoc = await db.collection("products").doc(productId).get();
 
-    if (!productDoc.exists) {
-      return res.status(404).json({error: "Product not found"});
-    }
+    // if (!productDoc.exists) {
+    //   return res.status(404).json({error: "Product not found"});
+    // }
 
+    // Verificamos si el producto ya está en el carrito
     const product = {
       id: productDoc.id,
       ...productDoc.data(),
     };
-
-    // Check if product already in cart
     const existingItemIndex = req.session.cart.findIndex((item) => item.id === productId);
 
     if (existingItemIndex > -1) {
-      // Update quantity
+      // Actualizar cantidad
       req.session.cart[existingItemIndex].quantity += Number.parseInt(quantity);
     } else {
-      // Add new item
+      // Agregar nuevo producto al carrito
       req.session.cart.push({
         id: product.id,
         name: product.name,
@@ -281,16 +270,15 @@ app.post("/cart/add", async (req, res) => {
         quantity: Number.parseInt(quantity),
       });
     }
-
+    
+    // Guardamos los cambios en la sesión
     if (req.session.user && req.session.user.id) {
       const userId = req.session.user.id;
       await db.collection("carts").doc(userId).set({
         items: req.session.cart,
       });
     }
-
-    console.log("Carrito actualizado:", req.session.cart);
-
+    // console.log("Carrito actualizado:", req.session.cart);
     res.redirect("/cart");
   } catch (error) {
     console.error("Error al agregar al carrito:", error);
@@ -298,24 +286,24 @@ app.post("/cart/add", async (req, res) => {
   }
 });
 
+// Actualizar cantidad de un producto en el carrito
 app.post("/cart/update", async (req, res) => {
+  // Actualizar cantidad de un producto en el carrito
   const { productId, quantity } = req.body;
-
-  if (!req.session.cart) {
-    req.session.cart = [];
-  }
-
   const itemIndex = req.session.cart.findIndex((item) => item.id === productId);
 
+  // Verificamos que el algun producto exista en el carrito
   if (itemIndex > -1) {
+    // Actualizar cantidad
     if (Number.parseInt(quantity) > 0) {
       req.session.cart[itemIndex].quantity = Number.parseInt(quantity);
     } else {
+      // Desplazar el indice si se elimina el producto
       req.session.cart.splice(itemIndex, 1);
     }
   }
 
-  // Si hay un usuario logueado, actualiza Firestore
+  // Actualizar en Firestore
   if (req.session.user && req.session.user.id) {
     try {
       const userId = req.session.user.id;
@@ -330,16 +318,14 @@ app.post("/cart/update", async (req, res) => {
   res.redirect("/cart");
 });
 
+// Eliminar un producto del carrito
 app.post("/cart/remove", async (req, res) => {
   const { productId } = req.body;
-
-  // Asegura que el carrito exista
-  req.session.cart = req.session.cart || [];
 
   // Remueve el producto del carrito de la sesión
   req.session.cart = req.session.cart.filter((item) => item.id !== productId);
 
-  // Si el usuario está autenticado, también actualiza el carrito en Firestore
+  // Aca también se actualiza el carrito en Firestore
   if (req.session.user && req.session.user.id) {
     try {
       const userId = req.session.user.id;
@@ -351,62 +337,20 @@ app.post("/cart/remove", async (req, res) => {
     }
   }
 
+  // Recarga página del carrito
   res.redirect("/cart");
 });
 
 // Rutas de verificacion
-
 //Usuarios
 app.get("/auth", (req, res) => {
   res.render("auth", {
-    title: "Bienvenid@",
+    title: "Iniciar Sesión",
     user: req.session.user || null,
   });
 });
 
-app.get("/account", requireAuth, (req, res) => {
-  res.render("account", {
-    user: req.session.user,
-    title: "Mi Cuenta",
-  });
-});
-
-app.get("/account/orders", async (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ error: "No autorizado" });
-  }
-
-  try {
-    const ordersSnapshot = await db
-      .collection("orders")
-      .where("customer.uid", "==", req.session.user.uid)
-      .orderBy("orderDate", "desc")
-      .get();
-
-    const orders = [];
-    ordersSnapshot.forEach((doc) => {
-      orders.push({
-        id: doc.id,
-        ...doc.data(),
-      });
-    });
-
-    res.json(orders);
-  } catch (error) {
-    console.error("Error al obtener pedidos:", error);
-    res.status(500).json({ error: "Error al obtener pedidos" });
-  }
-});
-
-app.post("/auth/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error("Error al cerrar sesión:", err);
-    }
-    res.redirect("/");
-  });
-});
-
+// Crear cuenta
 app.post("/auth/signup", async (req, res) => {
 
   const { name, email, password } = req.body;
@@ -418,7 +362,7 @@ app.post("/auth/signup", async (req, res) => {
       return res.status(400).send("Este correo ya está registrado.");
     }
 
-    // Encriptar la contraseña
+    // Hashear contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Crear nuevo usuario
@@ -432,13 +376,14 @@ app.post("/auth/signup", async (req, res) => {
     // Guardar sesión
     req.session.user = { name, email };
 
-    res.redirect("/");
+    res.redirect("/cart");
   } catch (error) {
     console.error("Error en el registro:", error);
     res.status(500).send("Error al registrar usuario");
   }
 });
 
+// Iniciar sesión
 app.post("/auth/signin", async (req, res) => {
   const { email, password } = req.body;
 
@@ -487,18 +432,57 @@ app.post("/auth/signin", async (req, res) => {
   }
 });
 
-//Pedidos
-app.get("/checkout", (req, res) => {
+// Cerrar sesion
+app.post("/auth/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error al cerrar sesión:", err);
+    }
+    res.redirect("/");
+  });
+});
+
+// obtener pedidos del usuario autentificado
+app.get("/auth/orders", async (req, res) => {
   if (!req.session.user) {
-    return res.redirect("/auth"); // Redirige al login si no hay sesión
+    return res.status(401).json({ error: "No autorizado" });
   }
 
+  try {
+    // Obtener pedidos del usuario
+    const ordersSnapshot = await db
+      .collection("orders")
+      .where("customer.uid", "==", req.session.user.uid)
+      .orderBy("orderDate", "desc")
+      .get();
+
+    // Crear array con el contenido
+    const orders = [];
+    ordersSnapshot.forEach((doc) => {
+      orders.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+
+    res.json(orders);
+  } catch (error) {
+    console.error("Error al obtener pedidos:", error);
+    res.status(500).json({ error: "Error al obtener pedidos" });
+  }
+});
+
+//Ordenes
+app.get("/checkout", (req, res) => {
+  // Obtener productos del carrito
   if (!req.session.cart || req.session.cart.length === 0) {
     return res.redirect("/cart");
   }
-
+  
+  // Cargar vista checkout.ejs con los productos del carrito
   res.render("checkout", {
     title: "Verificar Pedido",
+    email: req.session.user.email,
     cart: req.session.cart,
     total: req.session.cart.reduce((total, item) => total + item.price * item.quantity, 0),
     cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
@@ -508,6 +492,7 @@ app.get("/checkout", (req, res) => {
 
 app.post("/checkout", async (req, res) => {
   try {
+    // Obtener datos del usuario
     const { identification, delivery, payment } = req.body;
 
     // Validar datos esenciales
@@ -525,6 +510,7 @@ app.post("/checkout", async (req, res) => {
     const deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + 7);
 
+    // Crear un nuevo pedido
     const newOrder = {
       customer: {
         name: fullName,
@@ -542,15 +528,18 @@ app.post("/checkout", async (req, res) => {
       orderId: uuidv4().substring(0, 8).toUpperCase(),
     };
 
+    // Registrarlo en la coleccion orders 
     const orderRef = await db.collection("orders").add(newOrder);
 
-    req.session.cart = [];
+    // Vaciar el carrito
+    req.session.cart = [""];
 
-    // Limpiar carrito en Firestore si hay sesión iniciada
+    // Limpiar carrito en Firestore
     if (req.session.user?.uid) {
       await db.collection("carts").doc(req.session.user.uid).set({ items: [] });
     }
 
+    // Enviar a vista de confirmación
     return res.redirect(`/order-confirmation/${orderRef.id}`);
   } catch (error) {
     console.error("Error procesando la orden:", error);
@@ -561,10 +550,12 @@ app.post("/checkout", async (req, res) => {
 app.get("/order-confirmation/:id", async (req, res) => {
   const orderId = req.params.id;
 
+  // Obtener id del pedido
   if (!orderId) {
     return res.status(400).render("reusables/error-404", { message: "ID de pedido no proporcionado." });
   }
 
+  // Obtener contenido de la coleccion orders con el id del pedido
   try {
     const orderDoc = await db.collection("orders").doc(orderId).get();
 
@@ -577,14 +568,7 @@ app.get("/order-confirmation/:id", async (req, res) => {
       ...orderDoc.data()
     };
 
-    // ✅ Limpia el carrito después de confirmar que el pedido existe
-    req.session.cart = [];
-
-    if (req.session.user) {
-      const userId = req.session.user.uid;
-      await db.collection("carts").doc(userId).set({ items: [] });
-    }
-
+    // Mostrar la vista con el contenido obtenido
     res.render("order-confirmation", {
       title: "Confirmación de Pedido",
       order,
@@ -596,12 +580,11 @@ app.get("/order-confirmation/:id", async (req, res) => {
   }
 });
 
+// Ordenes por usuarios
 app.get("/orders", async (req, res) => {
-  if (!req.session.user) {
-    return res.redirect("/auth");
-  }
 
   try {
+    //  Obtener id del usuario
     const snapshot = await db
       .collection("orders")
       .where("customer.email", "==", req.session.user.email)

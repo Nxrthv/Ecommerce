@@ -13,19 +13,19 @@
         <h3>Información del pedido</h3>
         <p><strong>Número de pedido:</strong> <%= order.orderId %></p>
         <p><strong>Fecha:</strong> <%= new Date(order.orderDate.toDate()).toLocaleDateString() %></p>
-        <p><strong>Entrega estimada:</strong> <%= new Date(order.deliveryDate).toLocaleDateString() %></p>
+        <p><strong>Entrega estimada:</strong> 7 dias a partir del pago del pedido</p>
       </div>
       
       <div class="shipping-info">
         <h3>Dirección de envío</h3>
         <p><%= order.customer.name %></p>
-        <p><%= order.customer.address %></p>
-        <p><%= order.customer.city %>, <%= order.customer.zip %></p>
+        <p><%= order.customer.phone %></p>
+        <p><%= order.delivery.storeLocation %></p>
       </div>
       
       <div class="payment-info">
         <h3>Método de pago</h3>
-        <p><%= order.paymentMethod === 'credit-card' ? 'Credit Card' : 'PayPal' %></p>
+        <p class="uppercase"><%= order.payment.paymentMethod %></p>
       </div>
     </div>
     
