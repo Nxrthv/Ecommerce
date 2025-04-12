@@ -7,15 +7,16 @@ require ("dotenv").config();
 
 const session = require("express-session");
 const admin = require("firebase-admin");
+// Se importa Firebase Functions
+const functions = require("firebase-functions");
 
 // Inicializar Firebase Admin, definiendo la ruta del archivo .json con las credenciales
 // de la cuenta de servicio de Firebase y la URL de la base de datos
-const serviceAccount = require("./fir-d3539-firebase-adminsdk-duevp-f032f42cd2.json");
+const serviceAccount = require("./fir-d3539-firebase-adminsdk-duevp-29d56d179d.json");
 const { user } = require("firebase-functions/v1/auth");
 const { title } = require("process");
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://fir-d3539-default-rtdb.firebaseio.com/",
+  credential: admin.credential.cert(serviceAccount)
 });
 
 const db = admin.firestore();
@@ -816,11 +817,15 @@ app.post("/admin/product/delete/:id", async (req, res) => {
   }
 });
 
-if (require.main === module) {
-  const port = process.env.PORT || 4444;
-  app.listen(port, () => {
-    console.log(`Servidor local escuchando en el puerto ${port}`);
-  });
-}
+// if (require.main === module) {
+//   const port = process.env.PORT || 4444;
+//   app.listen(port, () => {
+//     console.log(`Servidor local escuchando en el puerto ${port}`);
+//   });
+// }
 
-module.exports = app;
+// Expone el servidor como una función HTTP llamada app para Firebase
+exports.app = functions.https.onRequest(app);
+
+//Comando para desplegar manualmente en Firebase
+//firebase deploy --only "functions,hosting"
