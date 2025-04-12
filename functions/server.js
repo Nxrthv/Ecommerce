@@ -10,7 +10,7 @@ const admin = require("firebase-admin");
 
 // Inicializar Firebase Admin, definiendo la ruta del archivo .json con las credenciales
 // de la cuenta de servicio de Firebase y la URL de la base de datos
-const serviceAccount = require("./fir-d3539-firebase-adminsdk-duevp-421d2d4301.json");
+const serviceAccount = require("./fir-d3539-firebase-adminsdk-duevp-f032f42cd2.json");
 const { user } = require("firebase-functions/v1/auth");
 const { title } = require("process");
 admin.initializeApp({
@@ -123,7 +123,7 @@ app.get("/", async (req, res) => {
     });
   } catch (error) {
     console.error("Error al obtener los datos:", error);
-    res.status(500).render("error", {message: "Error al obtener los datos"});
+    res.status(500).render("reusables/error-404", {message: "Error al obtener los datos"});
   }
 });
 
@@ -581,7 +581,7 @@ app.get("/order-confirmation/:id", async (req, res) => {
 });
 
 // Ordenes por usuarios
-app.get("/orders", async (req, res) => {
+app.get("/user/orders", async (req, res) => {
 
   try {
     //  Obtener id del usuario
@@ -608,7 +608,7 @@ app.get("/orders", async (req, res) => {
   }
 });
 
-app.get("/orders/:id", async (req, res) => {
+app.get("/user/orders/:id", async (req, res) => {
   if (!req.session.user) {
     return res.redirect("/auth");
   }
@@ -634,6 +634,35 @@ app.get("/orders/:id", async (req, res) => {
     res.status(500).render("reusables/error-404", {
       message: "No se pudo cargar el pedido.",
     });
+  }
+});
+
+// Productos de usuarios
+app.get("/user/products", async (req, res) => {
+  res.render("reusables/user-products", {
+    title: "Mis Productos",
+  })
+});
+
+app.post("/user/products/add", async (req, res) => {
+  const { name, price, brand, description, image, stock } = req.body;
+
+  try {
+    await db.collection("userProducts").add({
+      name,
+      price: Number(price),
+      brand,
+      description,
+      image,
+      stock: Number(stock),
+      ownerId: req.session.user.uid,
+      createdAt: admin.firestore.FieldValue.serverTimestamp()
+    });
+
+    res.redirect("/reusables/user-products");
+  } catch (error) {
+    console.error("Error al agregar producto del usuario:", error);
+    res.status(500).send("Error al publicar el producto");
   }
 });
 

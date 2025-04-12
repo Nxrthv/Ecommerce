@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><% title %></title>
+</head>
+<body>
+    <form action="/user/products/add" method="POST">
+        <input type="text" name="name" placeholder="Nombre del producto" required>
+        <input type="number" name="price" placeholder="Precio" required>
+        <input type="text" name="brand" placeholder="Marca" required>
+        <textarea name="description" placeholder="Descripción"></textarea>
+        <input type="text" name="image" placeholder="URL de imagen" required>
+        <input type="number" name="stock" placeholder="Stock disponible" required>
+        <button type="submit">Publicar producto</button>
+      </form>
+      
+</body>
+</html>
