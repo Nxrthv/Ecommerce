@@ -1,20 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><% title %></title>
+    <title>GEN Z - <%= title %></title>
 </head>
-<body>
-    <form action="/user/products/add" method="POST">
-        <input type="text" name="name" placeholder="Nombre del producto" required>
-        <input type="number" name="price" placeholder="Precio" required>
-        <input type="text" name="brand" placeholder="Marca" required>
-        <textarea name="description" placeholder="Descripción"></textarea>
-        <input type="text" name="image" placeholder="URL de imagen" required>
-        <input type="number" name="stock" placeholder="Stock disponible" required>
-        <button type="submit">Publicar producto</button>
-      </form>
-      
+
+<body class="bg-gray-100">
+    <%- include('nav') %>
+
+        <div class="container max-w-6xl mx-auto px-4 py-8">
+            <!-- Page Header -->
+            <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Publicar un Producto</h1>
+                        <p class="text-gray-600 mt-1">Completa la información para publicar tu producto en el
+                            marketplace</p>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-info-circle text-red-500 mr-2"></i>
+                            <span>Los campos marcados con <span class="text-red-500">*</span> son obligatorios</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Container -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div class="p-6 border-b border-gray-200">
+                    <h2 class="text-lg font-medium text-gray-800">Información del Producto</h2>
+                    <p class="text-sm text-gray-500 mt-1">Proporciona los detalles básicos de tu producto</p>
+                </div>
+
+                <form action="/user/products/add" method="POST" enctype="multipart/form-data" class="p-6">
+                    <!-- Form Sections -->
+                    <div class="space-y-8">
+                        <!-- Basic Information -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="col-span-2">
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Nombre del Producto <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="name" name="name"
+                                    placeholder="Ej: Smartphone Samsung Galaxy S21 128GB" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                <p class="mt-1 text-xs text-gray-500">Máximo 120 caracteres. Incluye características
+                                    clave en el título.</p>
+                            </div>
+
+                            <div>
+                                <label for="category" class="block text-sm font-medium text-gray-700 mb-1">
+                                  Categoría <span class="text-red-500">*</span>
+                                </label>
+                                <select id="category" name="category" required
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                  <option value="">Seleccionar categoría</option>
+                              
+                                  <% categories.forEach(cat => { %>
+                                    <option value="<%= cat.id %>"><%= cat.name %></option>
+                                  <% }) %>
+                                </select>
+                              </div>
+
+                            <div>
+                                <label for="brand" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Marca <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="brand" name="brand" placeholder="Ej: Samsung, Apple, Nike"
+                                    required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                            </div>                             
+                        </div>
+
+                        <!-- Pricing and Inventory -->
+                        <div class="border-t border-gray-200 pt-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-4">Precio e Inventario</h3>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <label for="price" class="block text-sm font-medium text-gray-700 mb-1">
+                                        Precio <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="relative">
+                                        <div
+                                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500">S/</span>
+                                        </div>
+                                        <input type="number" id="price" name="price" placeholder="0.00" step="0.01"
+                                            min="0" required
+                                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="discount" class="block text-sm font-medium text-gray-700 mb-1">
+                                      Descuento (%) <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="number" id="discount" name="discount" placeholder="Ej: 15" min="0" max="100" required
+                                      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                </div>  
+
+                                <div>
+                                    <label for="stock" class="block text-sm font-medium text-gray-700 mb-1">
+                                        Stock Disponible <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="number" id="stock" name="stock" placeholder="Cantidad disponible"
+                                        min="1" required
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Description -->
+                        <div class="border-t border-gray-200 pt-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-4">Descripción del Producto</h3>
+
+                            <div>
+                                <label for="description" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Descripción Detallada <span class="text-red-500">*</span>
+                                </label>
+                                <textarea id="description" name="description" rows="6"
+                                    placeholder="Describe tu producto con detalle. Incluye características, beneficios, materiales, dimensiones y cualquier otra información relevante."
+                                    required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"></textarea>
+                                <p class="mt-1 text-xs text-gray-500">Mínimo 100 caracteres. Una buena descripción
+                                    aumenta las ventas.</p>
+                            </div>
+                        </div>
+
+                        <!-- Apartado de Imagen -->
+                        <div class="border-t border-gray-200 pt-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-4">Imagen del Producto</h3>
+                        
+                            <div class="grid grid-cols-1 gap-6">
+                            <div>
+                                <label for="image" class="block text-sm font-medium text-gray-700 mb-1">
+                                URL de la Imagen <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                type="url" 
+                                id="image" 
+                                name="image" 
+                                value="<%= product ? product.image : '' %>" 
+                                required
+                                placeholder="https://example.com/image.jpg"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                oninput="updateImagePreview(this.value)"
+                                >
+                                <p class="text-xs text-gray-500 mt-1">Pega una URL directa a la imagen del producto. Debe terminar en .jpg, .png, etc.</p>
+                            </div>
+                        
+                            <div class="flex items-center">
+                                <div class="image-preview border rounded-md overflow-hidden max-w-sm h-48 mx-auto flex justify-center bg-white">
+                                <img 
+                                    src="<%= product && product.image ? product.image : '/placeholder.svg' %>" 
+                                    alt="Vista previa" 
+                                    id="image-preview" 
+                                    class="object-contain h-full"
+                                >
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Information -->
+                        <div class="border-t border-gray-200 pt-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-4">Información de Envío</h3>
+
+                            <div class="grid grid-cols-1 gap-6">
+                                <label for="freeShipping" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Envío Gratuito
+                                </label>
+                                <div class="flex items-center mt-2">
+                                    <input type="checkbox" id="freeShipping" name="freeShipping"
+                                        class="h-4 w-4 text-red-500 focus:ring-red-500 border-gray-300 rounded">
+                                    <label for="freeShipping" class="ml-2 block text-sm text-gray-700">
+                                        Ofrecer envío gratuito para este producto
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="mt-8 pt-6 border-t border-gray-200 flex justify-end space-x-3">
+                        <button type="button"
+                            class="px-6 py-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            Guardar como borrador
+                        </button>
+                        <button type="submit"
+                            class="px-6 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            Publicar producto
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <%- include('footer') %>
+
+        <script>
+            // Image preview functionality
+            const imageInput = document.getElementById('image');
+            const imagePreview = document.getElementById('image-preview');
+            const imagePreviewContainer = document.querySelector('.image-preview');
+            
+            imageInput.addEventListener('input', function() {
+                if (this.value) {
+                    imagePreview.src = this.value;
+                    imagePreviewContainer.style.display = 'block';
+                } else {
+                    imagePreviewContainer.style.display = 'none';
+                }
+            });
+        </script>
 </body>
+
 </html>

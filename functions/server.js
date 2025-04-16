@@ -12,7 +12,7 @@ const functions = require("firebase-functions");
 
 // Inicializar Firebase Admin, definiendo la ruta del archivo .json con las credenciales
 // de la cuenta de servicio de Firebase y la URL de la base de datos
-const serviceAccount = require("../fir-d3539-firebase-adminsdk-duevp-38c2549081.json");
+const serviceAccount = require("./fir-d3539-firebase-adminsdk-duevp-38c2549081.json");
 // const { user } = require("firebase-functions/v1/auth");
 // const { title } = require("process");
 admin.initializeApp({
@@ -91,46 +91,6 @@ app.use("/error", (req, res) => {
 // Index.ejs
 app.get("/", async (req, res) => {
   try {
-    // Obtenemos hasta 8 productos de la categoria "products"
-    const productosSnapshot = await db.collection("products").limit(15).get();
-    const productos = [];
-
-    // Recorremos los documentos y los agregamos al array de productos
-    productosSnapshot.forEach((doc) => {
-      productos.push({
-        id: doc.id,
-        ...doc.data(),
-      });
-    });
-
-    // Obtenemos todas las categorías desde Firestore
-    const categoriasSnapshot = await db.collection("categories").get();
-    const categorias = [];
-
-    // Recorremos cada categoría y la agregamos al array
-    categoriasSnapshot.forEach((doc) => {
-      categorias.push({
-        id: doc.id,
-        ...doc.data(),
-      });
-    });
-
-    // Renderizamos la vista 'index.ejs' enviando los datos a la plantilla
-    res.render("index", {
-      title: "Inicio", // Título de la página
-      productos, // Lista de productos destacados (máx. 8)
-      categorias, // Lista de categorías disponibles
-      cantidadCarrito: req.session.cart.reduce((total, item) => total + item.quantity, 0), // Total de ítems en el carrito
-    });
-  } catch (error) {
-    console.error("Error al obtener los datos:", error);
-    res.status(500).render("reusables/error-404", {message: "Error al obtener los datos"});
-  }
-});
-
-// Productos por categoria
-app.get("/products", async (req, res) => {
-  try {
     // Referencia inicial a la colección de productos
     let productsRef = db.collection("products");
 
@@ -164,8 +124,8 @@ app.get("/products", async (req, res) => {
     });
 
     // Renderizamos la vista 'products.ejs' y enviamos los datos necesarios
-    res.render("products", {
-      title: "Todos los Productos", // Título de la página
+    res.render("index", {
+      title: "Compra online todo lo que te imagines", // Título de la página
       products, // Lista de productos a mostrar
       categories, // Lista de categorías para el sidebar
       selectedCategory: req.query.category || "all", // Categoría activa
@@ -180,7 +140,7 @@ app.get("/products", async (req, res) => {
   }
 });
 
-// Productos individuales
+// Productos
 app.get("/product/:id", async (req, res) => {
   try {
     const productDoc = await db.collection("products").doc(req.params.id).get();
@@ -640,9 +600,23 @@ app.get("/user/orders/:id", async (req, res) => {
 
 // Productos de usuarios
 app.get("/user/products", async (req, res) => {
-  res.render("reusables/user-products", {
-    title: "Mis Productos",
-  })
+  try {
+    const snapshot = await db.collection('categories').get();
+    const categories = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    res.render('reusables/user-products', {
+      title: "Publicar Producto",
+      product: {},
+      categories }); // pasas las categorías a la vista
+  } catch (err) {
+    console.error('Error obteniendo categorías:', err);
+    res.render('reusables/user-products', {
+      categories: [],
+      title: "Publicar Producto" }); // fallback
+  }
 });
 
 app.post("/user/products/add", async (req, res) => {
@@ -817,6 +791,7 @@ app.post("/admin/product/delete/:id", async (req, res) => {
   }
 });
 
+// Puerto local
 // if (require.main === module) {
 //   const port = process.env.PORT || 8080;
 //   app.listen(port, () => {

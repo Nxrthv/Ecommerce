@@ -1,100 +1,187 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %> | GEN Z - Tienda Tecnológica</title>
-  <link rel="shortcut icon" href="/functions/public/assets/logo.png" type="image/png">
+  <title>GEN Z - <%= title %></title>
+  <link rel="shortcut icon" href="../../public/assets/logo.png" type="image/png">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'ali-red': '#ff4747',
+            'ali-orange': '#ff6a00',
+            'ali-light': '#fff2e8'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .ali-gradient {
+      background: linear-gradient(90deg, #ff4747 0%, #ff0000 100%);
+    }
+    .search-btn {
+      background: linear-gradient(90deg, #ff4747 0%, #ff0000 100%);
+    }
+  </style>
 </head>
-<body>
-  <header class="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
+<body class="bg-gray-50">
+  <!-- Main Header -->
+  <header class="sticky top-0 z-50 w-full bg-white shadow-sm">
     <div class="container mx-auto px-4">
       <div class="flex h-16 items-center justify-between">
+        <!-- Logo -->
         <div class="flex items-center">
-          <div class="logo">
-            <a href="/" class="flex items-center">
-              <h1 class="font-bold verdana text-2xl tracking-tight"><i class="fa-solid fa-bolt"></i> GEN Z</h1>
-            </a>
+          <a href="/" class="flex items-center">
+            <div class="text-ali-red font-bold text-2xl tracking-tight">
+              <span class="text-ali-red">GEN </span>Z
+            </div>
+          </a>
+        </div>
+        
+        <!-- Categories Button (Mobile & Desktop) -->
+        <div class="hidden md:flex items-center ml-6 mr-4">
+          <div class="relative group">
+            <button class="flex items-center space-x-1 text-gray-700 hover:text-ali-red">
+              <i class="fas fa-bars"></i>
+              <span class="font-medium">Categorías</span>
+              <i class="fas fa-chevron-down text-xs"></i>
+            </button>
+            <div class="absolute left-0 w-60 bg-white shadow-lg rounded-md hidden group-hover:block z-50">
+              <div class="py-2">
+                <a href="/products?category=electronics" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                  <i class="fas fa-mobile-alt w-6"></i> Electrónica
+                </a>
+                <a href="/products?category=fashion" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                  <i class="fas fa-tshirt w-6"></i> Moda
+                </a>
+                <a href="/products?category=home" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                  <i class="fas fa-home w-6"></i> Hogar y Jardín
+                </a>
+                <a href="/products?category=beauty" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                  <i class="fas fa-spa w-6"></i> Belleza
+                </a>
+                <a href="/products?category=toys" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                  <i class="fas fa-gamepad w-6"></i> Juguetes
+                </a>
+                <a href="/products?category=sports" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                  <i class="fas fa-futbol w-6"></i> Deportes
+                </a>
+                <a href="/" class="block px-4 py-2 text-sm font-medium text-ali-red hover:bg-gray-100">
+                  Ver todas los productos
+                </a>
+              </div>
+            </div>
           </div>
         </div>
         
-        <nav class="hidden md:block">
-          <ul class="flex space-x-4">
-            <a href="/" class="px-3 py-2 flex items-center transition-colors
-            <%= currentPath === '/' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
-              Inicio
-            </a>
-            <a href="/products" class="px-3 py-2 flex items-center transition-colors
-            <%= currentPath === '/products' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
-              Productos
-            </a>
-            <!-- <a href="/error" class="px-3 py-2 flex items-center transition-colors
-            <%= currentPath === '/about' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
-              Nosotros
-            </a>
-            <a href="/error" class="px-3 py-2 flex items-center transition-colors
-            <%= currentPath === '/contact' ? 'text-red-600 font-semibold border-b-2 border-red-600 hover:bg-red-500 hover:text-white' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
-              Contacto
-            </a> -->
-          </ul>
-        </nav>
+        <!-- Search Bar -->
+        <div class="hidden md:block flex-1 max-w-3xl mx-4">
+          <form action="/" method="GET" class="relative">
+            <div class="flex mt-2">
+              <input
+                type="search"
+                name="q"
+                placeholder="Buscar en GEN Z..."
+                class="w-full rounded-l-full pl-4 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-ali-red focus:border-transparent"
+              />
+              <button type="submit" class="search-btn text-white px-6 rounded-r-full flex items-center justify-center">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+            <div class="absolute top-full left-0 right-0 bg-white mt-1 rounded-md shadow-lg hidden" id="search-suggestions">
+              <!-- Search suggestions will appear here -->
+            </div>
+          </form>
+        </div>
         
-        <div class="flex items-center gap-4">
-          <div class="hidden md:block relative">
-            <form action="/error" method="GET">
-              <div class="relative">
-                <input
-                  type="search"
-                  name="q"
-                  placeholder="Buscar..."
-                  class="w-[500px] rounded rounded-lg pl-9 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                />
-                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-              </div>
-            </form>
-          </div>
-          
+        <!-- Right Icons -->
+        <div class="flex items-center space-x-6">
+          <!-- User Account -->
           <div class="relative group">
-            <a href="/auth" class="text-gray-700 hover:text-red-600 hidden md:block">
+            <a href="#" class="text-gray-700 hover:text-ali-red flex flex-col items-center">
               <i class="fas fa-user text-xl"></i>
+              <span class="text-xs mt-1 hidden md:inline-block">Cuenta</span>
             </a>
           
             <% if (user) { %>
               <!-- Menú desplegable cuando hay sesión -->
-              <div class="absolute right-0 w-48 bg-white border rounded shadow-lg hidden group-hover:block z-50">
-                <div class="px-4 py-2 text-sm text-gray-800 font-semibold border-b">
-                  Hola, <%= user.name %>
+              <div class="absolute right-0 w-64 bg-white border rounded shadow-lg hidden group-hover:block z-50">
+                <div class="p-4 border-b">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                      <i class="fas fa-user text-gray-500"></i>
+                    </div>
+                    <div>
+                      <div class="font-medium"><%= user.name %></div>
+                      <div class="text-xs text-gray-500">Ver mi perfil</div>
+                    </div>
+                  </div>
                 </div>
-                <a href="/user/orders" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                  Mis pedidos
-                </a>
-                <a href="/user/products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                  Mis productos
-                </a>
-                <form action="/auth/logout" method="POST">
-                  <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    Cerrar sesión
-                  </button>
-                </form>
+                <div class="py-2">
+                  <a href="/user/orders" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                    <i class="fas fa-box-open w-6"></i> Mis pedidos
+                  </a>
+                  <a href="/user/wishlist" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                    <i class="fas fa-heart w-6"></i> Lista de deseos
+                  </a>
+                  <a href="/user/products" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                    <i class="fas fa-store w-6"></i> Mis productos
+                  </a>
+                  <a href="/user/coupons" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                    <i class="fas fa-ticket-alt w-6"></i> Mis cupones
+                  </a>
+                </div>
+                <div class="border-t py-2">
+                  <form action="/auth/logout" method="POST">
+                    <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <i class="fas fa-sign-out-alt w-6"></i> Cerrar sesión
+                    </button>
+                  </form>
+                </div>
               </div>
             <% } else { %>
+              <!-- Menú desplegable cuando no hay sesión -->
+              <div class="absolute right-0 w-64 bg-white border rounded shadow-lg hidden group-hover:block z-50">
+                <div class="p-4 text-center">
+                  <p class="mb-3">¡Bienvenido a GEN Z!</p>
+                  <div class="grid gap-2">
+                    <a href="/auth" class="bg-ali-red text-white py-2 px-4 rounded text-sm font-medium hover:bg-red-600">
+                      Iniciar sesión
+                    </a>
+                    <a href="/auth" class="border border-ali-red text-ali-red py-2 px-4 rounded text-sm font-medium hover:bg-ali-light">
+                      Registrarse
+                    </a>
+                  </div>
+                </div>
+              </div>
             <% } %>
-          </div>                  
+          </div>
           
-          <a href="/cart" class="text-gray-700 hover:text-red-600 relative <%= currentPath === '/cart' ? 'text-red-600 hover:bg-text-500' : 'text-gray-700' %>">
+          <!-- Wishlist -->
+          <a href="/wishlist" class="text-gray-700 hover:text-ali-red flex flex-col items-center">
+            <i class="fas fa-heart text-xl"></i>
+            <span class="text-xs mt-1 hidden md:inline-block">Favoritos</span>
+          </a>
+          
+          <!-- Cart -->
+          <a href="/cart" class="text-gray-700 hover:text-ali-red flex flex-col items-center relative">
             <i class="fas fa-shopping-cart text-xl"></i>
-            <span class="sr-only">Carrito</span>
+            <span class="text-xs mt-1 hidden md:inline-block">Carrito</span>
             <% if (locals.cartCount && cartCount > 0) { %>
-              <span class="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-red-600 text-xs font-medium text-white flex items-center justify-center">
+              <span class="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-ali-red text-xs font-medium text-white flex items-center justify-center">
                 <%= cartCount %>
               </span>
             <% } %>
           </a>
           
-          <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-red-600">
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-ali-red">
             <i class="fas fa-bars text-xl"></i>
             <span class="sr-only">Abrir menú</span>
           </button>
@@ -102,47 +189,85 @@
       </div>
     </div>
     
+    <!-- Mobile Search Bar -->
+    <div class="md:hidden px-4 py-2 border-t border-gray-200">
+      <form action="/products" method="GET" class="relative">
+        <div class="flex">
+          <input
+            type="search"
+            name="q"
+            placeholder="Buscar en GEN Z..."
+            class="w-full rounded-l-full pl-4 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-ali-red focus:border-transparent"
+          />
+          <button type="submit" class="search-btn text-white px-4 rounded-r-full flex items-center justify-center">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+    
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="md:hidden hidden">
       <nav class="px-4 py-3 bg-white border-t">
-        <ul class="space-y-2">
+        <ul class="space-y-3">
           <li>
-            <a href="/" class="block px-3 py-2 <%= currentPath === '/' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
-              Inicio
+            <a href="/" class="block px-3 py-2 <%= currentPath === '/' ? 'text-ali-red font-semibold' : 'text-gray-700 hover:text-ali-red' %>">
+              <i class="fas fa-th-large mr-2"></i> Productos
             </a>
           </li>
           <li>
-            <a href="/products" class="block px-3 py-2 <%= currentPath === '/products' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
-              Productos
-            </a>
-          </li>
-          <!-- <li>
-            <a href="/error" class="block px-3 py-2 <%= currentPath === '/about' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
-              Nosotros
+            <a href="/categories" class="block px-3 py-2 text-gray-700 hover:text-ali-red">
+              <i class="fas fa-list mr-2"></i> Categorías
             </a>
           </li>
           <li>
-            <a href="/error" class="block px-3 py-2 <%= currentPath === '/contact' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:bg-red-500 hover:text-white' %>">
-              Contacto
+            <a href="/deals" class="block px-3 py-2 text-gray-700 hover:text-ali-red">
+              <i class="fas fa-tag mr-2"></i> Ofertas
             </a>
-          </li> -->
+          </li>
+          <li class="border-t pt-3 mt-3">
+            <a href="/auth/login" class="block px-3 py-2 text-gray-700 hover:text-ali-red">
+              <i class="fas fa-sign-in-alt mr-2"></i> Iniciar sesión
+            </a>
+          </li>
           <li>
-            <form action="/search" method="GET" class="mt-3">
-              <div class="relative">
-                <input
-                  type="search"
-                  name="q"
-                  placeholder="Buscar..."
-                  class="w-full pl-8 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                />
-                <i class="fas fa-search absolute left-2.5 top-2.5 text-gray-400"></i>
-              </div>
-            </form>
+            <a href="/auth/register" class="block px-3 py-2 text-gray-700 hover:text-ali-red">
+              <i class="fas fa-user-plus mr-2"></i> Registrarse
+            </a>
           </li>
         </ul>
       </nav>
     </div>
   </header>
+  
+  <!-- Secondary Navigation (Categories) -->
+  <div class="bg-white border-b border-gray-200 shadow-sm hidden md:block">
+    <div class="container mx-auto">
+      <div class="flex items-center h-10 text-sm">
+        <a href="/" class="px-3 hover:text-ali-red <%= currentPath === '/' ? 'text-ali-red font-medium' : 'text-gray-700' %>">
+          Todos los productos
+        </a>
+        <!-- <a href="/deals" class="px-3 hover:text-ali-red text-gray-700">
+          Super Ofertas
+        </a>
+        <a href="/products?category=electronics" class="px-3 hover:text-ali-red text-gray-700">
+          Electrónica
+        </a>
+        <a href="/products?category=fashion" class="px-3 hover:text-ali-red text-gray-700">
+          Moda
+        </a>
+        <a href="/products?category=home" class="px-3 hover:text-ali-red text-gray-700">
+          Hogar
+        </a>
+        <a href="/products?category=beauty" class="px-3 hover:text-ali-red text-gray-700">
+          Belleza
+        </a>
+        <a href="/products?category=toys" class="px-3 hover:text-ali-red text-gray-700">
+          Juguetes
+        </a> -->
+      </div>
+    </div>
+  </div>
   
   <script>
     // Mobile menu toggle
@@ -150,46 +275,42 @@
       const mobileMenu = document.getElementById('mobile-menu');
       mobileMenu.classList.toggle('hidden');
     });
-  </script>
-  <script>
-    const accountBtn = document.getElementById("account-btn");
-    const dropdown = document.getElementById("orders-dropdown");
-  
-    accountBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      
-      // Alternar visibilidad
-      if (dropdown.classList.contains("hidden")) {
-        dropdown.classList.remove("hidden");
-  
-        try {
-          const res = await fetch("/account/orders");
-          const data = await res.json();
-  
-          if (data.length === 0) {
-            dropdown.innerHTML = "<p class='text-sm text-gray-600'>No tienes pedidos aún.</p>";
-          } else {
-            dropdown.innerHTML = data.map(order => `
-              <div class="mb-2 border-b pb-2">
-                <p><strong>ID:</strong> ${order.orderId}</p>
-                <p><strong>Total:</strong> S/ ${order.total}</p>
-                <p><strong>Estado:</strong> ${order.status}</p>
-              </div>
-            `).join("");
-          }
-        } catch (error) {
-          dropdown.innerHTML = "<p class='text-sm text-red-600'>Error al cargar los pedidos.</p>";
+    
+    // Search suggestions
+    const searchInput = document.querySelector('input[name="q"]');
+    const searchSuggestions = document.getElementById('search-suggestions');
+    
+    if (searchInput && searchSuggestions) {
+      searchInput.addEventListener('focus', function() {
+        // Only show if there's text
+        if (this.value.length > 0) {
+          searchSuggestions.classList.remove('hidden');
         }
-      } else {
-        dropdown.classList.add("hidden");
-      }
-    });
-  
-    // Cerrar si se hace clic fuera
-    document.addEventListener("click", (e) => {
-      if (!accountBtn.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.classList.add("hidden");
-      }
-    });
-  </script>  
+      });
+      
+      searchInput.addEventListener('blur', function() {
+        // Hide with a small delay to allow clicking on suggestions
+        setTimeout(() => {
+          searchSuggestions.classList.add('hidden');
+        }, 200);
+      });
+      
+      searchInput.addEventListener('input', function() {
+        if (this.value.length > 0) {
+          // Show mock suggestions (in a real app, you'd fetch these from an API)
+          searchSuggestions.innerHTML = `
+            <div class="py-2">
+              <div class="px-4 py-1 text-xs font-medium text-gray-500 uppercase">Sugerencias</div>
+              <a href="/products?q=${this.value}" class="block px-4 py-2 text-sm hover:bg-gray-100">${this.value}</a>
+              <a href="/products?q=${this.value}%20barato" class="block px-4 py-2 text-sm hover:bg-gray-100">${this.value} barato</a>
+              <a href="/products?q=${this.value}%20oferta" class="block px-4 py-2 text-sm hover:bg-gray-100">${this.value} oferta</a>
+            </div>
+          `;
+          searchSuggestions.classList.remove('hidden');
+        } else {
+          searchSuggestions.classList.add('hidden');
+        }
+      });
+    }
+  </script>
   <main>

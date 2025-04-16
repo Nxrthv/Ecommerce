@@ -1,79 +1,247 @@
 <%- include('reusables/nav') %>
 
-<section class="py-8">
-  <div class="max-w-7xl mx-auto px-4">
-    <h2 class="text-2xl font-bold text-center mb-6">Tu Carrito</h2>
+<section class="py-4 bg-gray-50">
+  <div class="container max-w-7xl mx-auto px-4">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-3 text-xs" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1">
+        <li class="inline-flex items-center">
+          <a href="/" class="text-gray-500 hover:text-red-600">Inicio</a>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <i class="fas fa-chevron-right text-gray-400 mx-1 text-[10px]"></i>
+            <span class="text-gray-400">Carrito de compras</span>
+          </div>
+        </li>
+      </ol>
+    </nav>
 
     <% if (cart.length === 0) { %>
-      <div class="text-center bg-white p-10 rounded shadow">
-        <i class="fas fa-shopping-cart fa-4x text-gray-300 mb-4"></i>
-        <p class="text-lg mb-4">Tu carrito aún está vacío 😿</p>
-        <a href="/products" class="inline-block px-6 py-3 bg-black text-white rounded hover:bg-gray-800 transition">
-          ¡Compremos algo! 🛍️
-        </a>
+      <!-- Empty Cart -->
+      <div class="bg-white rounded-lg shadow-sm p-8 text-center">
+        <div class="flex flex-col items-center justify-center max-w-md mx-auto">
+          <div class="mb-6">
+            <img src="/placeholder.svg?height=180&width=180" alt="Carrito vacío" class="w-36 h-36 mx-auto mb-2">
+            <h2 class="text-xl font-medium text-gray-800 mb-2">Tu carrito está vacío</h2>
+            <p class="text-gray-500 mb-6">¡Explora nuestros productos y encuentra algo increíble!</p>
+            <a href="/" class="inline-block px-8 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors font-medium">
+              Explorar ahora
+            </a>
+          </div>
+        </div>
       </div>
     <% } else { %>
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="md:col-span-2 space-y-4 bg-white p-4 rounded shadow">
-          <% cart.forEach(item => { %>
-            <div class="flex flex-wrap md:flex-nowrap items-center gap-4 border-b pb-4">
-              <div class="w-20 h-20 flex-shrink-0">
-                <img src="<%= item.image %>" alt="<%= item.name %>" class="w-full h-full object-cover rounded">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <!-- Left Column: Cart Items -->
+        <div class="lg:col-span-2 space-y-4">
+          <!-- Cart Header -->
+          <div class="bg-white rounded-lg shadow-sm p-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <input type="checkbox" id="select-all" class="w-4 h-4 accent-red-600 mr-2">
+                <label for="select-all" class="text-sm font-medium">Seleccionar todo</label>
               </div>
-              <div class="flex-1 md:max-w-[450px]">
-                <p class="text-sm font-bold text-gray-700 truncate"><%= item.brand %></p>
-                <h3 class="text-gray-500 text-sm line-clamp-2"><%= item.name %></h3>
-              </div>
-              <div>
-                <form action="/cart/update" method="POST" class="flex flex-col items-center">
-                  <input type="hidden" name="productId" value="<%= item.id %>">
-                  <div class="flex items-center border rounded overflow-hidden">
-                    <button type="button" class="px-2 py-1 bg-gray-100 text-sm quantity-btn minus" data-id="<%= item.id %>">-</button>
-                    <input name="quantity" value="<%= item.quantity %>" min="1" class="w-12 text-center outline-none text-sm quantity" data-id="<%= item.id %>">
-                    <button type="button" class="px-2 py-1 bg-gray-100 text-sm quantity-btn plus" data-id="<%= item.id %>">+</button>
+              <button class="text-sm text-gray-500 hover:text-red-600 flex items-center">
+                <i class="far fa-trash-alt mr-1"></i> Eliminar seleccionados
+              </button>
+            </div>
+          </div>
+          
+          <!-- Cart Items -->
+          <div class="bg-white rounded-lg shadow-sm">
+            <div class="p-4 border-b border-gray-100">
+              <h3 class="font-medium">Productos en tu carrito</h3>
+            </div>
+            
+            <% cart.forEach((item, index) => { %>
+              <div class="p-4 border-b border-gray-100 <%= index === cart.length - 1 ? 'border-b-0' : '' %>">
+                <div class="flex flex-col sm:flex-row gap-4">
+                  <!-- Checkbox and Image -->
+                  <div class="flex items-start">
+                    <input type="checkbox" class="item-checkbox w-4 h-4 accent-red-600 mt-2 mr-3" data-id="<%= item.id %>">
+                    <div class="w-20 h-20 flex-shrink-0 bg-gray-50 rounded border border-gray-100">
+                      <img src="<%= item.image %>" alt="<%= item.name %>" class="w-full h-full object-contain">
+                    </div>
                   </div>
-                  <button type="submit" class="text-sm text-blue-600 mt-1 hover:underline">Actualizar</button>
-                </form>
+                  
+                  <!-- Product Info -->
+                  <div class="flex-1 flex flex-col sm:flex-row gap-4">
+                    <div class="flex-1">
+                      <a href="/product/<%= item.id %>" class="text-sm text-gray-800 hover:text-red-600 line-clamp-2 mb-1">
+                        <%= item.name %>
+                      </a>
+                      
+                      <div class="flex flex-wrap gap-2 mb-2">
+                        <% if (item.brand) { %>
+                          <span class="text-xs text-gray-500"><%= item.brand %></span>
+                        <% } %>
+                        
+                        <% if (item.variant) { %>
+                          <span class="text-xs text-gray-500">
+                            <span class="text-gray-400">Variante:</span> <%= item.variant %>
+                          </span>
+                        <% } %>
+                      </div>
+                      
+                      <!-- Mobile Price (visible on small screens) -->
+                      <div class="sm:hidden flex items-baseline mb-2">
+                        <span class="text-red-600 font-medium">S/ <%= (item.price * item.quantity).toFixed(2) %></span>
+                      </div>
+                      
+                      <!-- Actions -->
+                      <div class="flex flex-wrap gap-3 text-xs text-gray-500">
+                        <button class="hover:text-red-600 flex items-center">
+                          <i class="far fa-heart mr-1"></i> Guardar para después
+                        </button>
+                        <form action="/cart/remove" method="POST" class="inline">
+                          <input type="hidden" name="productId" value="<%= item.id %>">
+                          <button type="submit" class="hover:text-red-600 flex items-center">
+                            <i class="far fa-trash-alt mr-1"></i> Eliminar
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                    
+                    <!-- Price and Quantity -->
+                    <div class="flex flex-row sm:flex-col justify-between items-end sm:items-end gap-4 sm:min-w-[180px]">
+                      <!-- Quantity Selector -->
+                      <form action="/cart/update" method="POST" class="flex flex-col items-end">
+                        <input type="hidden" name="productId" value="<%= item.id %>">
+                        <div class="flex items-center border rounded-full overflow-hidden">
+                          <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-50 hover:bg-gray-100 text-gray-600 quantity-btn minus" data-id="<%= item.id %>">
+                            <i class="fas fa-minus text-xs"></i>
+                          </button>
+                          <input name="quantity" value="<%= item.quantity %>" min="1" max="999" class="w-10 h-8 text-center outline-none text-sm quantity" data-id="<%= item.id %>">
+                          <button type="button" class="w-8 h-8 flex items-center justify-center bg-gray-50 hover:bg-gray-100 text-gray-600 quantity-btn plus" data-id="<%= item.id %>">
+                            <i class="fas fa-plus text-xs"></i>
+                          </button>
+                        </div>
+                        <button type="submit" class="text-xs text-blue-600 mt-1 hover:underline">Actualizar</button>
+                      </form>
+                      
+                      <!-- Price (hidden on small screens) -->
+                      <div class="hidden sm:block text-right">
+                        <div class="text-red-600 font-medium">S/ <%= (item.price * item.quantity).toFixed(2) %></div>
+                        <% if (item.oldPrice) { %>
+                          <div class="text-xs text-gray-400 line-through">S/ <%= (item.oldPrice * item.quantity).toFixed(2) %></div>
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="text-right flex gap-2 items-center mx-auto">
-                <p class="text-gray-700 font-bold text-sm"><small class="font-semibold">S/</small> <%= (item.price * item.quantity).toFixed(2) %></p>
-                <form action="/cart/remove" method="POST">
-                  <input type="hidden" name="productId" value="<%= item.id %>">
-                  <button type="submit" class="text-red-500 hover:text-red-700">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </form>
+            <% }) %>
+          </div>
+          
+          <!-- Saved for Later (if any) -->
+          <div class="bg-white rounded-lg shadow-sm p-4">
+            <h3 class="font-medium mb-2">Guardados para después</h3>
+            <p class="text-sm text-gray-500">No tienes productos guardados para después.</p>
+          </div>
+        </div>
+        
+        <!-- Right Column: Order Summary -->
+        <div class="lg:col-span-1">
+          <!-- Order Summary -->
+          <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <h3 class="font-medium border-b border-gray-100 pb-3 mb-3">Resumen del pedido</h3>
+            
+            <!-- Coupon Code -->
+            <div class="mb-4 pb-4 border-b border-gray-100">
+              <div class="flex items-center">
+                <input type="text" placeholder="Código de cupón" class="flex-1 border border-gray-300 rounded-l-full px-4 py-2 text-sm focus:outline-none focus:border-red-600">
+                <button class="bg-red-600 text-white px-4 py-2 rounded-r-full text-sm font-medium hover:bg-red-700 transition-colors">
+                  Aplicar
+                </button>
               </div>
             </div>
-          <% }) %>
-        </div>
-
-        <div class="bg-white p-6 rounded shadow h-fit">
-          <h3 class="text-lg font-semibold mb-4 border-b pb-2">Detalle del Pedido</h3>
-          <div class="flex justify-between mb-2 text-sm">
-            <span>Subtotal</span>
-            <span>S/ <%= total.toFixed(2) %></span>
+            
+            <!-- Price Details -->
+            <div class="space-y-2 mb-4 pb-4 border-b border-gray-100">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Subtotal (<%= cart.reduce((sum, item) => sum + item.quantity, 0) %> productos)</span>
+                <span>S/ <%= total.toFixed(2) %></span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Descuento</span>
+                <span>S/ 0.00</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Envío</span>
+                <span class="text-green-600">Gratis</span>
+              </div>
+            </div>
+            
+            <!-- Total -->
+            <div class="flex justify-between items-center font-medium mb-4">
+              <span>Total</span>
+              <span class="text-red-600 text-lg">S/ <%= total.toFixed(2) %></span>
+            </div>
+            
+            <!-- Checkout Button -->
+            <a href="/checkout" class="block w-full text-center bg-red-600 text-white py-3 rounded-full hover:bg-red-700 transition-colors font-medium mb-3">
+              Proceder al pago
+            </a>
+            
+            <!-- Continue Shopping -->
+            <a href="/" class="block w-full text-center border border-gray-300 py-3 rounded-full hover:bg-gray-50 transition-colors text-gray-700">
+              Seguir comprando
+            </a>
           </div>
-          <div class="flex justify-between mb-2 text-sm">
-            <span>Envío</span>
-            <span>Gratis</span>
+          
+          <!-- Payment Methods -->
+          <div class="bg-white rounded-lg shadow-sm p-4">
+            <h3 class="font-medium mb-3">Métodos de pago aceptados</h3>
+            <div class="flex flex-wrap gap-2">
+              <div class="w-12 h-8 bg-gray-100 rounded flex items-center justify-center">
+                <i class="fab fa-cc-visa text-blue-800"></i>
+              </div>
+              <div class="w-12 h-8 bg-gray-100 rounded flex items-center justify-center">
+                <i class="fab fa-cc-mastercard text-red-600"></i>
+              </div>
+              <div class="w-12 h-8 bg-gray-100 rounded flex items-center justify-center">
+                <i class="fab fa-cc-amex text-blue-600"></i>
+              </div>
+              <div class="w-12 h-8 bg-gray-100 rounded flex items-center justify-center">
+                <i class="fas fa-money-bill-wave text-green-600"></i>
+              </div>
+              <div class="w-12 h-8 bg-gray-100 rounded flex items-center justify-center">
+                <i class="fab fa-paypal text-blue-700"></i>
+              </div>
+            </div>
+            
+            <!-- Secure Checkout Notice -->
+            <div class="flex items-center mt-4 text-xs text-gray-500">
+              <i class="fas fa-lock mr-2 text-green-600"></i>
+              <span>Pago 100% seguro y encriptado</span>
+            </div>
           </div>
-          <div class="flex justify-between font-bold text-md border-t pt-2 mb-4">
-            <span>Total</span>
-            <span>S/ <%= total.toFixed(2) %></span>
-          </div>
-          <a href="/checkout" class="block w-full text-center bg-black text-white py-2 rounded hover:bg-gray-800 transition mb-2">Proceder con la Compra</a>
-          <a href="/products" class="block w-full text-center border border-black py-2 rounded hover:bg-black hover:text-white transition">Seguir Comprando</a>
         </div>
       </div>
     <% } %>
   </div>
 </section>
 
+<style>
+  /* Custom styles for quantity input */
+  .quantity {
+    -moz-appearance: textfield;
+  }
+  
+  .quantity::-webkit-outer-spin-button,
+  .quantity::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    // Quantity selector functionality
     const minusBtns = document.querySelectorAll('.quantity-btn.minus');
     const plusBtns = document.querySelectorAll('.quantity-btn.plus');
+    const quantityInputs = document.querySelectorAll('.quantity');
 
     minusBtns.forEach(btn => {
       btn.addEventListener('click', function () {
@@ -91,9 +259,50 @@
         const id = this.getAttribute('data-id');
         const input = document.querySelector(`.quantity[data-id="${id}"]`);
         const currentValue = parseInt(input.value);
-        input.value = currentValue + 1;
+        const maxValue = parseInt(input.getAttribute('max') || 999);
+        if (currentValue < maxValue) {
+          input.value = currentValue + 1;
+        }
       });
     });
+
+    // Validate quantity inputs to ensure they're numbers
+    quantityInputs.forEach(input => {
+      input.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+        if (this.value === '' || parseInt(this.value) < 1) {
+          this.value = 1;
+        }
+        const maxValue = parseInt(this.getAttribute('max') || 999);
+        if (parseInt(this.value) > maxValue) {
+          this.value = maxValue;
+        }
+      });
+    });
+
+    // Select all checkbox functionality
+    const selectAllCheckbox = document.getElementById('select-all');
+    const itemCheckboxes = document.querySelectorAll('.item-checkbox');
+    
+    if (selectAllCheckbox) {
+      selectAllCheckbox.addEventListener('change', function() {
+        const isChecked = this.checked;
+        itemCheckboxes.forEach(checkbox => {
+          checkbox.checked = isChecked;
+        });
+      });
+      
+      // Update "select all" checkbox when individual items change
+      itemCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          const allChecked = Array.from(itemCheckboxes).every(cb => cb.checked);
+          const someChecked = Array.from(itemCheckboxes).some(cb => cb.checked);
+          
+          selectAllCheckbox.checked = allChecked;
+          selectAllCheckbox.indeterminate = someChecked && !allChecked;
+        });
+      });
+    }
   });
 </script>
 

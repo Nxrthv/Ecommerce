@@ -1,56 +1,143 @@
 </main>
-<footer class="bg-zinc-900 text-zinc-300">
-  <div class="container mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
-      <div>
-        <h3 class="text-white text-lg font-bold mb-4 verdana"><i class="fa-solid fa-bolt"></i> GEN Z</h3>
-        <p class="mb-4">
-          Tu tienda de confianza para los mejores productos electrónicos y gadgets de última generación.
-        </p>
-        <div class="flex space-x-4">
-          <a href="#" class="hover:text-white">
-            <i class="fab fa-facebook"></i>
-            <span class="sr-only">Facebook</span>
+<footer class="bg-gray-900 text-gray-300 pt-10">
+  <!-- Newsletter & App Download -->
+  <div class="container mx-auto px-4 pb-8 border-b border-gray-800">
+    <div class="flex flex-col md:flex-row justify-between items-start gap-8">
+      <!-- Newsletter Subscription -->
+      <div class="w-full md:w-1/3">
+        <h3 class="text-white text-lg font-bold mb-4">¡Suscríbete y obtén ofertas exclusivas!</h3>
+        <form class="flex mb-4">
+          <input 
+            type="email" 
+            placeholder="Tu correo electrónico" 
+            class="px-4 py-2 w-full rounded-l-md focus:outline-none text-gray-800"
+            required
+          >
+          <button 
+            type="submit" 
+            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-r-md transition-colors"
+          >
+            Suscribirse
+          </button>
+        </form>
+        <p class="text-sm">Al suscribirte, aceptas recibir correos electrónicos de marketing de GEN Z.</p>
+      </div>
+      
+      <!-- App Download -->
+      <div class="w-full md:w-1/3">
+        <h3 class="text-white text-lg font-bold mb-4">Descarga nuestra app</h3>
+        <div class="flex space-x-4 mb-4">
+          <a href="#" class="flex-1">
+            <img src="https://ae01.alicdn.com/kf/H76255b02c1f54048a9f82e58d44b95aeO.png" alt="App Store" class="h-10">
           </a>
-          <a href="#" class="hover:text-white">
-            <i class="fab fa-instagram"></i>
-            <span class="sr-only">Instagram</span>
-          </a>
-          <a href="#" class="hover:text-white">
-            <i class="fab fa-twitter"></i>
-            <span class="sr-only">Twitter</span>
-          </a>
-          <a href="#" class="hover:text-white">
-            <i class="fab fa-youtube"></i>
-            <span class="sr-only">YouTube</span>
+          <a href="#" class="flex-1">
+            <img src="https://ae01.alicdn.com/kf/H8d58265c5f4a4c7ca0ce99f56c88b043D.png" alt="Google Play" class="h-10">
           </a>
         </div>
+        <div class="flex items-center">
+          <span class="text-sm mr-4">Síguenos</span>
+          <div class="flex space-x-4">
+            <a href="#" class="hover:text-white text-lg">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="hover:text-white text-lg">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="hover:text-white text-lg">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="hover:text-white text-lg">
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a href="#" class="hover:text-white text-lg">
+              <i class="fab fa-tiktok"></i>
+            </a>
+          </div>
+        </div>
       </div>
-      <div></div>
+      
+      <!-- QR Code -->
+      <div class="w-full md:w-1/4 flex flex-col items-center">
+        <div class="bg-white p-2 rounded-md mb-2">
+          <img src="https://cdn.pixabay.com/photo/2013/07/12/14/45/qr-code-148732_1280.png" alt="App QR Code" class="w-24 h-24">
+        </div>
+        <p class="text-sm text-center">Escanea para descargar la app</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Footer Links -->
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+      <!-- Company Info -->
       <div>
-        <h3 class="text-white text-lg font-bold mb-4">Enlaces</h3>
-        <ul class="space-y-2">
+        <h3 class="text-white text-lg font-bold mb-4 verdana"><i class="fa-solid fa-bolt"></i> GEN Z</h3>
+        <p class="mb-4 text-sm">
+          Tu tienda de confianza para los mejores productos electrónicos y gadgets de última generación.
+        </p>
+        <div class="mt-4">
+          <h4 class="text-white font-semibold mb-2">Atención al cliente</h4>
+          <p class="text-sm">Lun-Vie: 9:00 - 18:00</p>
+          <p class="text-sm">Sáb: 9:00 - 14:00</p>
+          <p class="text-sm mt-2">infogenz@gmail.com</p>
+          <p class="text-sm">+51 930 821 384</p>
+        </div>
+      </div>
+      
+      <!-- Customer Service -->
+      <div>
+        <h3 class="text-white text-lg font-bold mb-4">Servicio al cliente</h3>
+        <ul class="space-y-2 text-sm">
           <li>
-            <a href="/" class="hover:text-white">Inicio</a>
+            <a href="/help-center" class="hover:text-white">Centro de ayuda</a>
           </li>
           <li>
-            <a href="/products" class="hover:text-white">Productos</a>
+            <a href="/orders/track" class="hover:text-white">Seguimiento de pedidos</a>
           </li>
           <li>
-            <a href="/categories" class="hover:text-white">Categorías</a>
+            <a href="/returns" class="hover:text-white">Devoluciones y reembolsos</a>
           </li>
           <li>
-            <a href="/about" class="hover:text-white">Nosotros</a>
+            <a href="/shipping" class="hover:text-white">Envíos</a>
           </li>
           <li>
-            <a href="/contact" class="hover:text-white">Contacto</a>
+            <a href="/dispute" class="hover:text-white">Abrir disputa</a>
+          </li>
+          <li>
+            <a href="/report" class="hover:text-white">Reportar infracción</a>
           </li>
         </ul>
       </div>
       
+      <!-- About GEN Z -->
       <div>
-        <h3 class="text-white text-lg font-bold mb-4">Categorías</h3>
-        <ul class="space-y-2">
+        <h3 class="text-white text-lg font-bold mb-4">Acerca de GEN Z</h3>
+        <ul class="space-y-2 text-sm">
+          <li>
+            <a href="/about" class="hover:text-white">Sobre nosotros</a>
+          </li>
+          <li>
+            <a href="/careers" class="hover:text-white">Trabaja con nosotros</a>
+          </li>
+          <li>
+            <a href="/terms" class="hover:text-white">Términos y condiciones</a>
+          </li>
+          <li>
+            <a href="/privacy" class="hover:text-white">Política de privacidad</a>
+          </li>
+          <li>
+            <a href="/sellers" class="hover:text-white">Vende en GEN Z</a>
+          </li>
+          <li>
+            <a href="/blog" class="hover:text-white">Blog</a>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Categories -->
+      <div>
+        <h3 class="text-white text-lg font-bold mb-4">Categorías populares</h3>
+        <ul class="space-y-2 text-sm">
           <li>
             <a href="/products?category=celulares-accesorios" class="hover:text-white">Celulares y Accesorios</a>
           </li>
@@ -58,27 +145,103 @@
             <a href="/products?category=audio" class="hover:text-white">Audio</a>
           </li>
           <li>
-            <a href="/products?category=electrohogar" class="hover:text-white">EletctroHogar</a>
+            <a href="/products?category=electrohogar" class="hover:text-white">ElectroHogar</a>
           </li>
           <li>
             <a href="/products?category=smart-home" class="hover:text-white">Smart Home</a>
           </li>
+          <li>
+            <a href="/products?category=computadoras" class="hover:text-white">Computadoras</a>
+          </li>
+          <li>
+            <a href="/products?category=gaming" class="hover:text-white">Gaming</a>
+          </li>
+          <li>
+            <a href="/products?category=wearables" class="hover:text-white">Wearables</a>
+          </li>
+          <li>
+            <a href="/products?category=camaras" class="hover:text-white">Cámaras</a>
+          </li>
         </ul>
       </div>
       
+      <!-- Payment & Shipping -->
       <div>
-        <h3 class="text-white text-lg font-bold mb-4">Contacto</h3>
-        <address class="not-italic">
-          <p class="mb-2">Calle Tecnología 123</p>
-          <p class="mb-2">Ciudad Digital, CD 12345</p>
-          <p class="mb-2">infogenz@gmail.com</p>
-          <p>+51 930 821 384</p>
-        </address>
+        <h3 class="text-white text-lg font-bold mb-4">Métodos de pago</h3>
+        <div class="grid grid-cols-4 gap-2 mb-6">
+          <img src="https://www.freepnglogos.com/uploads/visa-logo-png-image-4.png" alt="Visa" class="h-8 w-16 bg-white rounded">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/MasterCard_early_1990s_logo.png" alt="MasterCard" class="h-8 bg-white rounded p-1">
+          <img src="https://thechocolateworkshop.co.uk/wp-content/uploads/2017/04/Paypal-Logo-PNG.png" alt="PayPal" class="h-8 bg-white rounded p-1">
+          <img src="https://images.seeklogo.com/logo-png/38/1/plin-logo-png_seeklogo-386806.png" alt="Plin" class="h-8 bg-white rounded">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUQt-G3ydTT9tgO7qEMANy3nXzYaO3vGde3g&s" alt="Yape" class="h-8 bg-white rounded">
+        </div>
       </div>
     </div>
-    
-    <div class="border-t border-zinc-800 mt-8 pt-8 text-sm text-center">
+  </div>
+  
+  <!-- Trust & Certifications -->
+  <div class="container mx-auto px-4 py-6 border-t border-gray-800">
+    <div class="flex flex-wrap justify-center gap-6 mb-6">
+      <div class="flex items-center">
+        <i class="fas fa-shield-alt text-2xl text-gray-400 mr-2"></i>
+        <span>Compra Protegida</span>
+      </div>
+      <div class="flex items-center">
+        <i class="fas fa-undo text-2xl text-gray-400 mr-2"></i>
+        <span>Devoluciones Gratuitas</span>
+      </div>
+      <div class="flex items-center">
+        <i class="fas fa-truck text-2xl text-gray-400 mr-2"></i>
+        <span>Envío Rápido</span>
+      </div>
+      <div class="flex items-center">
+        <i class="fas fa-headset text-2xl text-gray-400 mr-2"></i>
+        <span>Atención 24/7</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Language & Region -->
+  <div class="container mx-auto px-4 py-4 border-t border-gray-800">
+    <div class="flex flex-col md:flex-row justify-between items-center">
+      <div class="flex flex-wrap gap-4 mb-4 md:mb-0">
+        <div class="flex items-center">
+          <span class="mr-2">Idioma:</span>
+          <select class="bg-gray-800 text-white rounded px-2 py-1 text-sm">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+            <option value="pt">Português</option>
+          </select>
+        </div>
+        <div class="flex items-center">
+          <span class="mr-2">Moneda:</span>
+          <select class="bg-gray-800 text-white rounded px-2 py-1 text-sm">
+            <option value="pen">PEN - S/</option>
+            <option value="usd">USD - $</option>
+            <option value="eur">EUR - €</option>
+          </select>
+        </div>
+        <div class="flex items-center">
+          <span class="mr-2">País/Región:</span>
+          <select class="bg-gray-800 text-white rounded px-2 py-1 text-sm">
+            <option value="pe">Perú</option>
+            <option value="cl">Chile</option>
+            <option value="co">Colombia</option>
+            <option value="mx">México</option>
+            <option value="ar">Argentina</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Copyright -->
+  <div class="bg-black py-4 text-center text-sm">
+    <div class="container mx-auto px-4">
       <p>&copy; <%= new Date().getFullYear() %> GEN Z. Todos los derechos reservados.</p>
+      <p class="mt-2 text-gray-500 text-xs">
+        Las marcas comerciales y las marcas mencionadas son propiedad de sus respectivos dueños.
+      </p>
     </div>
   </div>
 </footer>

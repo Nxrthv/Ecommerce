@@ -4,110 +4,303 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %> | GEN Z - Admin</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
 </head>
-<body>
-  <div class="admin-layout">
-    <%- include("nav-admin")  %>
-    
-    <main class="content">
-      <header class="content-header">
-        <div class="d-flex align-items-center">
-          <button class="mobile-menu-toggle" id="mobile-menu-toggle">
-            <i class="fas fa-bars"></i>
-          </button>
-          <h1>Todos los Productos</h1>
-        </div>
-        <div class="d-flex align-items-center">
-          <a href="/admin/product/new" class="btn btn-primary">
-            <i class="fas fa-plus"></i>
-            Agregar Producto
-          </a>
+<body class="bg-gray-50 text-gray-800">
+  <div class="flex h-screen overflow-hidden">
+  <%- include("nav-admin") %>
+
+    <!-- Main Content -->
+    <div class="flex flex-col flex-1 overflow-hidden">
+      <!-- Top Header -->
+      <header class="bg-white border-b border-gray-200 shadow-sm">
+        <div class="flex items-center justify-between px-4 py-3">
+          <div class="flex items-center">
+            <button class="md:hidden text-gray-500 focus:outline-none" id="mobile-menu-toggle">
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+            <h1 class="ml-3 md:ml-0 text-lg font-semibold">Todos los Productos</h1>
+          </div>
+          
+          <div class="flex items-center space-x-4">
+            <div class="relative">
+              <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                <i class="fas fa-bell text-xl"></i>
+                <span class="absolute top-0 right-0 w-2 h-2 bg-orange-500 rounded-full"></span>
+              </button>
+            </div>
+            
+            <div class="md:hidden">
+              <img src="https://via.placeholder.com/40" alt="Admin" class="w-8 h-8 rounded-full">
+            </div>
+          </div>
         </div>
       </header>
       
-      <div class="content-body">
-        <div class="card">
-          <div class="card-header">
-            <div class="table-controls">
-              <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Buscar articulos..." id="product-search">
+      <!-- Page Content -->
+      <main class="flex-1 overflow-y-auto p-4">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+          <div class="flex items-center mb-4 md:mb-0">
+            <h2 class="text-xl font-bold">Gestión de Productos</h2>
+            <span class="ml-3 px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+              <%= products.length %> productos
+            </span>
+          </div>
+          
+          <div class="flex items-center space-x-3">
+            <a href="/admin/product/new" class="inline-flex items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-md shadow-sm transition-colors">
+              <i class="fas fa-plus mr-2"></i>
+              Agregar Producto
+            </a>
+            
+            <div class="relative">
+              <button class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                <i class="fas fa-download mr-2"></i>
+                Exportar
+                <i class="fas fa-chevron-down ml-2"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Filters and Search -->
+        <div class="bg-white rounded-lg shadow-sm mb-6">
+          <div class="p-4 border-b border-gray-200">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div class="relative flex-1">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input 
+                  type="text" 
+                  id="product-search" 
+                  placeholder="Buscar por nombre, marca o SKU..." 
+                  class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                >
+              </div>
+              
+              <div class="flex items-center space-x-3">
+                <div class="relative">
+                  <select class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md">
+                    <option>Todas las categorías</option>
+                    <option>Laptops</option>
+                    <option>Smartphones</option>
+                    <option>Accesorios</option>
+                  </select>
+                </div>
+                
+                <div class="relative">
+                  <select class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md">
+                    <option>Todos los estados</option>
+                    <option>En stock</option>
+                    <option>Stock bajo</option>
+                    <option>Sin stock</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Imagen</th>
-                    <th>Titulo</th>
-                    <th>Costo</th>
-                    <th>Marca</th>
-                    <th>Stock</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% products.forEach(product => { %>
-                    <tr>
-                      <td>
-                        <img src="<%= product.image %>" alt="<%= product.name %>" class="product-thumbnail">
-                      </td>
-                      <td width="380px"><%= product.name %></td>
-                      <td>S/. <%= product.price.toFixed(2) %></td>
-                      <td class="uppercase tracking-wider"><%= product.brand.toUpperCase() %></td>  
-                      <td><%= product.stock %></td>
-                      <td>
-                        <% if (product.stock > 10) { %>
-                          <span class="badge badge-success">In Stock</span>
-                        <% } else if (product.stock > 0) { %>
-                          <span class="badge badge-warning">Low Stock</span>
-                        <% } else { %>
-                          <span class="badge badge-danger">Out of Stock</span>
-                        <% } %>
-                      </td>
-                      <td class="actions">
-                        <a href="/admin/product/edit/<%= product.id %>" class="btn btn-sm btn-secondary" title="Edit">
+          
+          <!-- Table -->
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Imagen
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Título
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Costo
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Marca
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Stock
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Estado
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <% products.forEach(product => { %>
+                  <tr class="table-row-hover">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="w-12 h-12 bg-gray-100 rounded overflow-hidden border border-gray-200">
+                        <img src="<%= product.image %>" alt="<%= product.name %>" class="w-full h-full object-contain">
+                      </div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm font-medium text-gray-900 line-clamp-2"><%= product.name %></div>
+                      <div class="text-xs text-gray-500">SKU: <%= product.id.substring(0, 8) %></div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm font-medium text-gray-900">S/. <%= product.price.toFixed(2) %></div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900 uppercase"><%= product.brand.toUpperCase() %></div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900"><%= product.stock %></div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <% if (product.stock > 10) { %>
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          En Stock
+                        </span>
+                      <% } else if (product.stock > 0) { %>
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                          Stock Bajo
+                        </span>
+                      <% } else { %>
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                          Sin Stock
+                        </span>
+                      <% } %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <div class="flex items-center justify-end space-x-2">
+                        <a href="/admin/product/edit/<%= product.id %>" class="text-gray-600 hover:text-orange-500" title="Editar">
                           <i class="fas fa-edit"></i>
                         </a>
-                        <form action="/admin/product/delete/<%= product.id %>" method="POST" class="inline-form">
-                          <button type="submit" class="btn btn-sm btn-danger" title="Delete" onclick="return confirm('Are you sure you want to delete this product?')">
+                        <a href="/admin/product/view/<%= product.id %>" class="text-gray-600 hover:text-blue-500" title="Ver">
+                          <i class="fas fa-eye"></i>
+                        </a>
+                        <form action="/admin/product/delete/<%= product.id %>" method="POST" class="inline">
+                          <button type="submit" class="text-gray-600 hover:text-red-500" title="Eliminar" onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?')">
                             <i class="fas fa-trash"></i>
                           </button>
                         </form>
-                      </td>
-                    </tr>
-                  <% }); %>
-                </tbody>
-              </table>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+                
+                <% if (products.length === 0) { %>
+                  <tr>
+                    <td colspan="7" class="px-6 py-10 text-center">
+                      <div class="flex flex-col items-center">
+                        <i class="fas fa-box-open text-gray-300 text-5xl mb-3"></i>
+                        <p class="text-gray-500">No se encontraron productos</p>
+                        <a href="/admin/product/new" class="mt-3 inline-flex items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-md">
+                          <i class="fas fa-plus mr-2"></i>
+                          Agregar Producto
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Pagination -->
+          <div class="px-6 py-4 bg-white border-t border-gray-200">
+            <div class="flex items-center justify-between">
+              <div class="text-sm text-gray-500">
+                Mostrando <span class="font-medium"><%= products.length %></span> productos
+              </div>
+              
+              <div class="flex items-center space-x-2">
+                <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-500 hover:bg-gray-50 disabled:opacity-50" disabled>
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="px-3 py-1 border border-gray-300 rounded-md text-sm bg-orange-500 text-white">
+                  1
+                </button>
+                <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-500 hover:bg-gray-50">
+                  2
+                </button>
+                <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-500 hover:bg-gray-50">
+                  3
+                </button>
+                <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-500 hover:bg-gray-50">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
             </div>
-            
-            <!-- <div class="pagination">
-              <a href="#" class="pagination-item"><i class="fas fa-chevron-left"></i></a>
-              <a href="#" class="pagination-item active">1</a>
-              <a href="#" class="pagination-item">2</a>
-              <a href="#" class="pagination-item">3</a>
-              <a href="#" class="pagination-item"><i class="fas fa-chevron-right"></i></a>
-            </div> -->
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  
+  <!-- Mobile Sidebar -->
+  <div class="fixed inset-0 z-40 hidden" id="mobile-sidebar">
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
+    <div class="relative flex flex-col w-full max-w-xs bg-white h-full">
+      <div class="p-4 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <span class="text-2xl font-bold text-orange-500">GEN Z</span>
+            <span class="ml-2 text-sm text-gray-600">Admin Panel</span>
+          </div>
+          <button class="text-gray-500" id="close-sidebar">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="flex-1 overflow-y-auto py-4">
+        <nav class="px-2 space-y-1">
+          <a href="/admin/dashboard" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md">
+            <i class="fas fa-tachometer-alt w-5 h-5 mr-3 text-gray-500"></i>
+            Dashboard
+          </a>
+          <a href="/admin/products" class="sidebar-item active flex items-center px-3 py-2 text-sm font-medium rounded-md">
+            <i class="fas fa-box w-5 h-5 mr-3 text-orange-500"></i>
+            Productos
+          </a>
+          <a href="/admin/orders" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md">
+            <i class="fas fa-shopping-cart w-5 h-5 mr-3 text-gray-500"></i>
+            Pedidos
+          </a>
+          <a href="/admin/customers" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md">
+            <i class="fas fa-users w-5 h-5 mr-3 text-gray-500"></i>
+            Clientes
+          </a>
+          <a href="/admin/categories" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md">
+            <i class="fas fa-tags w-5 h-5 mr-3 text-gray-500"></i>
+            Categorías
+          </a>
+          <a href="/admin/discounts" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md">
+            <i class="fas fa-percent w-5 h-5 mr-3 text-gray-500"></i>
+            Descuentos
+          </a>
+        </nav>
+      </div>
+      
+      <div class="p-4 border-t border-gray-200">
+        <div class="flex items-center">
+          <img src="https://via.placeholder.com/40" alt="Admin" class="w-8 h-8 rounded-full">
+          <div class="ml-3">
+            <p class="text-sm font-medium">Admin User</p>
+            <a href="/logout" class="text-xs text-gray-500 hover:text-orange-500">Cerrar sesión</a>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   </div>
-  <script>
-    const searchInput = document.getElementById('product-search');
   
+  <script>
+    // Search functionality
+    const searchInput = document.getElementById('product-search');
+    
     searchInput.addEventListener('input', function () {
       const searchValue = this.value.toLowerCase();
-      const rows = document.querySelectorAll('table.data-table tbody tr');
-  
+      const rows = document.querySelectorAll('tbody tr');
+      
       rows.forEach((row) => {
-        const nameCell = row.querySelector('td:nth-child(2)').textContent.toLowerCase(); // Título
-        const brandCell = row.querySelector('td:nth-child(4)').textContent.toLowerCase(); // Marca
-  
+        const nameCell = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+        const brandCell = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+        
         if (nameCell.includes(searchValue) || brandCell.includes(searchValue)) {
           row.style.display = '';
         } else {
@@ -115,6 +308,19 @@
         }
       });
     });
-  </script>  
+    
+    // Mobile sidebar toggle
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    const closeSidebar = document.getElementById('close-sidebar');
+    
+    mobileMenuToggle.addEventListener('click', function() {
+      mobileSidebar.classList.toggle('hidden');
+    });
+    
+    closeSidebar.addEventListener('click', function() {
+      mobileSidebar.classList.add('hidden');
+    });
+  </script>
 </body>
 </html>

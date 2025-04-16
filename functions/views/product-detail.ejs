@@ -1,27 +1,24 @@
 <%- include('reusables/nav') %>
 
-<section class="py-6">
+<section class="py-4 bg-gray-50">
   <div class="container max-w-7xl mx-auto px-4">
-    <!-- Paginacion -->
-    <nav class="flex mb-8 text-sm" aria-label="Breadcrumb">
-      <ol class="inline-flex items-center space-x-1 md:space-x-3">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-3 text-xs" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1">
         <li class="inline-flex items-center">
-          <a href="/" class="text-gray-600 hover:text-red-600">Inicio
-          </a>
+          <a href="/" class="text-gray-500 hover:text-red-600">Inicio</a>
         </li>
         <li>
           <div class="flex items-center">
-            <i class="fas fa-chevron-right text-gray-400 mx-2 text-xs"></i>
-            <a href="/products" class="text-gray-600 hover:text-red-600">
-              Productos
-            </a>
+            <i class="fas fa-chevron-right text-gray-400 mx-1 text-[10px]"></i>
+            <a href="/products" class="text-gray-500 hover:text-red-600">Productos</a>
           </div>
         </li>
         <% if (product.category) { %>
           <li>
             <div class="flex items-center">
-              <i class="fas fa-chevron-right text-gray-400 mx-2 text-xs"></i>
-              <a href="/products?category=<%= product.categoryId %>" class="text-gray-600 hover:text-red-600">
+              <i class="fas fa-chevron-right text-gray-400 mx-1 text-[10px]"></i>
+              <a href="/products?category=<%= product.categoryId %>" class="text-gray-500 hover:text-red-600">
                 <%= product.category %>
               </a>
             </div>
@@ -29,8 +26,8 @@
         <% } %>
         <li aria-current="page">
           <div class="flex items-center">
-            <i class="fas fa-chevron-right text-gray-400 mx-2 text-xs"></i>
-            <span class="text-gray-500 truncate max-w-[150px] md:max-w-xs">
+            <i class="fas fa-chevron-right text-gray-400 mx-1 text-[10px]"></i>
+            <span class="text-gray-400 truncate max-w-[150px] md:max-w-xs">
               <%= product.name %>
             </span>
           </div>
@@ -38,157 +35,276 @@
       </ol>
     </nav>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-start">
-      <!-- Product Images -->
-      <div class="space-y-4">
-        <!-- Main Image -->
-        <div class="relative aspect-square  bg-white rounded-lg border">
-          <div class="p-4 pb-0">
-            <p class="md:text-3xl font-bold text-gray-500 mb-2"><%= product.brand %></p>
-            <h1 class="md:text-3xl font-bold text-gray-700 mb-2 leading-tight"><%= product.name %></h1>
-          </div>
-          <img 
-            id="main-product-image" 
-            src="<%= product.image %>" 
-            alt="<%= product.name %>" 
-            class="w-full h-full object-contain p-0 md:p-4"
-          >
-        </div>
-        
-        <!-- Galeria de imagenes (si hay mas adicionales)
-        <% if (product.gallery && product.gallery.length > 0) { %>
-          <div class="flex space-x-2 overflow-x-auto pb-2">
-            <div 
-              class="w-20 h-20 flex-shrink-0 border rounded cursor-pointer hover:border-red-500 transition-colors"
-              onclick="changeMainImage('<%= product.image %>')"
+    <div class="bg-white rounded-lg shadow-sm p-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10">
+        <!-- Product Images Column -->
+        <div class="space-y-4">
+          <!-- Main Image -->
+          <div class="relative bg-white rounded-lg border overflow-hidden">
+            <div class="absolute top-0 left-0 z-10 m-2">
+              <% if (product.discount) { %>
+                <span class="inline-block bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+                  -<%= product.discount %>%
+                </span>
+              <% } %>
+            </div>
+            <div class="absolute top-0 right-0 z-10 m-2">
+              <button class="p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors" 
+                      aria-label="Añadir a favoritos">
+                <i class="far fa-heart text-red-500"></i>
+              </button>
+            </div>
+            <img 
+              id="main-product-image" 
+              src="<%= product.image %>" 
+              alt="<%= product.name %>" 
+              class="w-full h-auto object-contain p-0 md:p-4 aspect-square"
             >
-              <img src="<%= product.image %>" alt="<%= product.name %>" class="w-full h-full object-contain p-1">
-            </div>
-            
-            <% product.gallery.forEach(image => { %>
-              <div 
-                class="w-20 h-20 flex-shrink-0 border rounded cursor-pointer hover:border-red-500 transition-colors"
-                onclick="changeMainImage('<%= image %>')"
-              >
-                <img src="<%= image %>" alt="<%= product.name %>" class="w-full h-full object-contain p-1">
-              </div>
-            <% }); %>
           </div>
-        <% } %> -->
-      </div>
-      
-      <!-- Informacion -->
-      <div class="flex flex-col">
-        <!-- Price -->
-        <div class="mb-6">
-          <!-- <% if (product.oldPrice) { %>
-            <p class="text-gray-500 line-through md:text-lg"><small class="font-bold text-sm">S/ </small><%= product.oldPrice.toFixed(2) %></p>
-          <% } %> -->
-          <p class="text-3xl px-2 font-bold text-gray-700"><small class="font-bold text-xl">S/ </small><%= product.price.toFixed(2) %></p>
           
-          <!-- <% if (product.discount) { %>
-            <p class="text-sm text-green-600 mt-1">
-              Ahorras: $<%= (product.oldPrice - product.price).toFixed(2) %> (<%= product.discount %>%)
-            </p>
-          <% } %> -->
-        </div>
-        
-        <!-- Stock del Producto -->
-        <div class="mb-6">
-          <% if (product.stock > 10) { %>
-            <div class="px-2 flex items-center text-green-600">
-              <i class="fas fa-check-circle mr-2"></i>
-              <span>En stock (<%= product.stock %> disponibles)</span>
-            </div>
-          <% } else if (product.stock > 0) { %>
-            <div class="px-2 flex items-center text-orange-500">
-              <i class="fas fa-exclamation-circle mr-2"></i>
-              <span>¡Quedan pocos! Solo <%= product.stock %> disponibles</span>
-            </div>
-          <% } else { %>
-            <div class="px-2 flex items-center text-red-600">
-              <i class="fas fa-times-circle mr-2"></i>
-              <span>Agotado</span>
+          <!-- Thumbnail Gallery -->
+          <% if (product.gallery && product.gallery.length > 0) { %>
+            <div class="flex space-x-2 overflow-x-auto pb-2">
+              <div 
+                class="w-16 h-16 flex-shrink-0 border rounded cursor-pointer hover:border-red-500 transition-colors"
+                onclick="changeMainImage('<%= product.image %>')"
+              >
+                <img src="<%= product.image %>" alt="<%= product.name %>" class="w-full h-full object-contain p-1">
+              </div>
+              
+              <% product.gallery.forEach(image => { %>
+                <div 
+                  class="w-16 h-16 flex-shrink-0 border rounded cursor-pointer hover:border-red-500 transition-colors"
+                  onclick="changeMainImage('<%= image %>')"
+                >
+                  <img src="<%= image %>" alt="<%= product.name %>" class="w-full h-full object-contain p-1">
+                </div>
+              <% }); %>
             </div>
           <% } %>
+          
+          <!-- Zoom Instructions -->
+          <div class="hidden md:flex items-center justify-center text-xs text-gray-500">
+            <i class="fas fa-search-plus mr-1"></i>
+            <span>Pase el cursor para hacer zoom</span>
+          </div>
         </div>
         
-        <!-- Cantidad -->
-        <form action="/cart/add" method="POST" class="mb-8">
-          <input type="hidden" name="productId" value="<%= product.id %>">
+        <!-- Product Info Column -->
+        <div class="flex flex-col">
+          <!-- Brand -->
+          <div class="mb-1">
+            <a href="#" class="text-sm text-blue-500 hover:underline font-medium">
+              <%= product.brand %>
+            </a>
+          </div>
           
-          <div class="px-2 mb-6">
-            <label for="quantity" class="block text-sm font-medium text-gray-700 mb-2">Cantidad:</label>
-            <div class="flex w-full max-w-[180px]">
-              <button 
-                type="button" 
-                class="quantity-btn minus bg-gray-200 hover:bg-gray-300 text-gray-700 w-12 flex items-center justify-center rounded-l-md border border-r-0"
-              >
-                <i class="fas fa-minus"></i>
-              </button>
-              <input 
-                id="quantity" 
-                name="quantity" 
-                value="1" 
-                min="1" 
-                max="<%= product.stock %>" 
-                class="w-16 text-center border-y outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-              >
-              <button 
-                type="button" 
-                class="quantity-btn plus bg-gray-200 hover:bg-gray-300 text-gray-700 w-12 flex items-center justify-center rounded-r-md border border-l-0"
-              >
-                <i class="fas fa-plus"></i>
-              </button>
+          <!-- Title -->
+          <h1 class="text-xl md:text-2xl font-normal text-gray-800 mb-3 leading-snug"><%= product.name %></h1>
+          
+          <!-- Rating Summary -->
+          <div class="flex items-center mb-2">
+            <div class="flex text-yellow-400">
+              <% let rating = product.rating || 4.5 %>
+              <% for (let i = 1; i <= 5; i++) { %>
+                <% if (i <= Math.floor(rating)) { %>
+                  <i class="fas fa-star text-sm"></i>
+                <% } else if (i <= rating) { %>
+                  <i class="fas fa-star-half-alt text-sm"></i>
+                <% } else { %>
+                  <i class="far fa-star text-sm"></i>
+                <% } %>
+              <% } %>
+            </div>
+            <span class="mx-2 text-sm text-gray-500"><%= rating %></span>
+            <a href="#reviews-tab" class="text-sm text-gray-500">
+              <%= product.reviewCount || 0 %> valoraciones
+            </a>
+            <span class="mx-2 text-gray-300">|</span>
+            <span class="text-sm text-green-600">
+              <%= (product.orders || 0) + 500 %> pedidos
+            </span>
+          </div>
+          
+          <!-- Price Section -->
+          <div class="bg-red-50 p-4 my-3 rounded-md">
+            <div class="flex items-center gap-2 mb-1">
+              <% if (product.oldPrice) { %>
+                <span class="text-gray-500 line-through text-sm">S/ <%= product.oldPrice.toFixed(2) %></span>
+              <% } %>
+              <% if (product.discount) { %>
+                <span class="text-sm bg-red-600 text-white px-1 rounded">-<%= product.discount %>%</span>
+              <% } %>
+            </div>
+            
+            <div class="flex items-baseline">
+              <span class="text-sm text-red-600 font-semibold">S/</span>
+              <span class="text-3xl font-semibold text-red-600"><%= product.price.toFixed(2) %></span>
+            </div>
+            
+            <div class="text-xs text-gray-500 mt-1">
+              <% if (product.discount) { %>
+                <span>Ahorras: S/ <%= (product.oldPrice - product.price).toFixed(2) %></span>
+              <% } %>
             </div>
           </div>
           
-          <!-- Agregar al Carrito -->
-          <div class="flex flex-col sm:flex-row gap-4 px-2">
-            <button 
-              type="submit" 
-              class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-md font-medium transition-colors flex items-center justify-center"
-              <%= product.stock === 0 ? 'disabled' : '' %>
-            >
-              <i class="fas fa-shopping-cart mr-2"></i>
-              Añadir al Carrito
-            </button>
-            
-            <button 
-              type="button" 
-              class="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 px-6 rounded-md font-medium transition-colors flex items-center justify-center"
-            >
-              <i class="far fa-heart mr-2"></i>
-              Añadir a Favoritos
-            </button>
+          <!-- Shipping Info -->
+          <div class="p-4 bg-orange-50 rounded-md mb-4">
+            <div class="flex items-center mb-2">
+              <i class="fas fa-shipping-fast text-gray-600 mr-2"></i>
+              <span class="text-sm font-semibold text-gray-700">Envío</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <div>
+                <p class="text-gray-700">Envío gratis</p>
+                <p class="text-gray-500 text-xs">Entrega estimada: 3-7 días</p>
+              </div>
+              <span class="text-red-600 font-semibold">GRATIS</span>
+            </div>
           </div>
-        </form>
-        
-        <!-- Share -->
-        <div class="mt-6 flex items-center">
-          <span class="text-gray-500 mr-3">Compartir:</span>
-          <div class="flex space-x-2">
-            <a href="#" class="text-gray-400 hover:text-blue-600" aria-label="Compartir en Facebook">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-blue-400" aria-label="Compartir en Twitter">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-pink-600" aria-label="Compartir en Pinterest">
-              <i class="fab fa-pinterest-p"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-green-600" aria-label="Compartir por WhatsApp">
-              <i class="fab fa-whatsapp"></i>
-            </a>
+          
+          <!-- Stock Info -->
+          <div class="mb-4">
+            <% if (product.stock > 10) { %>
+              <div class="flex items-center text-green-600">
+                <i class="fas fa-check-circle mr-2 text-sm"></i>
+                <span class="text-sm">En stock (<%= product.stock %> disponibles)</span>
+              </div>
+            <% } else if (product.stock > 0) { %>
+              <div class="flex items-center text-orange-500">
+                <i class="fas fa-exclamation-circle mr-2 text-sm"></i>
+                <span class="text-sm">¡Quedan pocos! Solo <%= product.stock %> disponibles</span>
+              </div>
+            <% } else { %>
+              <div class="flex items-center text-red-600">
+                <i class="fas fa-times-circle mr-2 text-sm"></i>
+                <span class="text-sm">Agotado</span>
+              </div>
+            <% } %>
+          </div>
+          
+          <!-- Quantity Selector -->
+          <form action="/cart/add" method="POST" class="mb-6">
+            <input type="hidden" name="productId" value="<%= product.id %>">
+            
+            <div class="mb-4">
+              <label for="quantity" class="block text-sm text-gray-600 mb-2">Cantidad:</label>
+              <div class="flex items-center">
+                <div class="quantity-input-container">
+                  <button 
+                    type="button" 
+                    class="quantity-btn minus border border-gray-300 hover:bg-gray-100 text-gray-600"
+                  >
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <input 
+                    id="quantity" 
+                    name="quantity" 
+                    value="1" 
+                    min="1" 
+                    max="<%= product.stock %>" 
+                    class="quantity-input"
+                  >
+                  <button 
+                    type="button" 
+                    class="quantity-btn plus border border-gray-300 hover:bg-gray-100 text-gray-600"
+                  >
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+                <span class="ml-3 text-sm text-gray-500">
+                  <%= product.stock %> disponibles
+                </span>
+              </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3">
+              <button 
+                type="submit" 
+                class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-full font-medium transition-colors flex items-center justify-center"
+                <%= product.stock === 0 ? 'disabled' : '' %>
+              >
+                <i class="fas fa-shopping-cart mr-2"></i>
+                Comprar ahora
+              </button>
+              
+              <button 
+                type="button" 
+                class="flex-1 border border-red-600 bg-white hover:bg-red-50 text-red-600 py-3 px-6 rounded-full font-medium transition-colors flex items-center justify-center"
+              >
+                <i class="fas fa-cart-plus mr-2"></i>
+                Añadir al carrito
+              </button>
+            </div>
+          </form>
+          
+          <!-- Seller Info -->
+          <div class="border rounded-md p-3 mb-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <div class="w-10 h-10 bg-gray-100 rounded-full overflow-hidden flex items-center justify-center mr-3">
+                  <i class="fas fa-store text-gray-500"></i>
+                </div>
+                <div>
+                  <h3 class="font-medium text-gray-700"><%= product.brand %> Tienda Oficial</h3>
+                  <div class="flex items-center text-xs text-gray-500">
+                    <span>99.8% Valoraciones positivas</span>
+                  </div>
+                </div>
+              </div>
+              <a href="#" class="text-sm text-blue-500 hover:underline">Ver tienda</a>
+            </div>
+          </div>
+          
+          <!-- Buyer Protection -->
+          <div class="flex items-center text-sm text-gray-700 mb-4">
+            <div class="mr-4 flex items-center">
+              <i class="fas fa-shield-alt text-red-600 mr-1"></i>
+              <span>Garantía de devolución</span>
+            </div>
+            <div class="flex items-center">
+              <i class="fas fa-lock text-red-600 mr-1"></i>
+              <span>Pago seguro</span>
+            </div>
+          </div>
+          
+          <!-- Share Options -->
+          <div class="flex items-center mt-3 border-t pt-3">
+            <span class="text-xs text-gray-500 mr-3">Compartir:</span>
+            <div class="flex space-x-3">
+              <a href="#" class="text-gray-500 hover:text-blue-600" aria-label="Compartir en Facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="text-gray-500 hover:text-blue-400" aria-label="Compartir en Twitter">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="text-gray-500 hover:text-pink-600" aria-label="Compartir en Pinterest">
+                <i class="fab fa-pinterest-p"></i>
+              </a>
+              <a href="#" class="text-gray-500 hover:text-green-600" aria-label="Compartir por WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+              <a href="#" class="text-gray-500 hover:text-gray-700" aria-label="Más opciones">
+                <i class="fas fa-ellipsis-h"></i>
+              </a>
+            </div>
+            <div class="ml-auto">
+              <a href="#" class="flex items-center text-xs text-gray-500 hover:text-red-600">
+                <i class="far fa-flag mr-1"></i>
+                <span>Reportar artículo</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- Product Tabs -->
-    <div class="mt-16">
+    <!-- Product Details Tabs -->
+    <div class="mt-6 bg-white rounded-lg shadow-sm">
       <div class="border-b border-gray-200">
-        <nav class="flex -mb-px space-x-8" aria-label="Tabs">
+        <nav class="flex px-4 -mb-px space-x-8" aria-label="Tabs">
           <button 
             class="tab-button whitespace-nowrap py-4 px-1 border-b-2 border-red-600 font-medium text-red-600" 
             data-tab="description"
@@ -204,6 +320,7 @@
           <button 
             class="tab-button whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300" 
             data-tab="reviews"
+            id="reviews-tab-button"
           >
             Reseñas (<%= product.reviewCount || 0 %>)
           </button>
@@ -211,7 +328,7 @@
       </div>
       
       <!-- Tab Content -->
-      <div class="py-6">
+      <div class="p-6">
         <!-- Description Tab -->
         <div id="description-tab" class="tab-content">
           <div class="prose max-w-none">
@@ -220,6 +337,21 @@
             <% } else { %>
               <p class="text-gray-500">No hay descripción disponible para este producto.</p>
             <% } %>
+            
+            <!-- Sample description content for demo purposes -->
+            <div class="mt-6">
+              <h3 class="font-bold text-lg mb-3">Características Principales</h3>
+              <ul class="list-disc pl-5 space-y-2">
+                <li>Alta calidad y diseño duradero</li>
+                <li>Compatible con todos los modelos recientes</li>
+                <li>Fácil instalación y uso</li>
+                <li>Garantía del fabricante incluida</li>
+              </ul>
+              
+              <div class="my-6">
+                <img src="<%= product.image %>" alt="Detalles del producto" class="mx-auto max-w-full rounded-md">
+              </div>
+            </div>
           </div>
         </div>
         
@@ -227,14 +359,14 @@
         <div id="specifications-tab" class="tab-content hidden">
           <% if (product.specifications && product.specifications.length > 0) { %>
             <div class="overflow-hidden">
-              <table class="min-w-full divide-y divide-gray-200">
+              <table class="min-w-full">
                 <tbody class="divide-y divide-gray-200">
-                  <% product.specifications.forEach(spec => { %>
-                    <tr>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50 w-1/3">
+                  <% product.specifications.forEach((spec, index) => { %>
+                    <tr class="<%= index % 2 === 0 ? 'bg-gray-50' : 'bg-white' %>">
+                      <td class="px-6 py-4 text-sm font-medium text-gray-500 w-1/3">
                         <%= spec.name %>
                       </td>
-                      <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">
+                      <td class="px-6 py-4 text-sm text-gray-900">
                         <%= spec.value %>
                       </td>
                     </tr>
@@ -243,12 +375,124 @@
               </table>
             </div>
           <% } else { %>
-            <p class="text-gray-500">No hay especificaciones disponibles para este producto.</p>
+            <!-- Sample specifications for demo purposes -->
+            <div class="overflow-hidden">
+              <table class="min-w-full">
+                <tbody class="divide-y divide-gray-200">
+                  <tr class="bg-gray-50">
+                    <td class="px-6 py-4 text-sm font-medium text-gray-500 w-1/3">Marca</td>
+                    <td class="px-6 py-4 text-sm text-gray-900"><%= product.brand %></td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 text-sm font-medium text-gray-500">Modelo</td>
+                    <td class="px-6 py-4 text-sm text-gray-900">XYZ-2023</td>
+                  </tr>
+                  <tr class="bg-gray-50">
+                    <td class="px-6 py-4 text-sm font-medium text-gray-500">Material</td>
+                    <td class="px-6 py-4 text-sm text-gray-900">Alta calidad</td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 text-sm font-medium text-gray-500">Peso</td>
+                    <td class="px-6 py-4 text-sm text-gray-900">0.5 kg</td>
+                  </tr>
+                  <tr class="bg-gray-50">
+                    <td class="px-6 py-4 text-sm font-medium text-gray-500">Dimensiones</td>
+                    <td class="px-6 py-4 text-sm text-gray-900">20 x 15 x 10 cm</td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 text-sm font-medium text-gray-500">Garantía</td>
+                    <td class="px-6 py-4 text-sm text-gray-900">12 meses</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           <% } %>
         </div>
         
         <!-- Reviews Tab -->
         <div id="reviews-tab" class="tab-content hidden">
+          <!-- Rating summary -->
+          <div class="flex flex-col md:flex-row md:items-center gap-6 mb-8 pb-6 border-b border-gray-200">
+            <div class="text-center">
+              <div class="text-5xl font-bold text-gray-800 mb-2">
+                <%= product.rating || 4.8 %>
+              </div>
+              <div class="flex justify-center text-yellow-400 mb-1">
+                <% for (let i = 1; i <= 5; i++) { %>
+                  <% if (i <= Math.floor(product.rating || 4.8)) { %>
+                    <i class="fas fa-star"></i>
+                  <% } else if (i <= (product.rating || 4.8)) { %>
+                    <i class="fas fa-star-half-alt"></i>
+                  <% } else { %>
+                    <i class="far fa-star"></i>
+                  <% } %>
+                <% } %>
+              </div>
+              <div class="text-sm text-gray-500">
+                <%= product.reviewCount || 0 %> valoraciones
+              </div>
+            </div>
+            
+            <div class="flex-1 space-y-2">
+              <div class="flex items-center">
+                <span class="text-sm text-gray-500 w-16">5 estrellas</span>
+                <div class="w-full bg-gray-200 rounded-full h-2 mx-2">
+                  <div class="bg-yellow-400 h-2 rounded-full" style="width: 85%"></div>
+                </div>
+                <span class="text-sm text-gray-500 w-8">85%</span>
+              </div>
+              <div class="flex items-center">
+                <span class="text-sm text-gray-500 w-16">4 estrellas</span>
+                <div class="w-full bg-gray-200 rounded-full h-2 mx-2">
+                  <div class="bg-yellow-400 h-2 rounded-full" style="width: 10%"></div>
+                </div>
+                <span class="text-sm text-gray-500 w-8">10%</span>
+              </div>
+              <div class="flex items-center">
+                <span class="text-sm text-gray-500 w-16">3 estrellas</span>
+                <div class="w-full bg-gray-200 rounded-full h-2 mx-2">
+                  <div class="bg-yellow-400 h-2 rounded-full" style="width: 3%"></div>
+                </div>
+                <span class="text-sm text-gray-500 w-8">3%</span>
+              </div>
+              <div class="flex items-center">
+                <span class="text-sm text-gray-500 w-16">2 estrellas</span>
+                <div class="w-full bg-gray-200 rounded-full h-2 mx-2">
+                  <div class="bg-yellow-400 h-2 rounded-full" style="width: 1%"></div>
+                </div>
+                <span class="text-sm text-gray-500 w-8">1%</span>
+              </div>
+              <div class="flex items-center">
+                <span class="text-sm text-gray-500 w-16">1 estrella</span>
+                <div class="w-full bg-gray-200 rounded-full h-2 mx-2">
+                  <div class="bg-yellow-400 h-2 rounded-full" style="width: 1%"></div>
+                </div>
+                <span class="text-sm text-gray-500 w-8">1%</span>
+              </div>
+            </div>
+            
+            <div class="text-center md:text-left">
+              <button class="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-full transition-colors">
+                Escribir reseña
+              </button>
+            </div>
+          </div>
+          
+          <!-- Filter options -->
+          <div class="flex flex-wrap items-center gap-2 mb-6">
+            <span class="text-sm font-medium text-gray-700">Filtrar por:</span>
+            <div class="flex flex-wrap gap-2">
+              <button class="px-3 py-1 text-xs bg-red-600 text-white rounded-full">Todos</button>
+              <button class="px-3 py-1 text-xs border border-gray-300 rounded-full hover:border-red-600 hover:text-red-600">Con imágenes</button>
+              <button class="px-3 py-1 text-xs border border-gray-300 rounded-full hover:border-red-600 hover:text-red-600">5 estrellas</button>
+              <button class="px-3 py-1 text-xs border border-gray-300 rounded-full hover:border-red-600 hover:text-red-600">4 estrellas</button>
+              <button class="px-3 py-1 text-xs border border-gray-300 rounded-full hover:border-red-600 hover:text-red-600">3 estrellas</button>
+              <button class="px-3 py-1 text-xs border border-gray-300 rounded-full hover:border-red-600 hover:text-red-600">2 estrellas</button>
+              <button class="px-3 py-1 text-xs border border-gray-300 rounded-full hover:border-red-600 hover:text-red-600">1 estrella</button>
+            </div>
+          </div>
+          
+          <!-- Reviews list -->
           <% if (product.reviews && product.reviews.length > 0) { %>
             <div class="space-y-6">
               <% product.reviews.forEach(review => { %>
@@ -265,20 +509,106 @@
                     </div>
                     <h4 class="ml-2 text-sm font-medium text-gray-900"><%= review.title %></h4>
                   </div>
-                  <div class="flex items-center text-sm text-gray-500 mb-2">
+                  <div class="flex items-center text-xs text-gray-500 mb-2">
                     <span><%= review.author %></span>
                     <span class="mx-2">•</span>
                     <span><%= new Date(review.date).toLocaleDateString() %></span>
                   </div>
-                  <p class="text-gray-700"><%= review.comment %></p>
+                  <p class="text-gray-700 text-sm"><%= review.comment %></p>
+                  
+                  <% if (review.images && review.images.length > 0) { %>
+                    <div class="flex mt-3 space-x-2">
+                      <% review.images.forEach(image => { %>
+                        <div class="w-16 h-16 rounded-md overflow-hidden">
+                          <img src="<%= image %>" alt="Review image" class="w-full h-full object-cover">
+                        </div>
+                      <% }); %>
+                    </div>
+                  <% } %>
+                  
+                  <div class="mt-3 flex items-center">
+                    <button class="text-xs text-gray-500 flex items-center hover:text-red-600">
+                      <i class="far fa-thumbs-up mr-1"></i> Útil (12)
+                    </button>
+                  </div>
                 </div>
               <% }); %>
+              
+              <!-- Sample reviews for demo purposes -->
+              <% if (!product.reviews || product.reviews.length === 0) { %>
+                <div class="border-b border-gray-200 pb-6">
+                  <div class="flex items-center mb-2">
+                    <div class="flex text-yellow-400">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <h4 class="ml-2 text-sm font-medium text-gray-900">¡Excelente producto!</h4>
+                  </div>
+                  <div class="flex items-center text-xs text-gray-500 mb-2">
+                    <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white mr-2">J</div>
+                    <span>Juan C.</span>
+                    <span class="mx-2">•</span>
+                    <span><%= new Date().toLocaleDateString() %></span>
+                  </div>
+                  <p class="text-gray-700 text-sm">Muy buen producto, llegó rápido y en perfectas condiciones. La calidad es excelente y funciona tal como se describe. 100% recomendado.</p>
+                  
+                  <div class="flex mt-3 space-x-2">
+                    <div class="w-16 h-16 rounded-md overflow-hidden">
+                      <img src="<%= product.image %>" alt="Review image" class="w-full h-full object-cover">
+                    </div>
+                  </div>
+                  
+                  <div class="mt-3 flex items-center">
+                    <button class="text-xs text-gray-500 flex items-center hover:text-red-600">
+                      <i class="far fa-thumbs-up mr-1"></i> Útil (8)
+                    </button>
+                  </div>
+                </div>
+                <div class="border-b border-gray-200 pb-6">
+                  <div class="flex items-center mb-2">
+                    <div class="flex text-yellow-400">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </div>
+                    <h4 class="ml-2 text-sm font-medium text-gray-900">Buena relación calidad-precio</h4>
+                  </div>
+                  <div class="flex items-center text-xs text-gray-500 mb-2">
+                    <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white mr-2">M</div>
+                    <span>María L.</span>
+                    <span class="mx-2">•</span>
+                    <span><%= new Date(Date.now() - 7*24*60*60*1000).toLocaleDateString() %></span>
+                  </div>
+                  <p class="text-gray-700 text-sm">El producto cumple con lo que promete. La entrega fue rápida y el empaque protege bien el producto. Le doy 4 estrellas porque el color es ligeramente diferente al de la foto.</p>
+                  
+                  <div class="mt-3 flex items-center">
+                    <button class="text-xs text-gray-500 flex items-center hover:text-red-600">
+                      <i class="far fa-thumbs-up mr-1"></i> Útil (3)
+                    </button>
+                  </div>
+                </div>
+              <% } %>
+              
+              <!-- Load More Button -->
+              <div class="text-center mt-8">
+                <button class="px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:border-red-600 hover:text-red-600 transition-colors">
+                  Ver más reseñas
+                </button>
+              </div>
             </div>
           <% } else { %>
             <div class="text-center py-8">
+              <div class="text-gray-400 mb-4">
+                <i class="far fa-comment-dots text-5xl"></i>
+              </div>
               <p class="text-gray-500 mb-4">No hay reseñas para este producto todavía.</p>
-              <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md transition-colors">
-                Escribir una reseña
+              <button class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-full transition-colors">
+                Sé el primero en escribir una reseña
               </button>
             </div>
           <% } %>
@@ -286,38 +616,108 @@
       </div>
     </div>
     
-    <!-- Related Products -->
-    <% if (locals.relatedProducts && relatedProducts.length > 0) { %>
-      <section class="mt-16">
-        <h2 class="text-2xl font-bold mb-6">Productos Relacionados</h2>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <% relatedProducts.forEach(product => { %>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-              <a href="/product/<%= product.id %>" class="block">
-                <div class="aspect-square overflow-hidden bg-gray-100">
-                  <img 
-                    src="<%= product.image %>" 
-                    alt="<%= product.name %>" 
-                    class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                  >
-                </div>
-              </a>
-              <div class="p-4">
-                <h3 class="font-semibold text-lg mb-1 line-clamp-1">
-                  <a href="/product/<%= product.id %>" class="hover:text-red-600">
-                    <%= product.name %>
-                  </a>
-                </h3>
-                <p class="text-lg font-bold text-red-600">$<%= product.price.toFixed(2) %></p>
+    <!-- Product Recommendations -->
+    <section class="mt-10">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold text-gray-800">También te puede interesar</h2>
+        <a href="#" class="text-red-600 text-sm hover:underline">Ver más</a>
+      </div>
+      
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <% for (let i = 0; i < 5; i++) { %>
+          <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
+            <a href="#" class="block relative">
+              <!-- Badge -->
+              <% if (Math.random() > 0.5) { %>
+                <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded z-10">
+                  -<%= Math.floor(Math.random() * 30) + 10 %>%
+                </span>
+              <% } %>
+              
+              <!-- Image -->
+              <div class="aspect-square overflow-hidden bg-gray-100 relative">
+                <img 
+                  src="<%= product.image %>" 
+                  alt="Producto recomendado" 
+                  class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                >
+                <!-- Quick Add Button -->
+                <button class="absolute right-2 bottom-2 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i class="fas fa-cart-plus text-red-600"></i>
+                </button>
               </div>
+            </a>
+            <div class="p-3">
+              <!-- Price -->
+              <div class="mb-1 flex items-center">
+                <span class="text-red-600 font-semibold">S/ <%= (Math.random() * 100 + 20).toFixed(2) %></span>
+                <% if (Math.random() > 0.5) { %>
+                  <span class="text-xs text-gray-500 line-through ml-2">S/ <%= (Math.random() * 150 + 50).toFixed(2) %></span>
+                <% } %>
+              </div>
+              
+              <!-- Title -->
+              <h3 class="text-xs text-gray-700 line-clamp-2 h-8">
+                Producto recomendado similar <%= i + 1 %> con características parecidas a <%= product.name %>
+              </h3>
+              
+              <!-- Reviews -->
+              <div class="flex items-center mt-1">
+                <div class="flex text-yellow-400 text-xs">
+                  <% for (let j = 0; j < 5; j++) { %>
+                    <i class="fas fa-star"></i>
+                  <% } %>
+                </div>
+                <span class="text-xs text-gray-500 ml-1"><%= Math.floor(Math.random() * 500) + 10 %></span>
+              </div>
+              
+              <!-- Shipping -->
+              <p class="text-xs text-gray-500 mt-1">Envío gratis</p>
             </div>
-          <% }); %>
-        </div>
-      </section>
-    <% } %>
+          </div>
+        <% } %>
+      </div>
+    </section>
   </div>
 </section>
+
+<!-- CSS styles -->
+<style>
+  .quantity-input-container {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .quantity-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    font-size: 12px;
+  }
+  
+  .quantity-input {
+    width: 48px;
+    height: 32px;
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    border-left: 0;
+    border-right: 0;
+    text-align: center;
+    outline: none;
+    -moz-appearance: textfield;
+  }
+  
+  .quantity-input::-webkit-outer-spin-button,
+  .quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -370,6 +770,31 @@
     window.changeMainImage = function(imageUrl) {
       document.getElementById('main-product-image').src = imageUrl;
     };
+    
+    // Handle reviews tab direct link
+    const hash = window.location.hash;
+    if (hash === '#reviews-tab') {
+      document.getElementById('reviews-tab-button').click();
+    }
+    
+    // Image zoom effect (simplified version)
+    const mainImage = document.getElementById('main-product-image');
+    if (mainImage && window.innerWidth >= 768) {
+      const imageContainer = mainImage.parentElement;
+      
+      imageContainer.addEventListener('mousemove', function(e) {
+        const { left, top, width, height } = this.getBoundingClientRect();
+        const x = (e.clientX - left) / width;
+        const y = (e.clientY - top) / height;
+        
+        mainImage.style.transformOrigin = `${x * 100}% ${y * 100}%`;
+        mainImage.style.transform = 'scale(1.5)';
+      });
+      
+      imageContainer.addEventListener('mouseleave', function() {
+        mainImage.style.transform = 'scale(1)';
+      });
+    }
   });
 </script>
 
