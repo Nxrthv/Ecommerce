@@ -28,8 +28,8 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // Middlewares
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
@@ -66,11 +66,71 @@ function verificarAdmin(req, res, next) {
 //   next();
 // });
 
-// Middelware para cargar el carrito con verificacion de usuario
+// // Middleware para manejar errores de vistas no encontradas
+// app.use((err, req, res, next) => {
+//   console.error("Error en la aplicación:", err);
+  
+//   // Verificar si es un error de vista no encontrada
+//   if (err.message && err.message.includes("Failed to lookup view")) {
+//     return res.status(500).send(`
+//       <h1>Error del Servidor</h1>
+//       <p>Lo sentimos, ha ocurrido un error al cargar la página.</p>
+//       <a href="/">Volver al inicio</a>
+//     `);
+//   }
+  
+//   next(err);
+// });
+
+// // Middleware para manejar rutas no encontradas
+// app.use((req, res) => {
+//   res.status(404).render("reusables/error-404", { 
+//     message: "Página no encontrada",
+//     cartCount: res.locals.cartCount || 0
+//   });
+// }); 
+
+// Middleware global o en la ruta principal
+app.use(async (req, res, next) => {
+  try {
+    const snapshot = await db.collection("categories").get();
+    res.locals.categories = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (err) {
+    console.error("Error al obtener categorías:", err);
+    res.locals.categories = []; // fallback vacío
+  }
+
+  next();
+});
+
+// Middleware para manejar redirecciones después del login
+app.use((req, res, next) => {
+  // No redirigir si estamos en la página de autenticación
+  if (req.path === '/auth') {
+    return next();
+  }
+  
+  if (req.session.returnTo) {
+    const returnTo = req.session.returnTo;
+    delete req.session.returnTo;
+    return res.redirect(returnTo);
+  }
+  next();
+});
+
+// Middleware para inicializar el carrito y calcular totales
 app.use((req, res, next) => {
   if (!req.session.cart) {
     req.session.cart = [];
   }
+  
+  const { total, cartCount } = calculateCartTotals(req.session.cart);
+  res.locals.cartCount = cartCount;
+  res.locals.cartTotal = total;
+  
   next();
 });
 
@@ -81,120 +141,233 @@ app.use((req, res, next) => {
   next();
 });
 
-// Error 404
-app.use("/error", (req, res) => {
-  res.render("reusables/error-404", {
-    title: "Error 404"
-  });
-});
-
 // Index.ejs
 app.get("/", async (req, res) => {
   try {
-    // Referencia inicial a la colección de productos
-    let productsRef = db.collection("products");
+    const { source = "all", category, sort = "default", page = 1 } = req.query;
+    const limit = 50;
+    const startIndex = (page - 1) * limit;
 
-    // Si se recibe un filtro de categoría (por URL), aplicamos el filtro
-    if (req.query.category && req.query.category !== "all") {
-      productsRef = productsRef.where("category", "==", req.query.category);
+    // Función para obtener badges
+    function getBadges(product) {
+      const badges = [];
+    
+      if (product.discount > 0 && product.discount < 49) {
+        badges.push({ type: "Promo", class: "bg-yellow-500 text-white" });
+      }
+    
+      if (product.freeShipping) {
+        badges.push({ type: "Envío Gratis", class: "bg-green-600 text-white" });
+      }
+    
+      if (product.discount && product.discount >= 50) {
+        badges.push({ type: "Super Ahorro", class: "bg-red-600 text-white" });
+      }
+    
+      return badges;
     }
 
-    // Obtenemos los productos (filtrados o todos si no hay filtro)
-    const productsSnapshot = await productsRef.get();
-    const products = [];
-
-    // Recorremos cada documento de productos y lo agregamos al array
-    productsSnapshot.forEach((doc) => {
-      products.push({
+    // Consultas optimizadas según los filtros
+    let productsQuery, userProductsQuery;
+    let paginatedProducts = [];
+    
+    // Aplicar filtros de categoría si es necesario
+    if (category && category !== "all") {
+      productsQuery = db.collection("products").where("category", "==", category);
+      userProductsQuery = db.collection("userProducts").where("category", "==", category);
+    } else {
+      productsQuery = db.collection("products");
+      userProductsQuery = db.collection("userProducts");
+    }
+    
+    // Aplicar ordenamiento en la consulta cuando sea posible
+    if (sort === "newest") {
+      productsQuery = productsQuery.orderBy("createdAt", "desc");
+      userProductsQuery = userProductsQuery.orderBy("createdAt", "desc");
+    } else if (sort === "price_asc") {
+      productsQuery = productsQuery.orderBy("price", "asc");
+      userProductsQuery = userProductsQuery.orderBy("price", "asc");
+    } else if (sort === "price_desc") {
+      productsQuery = productsQuery.orderBy("price", "desc");
+      userProductsQuery = userProductsQuery.orderBy("price", "desc");
+    }
+    
+    // Cargar productos según la fuente seleccionada
+    if (source === "genz") {
+      // Solo cargar productos de la tienda (colección products)
+      const snapshot = await productsQuery.limit(limit).get();
+      
+      paginatedProducts = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
-      });
-    });
-
-    // Obtenemos todas las categorías desde Firestore
-    const categoriesSnapshot = await db.collection("categories").get();
-    const categories = [];
-
-    // Recorremos cada categoría y la agregamos al array
-    categoriesSnapshot.forEach((doc) => {
-      categories.push({
+        isUserProduct: false
+      }));
+      
+    } else if (source === "users") {
+      // Solo cargar productos de usuarios (colección userProducts)
+      const snapshot = await userProductsQuery.limit(limit).get();
+      
+      paginatedProducts = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
-      });
-    });
+        isUserProduct: true
+      }));
+      
+    } else {
+      // Cargar ambos tipos de productos (all)
+      const [productsSnapshot, userProductsSnapshot] = await Promise.all([
+        productsQuery.limit(Math.ceil(limit/2)).get(),
+        userProductsQuery.limit(Math.ceil(limit/2)).get()
+      ]);
+      
+      const products = productsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        isUserProduct: false
+      }));
+      
+      const userProducts = userProductsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        isUserProduct: true
+      }));
+      
+      // Combinar productos
+      paginatedProducts = [...products, ...userProducts];
+      
+      // Ordenar después de combinar si es necesario
+      if (sort === "newest") {
+        paginatedProducts.sort((a, b) => {
+          const aTime = a.createdAt?.toMillis?.() || 0;
+          const bTime = b.createdAt?.toMillis?.() || 0;
+          return bTime - aTime;
+        });
+      } else if (sort === "price_asc") {
+        paginatedProducts.sort((a, b) => a.price - b.price);
+      } else if (sort === "price_desc") {
+        paginatedProducts.sort((a, b) => b.price - a.price);
+      } else if (sort === "random") {
+        paginatedProducts.sort(() => Math.random() - 0.5);
+      }
+      
+      // Limitar al número correcto después de combinar
+      paginatedProducts = paginatedProducts.slice(0, limit);
+    }
+    
+    // Solo cargar las categorías destacadas
+    const categoriesSnapshot = await db.collection("categories")
+      .limit(8)
+      .get();
+      
+    const categories = categoriesSnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-    // Renderizamos la vista 'products.ejs' y enviamos los datos necesarios
     res.render("index", {
-      title: "Compra online todo lo que te imagines", // Título de la página
-      products, // Lista de productos a mostrar
-      categories, // Lista de categorías para el sidebar
-      selectedCategory: req.query.category || "all", // Categoría activa
-      sort: req.query.sort || "default", // Orden seleccionado (si lo hay)
-      query: req.query, // Todos los parámetros de consulta para usarlos en la vista
-      cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0), // Total de productos en el carrito
+      title: "Compra online todo lo que te imagines",
+      paginatedProducts,
+      categories,
+      featuredCategories: categories,
+      selectedCategory: category || "all",
+      selectedSource: source,
+      selectedSort: sort,
+      query: req.query,
+      currentPage: Number(page),
+      totalPages: 1, // Simplificado para esta implementación
+      cartCount: req.session.cart ? req.session.cart.reduce((total, item) => total + item.quantity, 0) : 0,
+      getBadges
     });
   } catch (error) {
-    // Si hay un error, lo mostramos en consola y mostramos una página de error
     console.error("Error fetching products:", error);
-    res.status(500).render("error", {message: "Error fetching products"});
+    res.status(500).render("error", { message: "Error fetching products" });
   }
 });
 
 // Productos
 app.get("/product/:id", async (req, res) => {
   try {
-    const productDoc = await db.collection("products").doc(req.params.id).get();
+    const productId = req.params.id;
 
+    // Inicializar el carrito si no existe
+    if (!req.session.cart) {
+      req.session.cart = [];
+    }
+
+    // Intentar buscar primero en la colección principal
+    let productDoc = await db.collection("products").doc(productId).get();
+    let isUserProduct = false;
+
+    // Si no existe, buscar en userProducts
     if (!productDoc.exists) {
-      return res.status(404).render("error", {message: "Product not found"});
+      productDoc = await db.collection("userProducts").doc(productId).get();
+      if (!productDoc.exists) {
+        return res.status(404).render("reusables/error-404", { message: "Producto no encontrado" });
+      }
+      isUserProduct = true;
     }
 
     const product = {
       id: productDoc.id,
       ...productDoc.data(),
+      isUserProduct,
     };
 
-    res.render("product-detail", {
+    // Calcular cartCount de forma segura
+    const cartCount = req.session.cart.reduce((total, item) => total + item.quantity, 0);
+
+    res.render("reusables/product-detail", {
       title: product.name,
       product,
-      cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
+      cartCount,
     });
   } catch (error) {
     console.error("Error fetching product:", error);
-    res.status(500).render("error", {message: "Error fetching product"});
+    res.status(500).render("reusables/error-404", { message: "Error al obtener el producto" });
   }
 });
 
 // Carrito
-app.get("/cart", requireAuth, async (req, res) => {
-
-  // Verificamos el inicio de sesion de usuario
-  if (req.session.user && req.session.user.id) {
-    const userId = req.session.user.id;
-
-    try {
-      // Obtenemos el carrito del usuario
-      const cartDoc = await db.collection("carts").doc(userId).get();
-      req.session.cart = cartDoc.exists ? cartDoc.data().items : [];
-    } catch (error) {
-      console.error("Error al cargar carrito del usuario:", error);
+app.get("/cart", async (req, res) => {
+  try {
+    // Inicializar el carrito si no existe
+    if (!req.session.cart) {
       req.session.cart = [];
     }
-  } else {
-    // Si no hay usuario, creamos un carrito vacío
-    req.session.cart = req.session.cart || [];
-  }
 
-  try {
-    // Obtenemos los productos del carrito
-    res.render("cart", {
+    // Si el usuario está autenticado, sincronizamos con su carrito en Firestore
+    if (req.session.user && req.session.user.id) {
+      const userId = req.session.user.id;
+      try {
+        const cartDoc = await db.collection("carts").doc(userId).get();
+        // Solo actualizamos si existe un carrito en Firestore
+        if (cartDoc.exists) {
+          req.session.cart = cartDoc.data().items || [];
+        }
+      } catch (error) {
+        console.error("Error al cargar carrito del usuario:", error);
+        // No sobrescribimos el carrito de sesión en caso de error
+      }
+    }
+
+    // Calculamos totales
+    const total = req.session.cart.reduce((total, item) => {
+      const itemPrice = item.price * (1 - (item.discount || 0) / 100);
+      return total + (itemPrice * item.quantity);
+    }, 0);
+    
+    const cartCount = req.session.cart.reduce((total, item) => total + item.quantity, 0);
+
+    // Renderizamos la vista del carrito
+    res.render("./reusables/cart", {
       title: "Carrito de Compras",
       cart: req.session.cart,
-      total: req.session.cart.reduce((total, item) => total + item.price * item.quantity, 0),
-      cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
+      total,
+      cartCount,
+      user: req.session.user || null
     });
   } catch (error) {
-    console.error("Error al cargar carrito del usuario:", error);
+    console.error("Error al cargar carrito:", error);
     res.status(500).send("Error al cargar el carrito");
   }
 });
@@ -202,50 +375,124 @@ app.get("/cart", requireAuth, async (req, res) => {
 // Agregar al Carrito
 app.post("/cart/add", async (req, res) => {
   try {
-    // Obtenemos el producto del id de la coleccion "products" de firebase y la cantidad
-    const {productId, quantity} = req.body;
-    const productDoc = await db.collection("products").doc(productId).get();
+    const { productId, quantity } = req.body;
+    const isAjaxRequest = req.xhr || req.headers.accept.indexOf('json') > -1;
+    
+    // Inicializar el carrito si no existe
+    if (!req.session.cart) {
+      req.session.cart = [];
+    }
+    
+    let productDoc = await db.collection("products").doc(productId).get();
+    let isUserProduct = false;
 
-    // if (!productDoc.exists) {
-    //   return res.status(404).json({error: "Product not found"});
-    // }
+    // Si no existe en 'products', buscar en 'userProducts'
+    if (!productDoc.exists) {
+      productDoc = await db.collection("userProducts").doc(productId).get();
+      if (!productDoc.exists) {
+        if (isAjaxRequest) {
+          return res.status(404).json({ 
+            success: false, 
+            message: "Producto no encontrado" 
+          });
+        } else {
+          return res.status(404).render("reusables/error-404", { message: "Producto no encontrado" });
+        }
+      }
+      isUserProduct = true;
+    }
 
-    // Verificamos si el producto ya está en el carrito
     const product = {
       id: productDoc.id,
       ...productDoc.data(),
     };
+
+    const discount = product.discount || 0;
+    const finalPrice = discount > 0
+      ? parseFloat((product.price * (1 - discount / 100)).toFixed(2))
+      : product.price;
+
+    // Verificamos si el producto ya está en el carrito
     const existingItemIndex = req.session.cart.findIndex((item) => item.id === productId);
 
     if (existingItemIndex > -1) {
-      // Actualizar cantidad
-      req.session.cart[existingItemIndex].quantity += Number.parseInt(quantity);
+      req.session.cart[existingItemIndex].quantity += parseInt(quantity);
     } else {
-      // Agregar nuevo producto al carrito
       req.session.cart.push({
         id: product.id,
         name: product.name,
-        price: product.price,
+        price: finalPrice,
         image: product.image,
         brand: product.brand,
-        quantity: Number.parseInt(quantity),
+        quantity: parseInt(quantity),
+        isUserProduct, // opcional para saber el origen
       });
+    }
+
+    // Guardar el carrito en Firestore solo si hay sesión iniciada
+    if (req.session.user && req.session.user.id) {
+      await db.collection("carts").doc(req.session.user.id).set({
+        items: req.session.cart,
+        updatedAt: new Date()
+      });
+    }
+
+    // Calcular el total de items en el carrito
+    const cartCount = req.session.cart.reduce((total, item) => total + item.quantity, 0);
+    
+    // Calcular el subtotal del carrito
+    const subtotal = req.session.cart.reduce((total, item) => {
+      const itemPrice = item.price * (1 - (item.discount || 0) / 100);
+      return total + (itemPrice * item.quantity);
+    }, 0);
+
+    // Responder según el tipo de solicitud (AJAX o normal)
+    if (isAjaxRequest) {
+      return res.json({
+        success: true,
+        cartCount,
+        subtotal,
+        message: 'Producto agregado al carrito',
+        product: {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          quantity: parseInt(quantity)
+        }
+      });
+    } else {
+      return res.redirect("/cart");
     }
     
-    // Guardamos los cambios en la sesión
-    if (req.session.user && req.session.user.id) {
-      const userId = req.session.user.id;
-      await db.collection("carts").doc(userId).set({
-        items: req.session.cart,
-      });
-    }
-    // console.log("Carrito actualizado:", req.session.cart);
-    res.redirect("/cart");
   } catch (error) {
     console.error("Error al agregar al carrito:", error);
-    res.status(500).json({error: "Error al agregar al carrito"});
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.status(500).json({ 
+        success: false, 
+        message: "Error al agregar al carrito: " + error.message 
+      });
+    } else {
+      return res.status(500).render("reusables/error-500", { message: "Error al agregar al carrito" });
+    }
   }
 });
+
+// Función de utilidad para calcular totales del carrito de forma segura
+function calculateCartTotals(cart = []) {
+  if (!cart || !Array.isArray(cart)) {
+    return { total: 0, cartCount: 0 };
+  }
+  
+  const total = cart.reduce((total, item) => {
+    const itemPrice = item.price * (1 - (item.discount || 0) / 100);
+    return total + (itemPrice * item.quantity);
+  }, 0);
+  
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+  
+  return { total, cartCount };
+}
 
 // Actualizar cantidad de un producto en el carrito
 app.post("/cart/update", async (req, res) => {
@@ -303,12 +550,21 @@ app.post("/cart/remove", async (req, res) => {
 });
 
 // Rutas de verificacion
-//Usuarios
-app.get("/auth", (req, res) => {
+app.get("/auth", (req, res) => {  
+  // Si el usuario ya está autenticado sin URL de retorno, redirigir al inicio
+  if (req.session.user) {
+    return res.redirect('/');
+  }
+  
+  // Mostrar la página de autenticación con cualquier mensaje de error
   res.render("auth", {
     title: "Iniciar Sesión",
-    user: req.session.user || null,
+    user: null,
+    message: req.session.message || null
   });
+  
+  // Limpiar el mensaje después de mostrarlo
+  delete req.session.message;
 });
 
 // Crear cuenta
@@ -405,9 +661,13 @@ app.post("/auth/logout", (req, res) => {
 
 // obtener pedidos del usuario autentificado
 app.get("/auth/orders", async (req, res) => {
+
   if (!req.session.user) {
-    return res.status(401).json({ error: "No autorizado" });
-  }
+    // Guardar la URL de retorno para redirigir después del login
+    req.session.returnTo = "/checkout";
+    req.session.message = "Debes iniciar sesión para completar tu compra";
+    return res.redirect("/auth");
+  } 
 
   try {
     // Obtener pedidos del usuario
@@ -434,21 +694,67 @@ app.get("/auth/orders", async (req, res) => {
 });
 
 //Ordenes
-app.get("/checkout", (req, res) => {
-  // Obtener productos del carrito
+app.get("/checkout", async (req, res) => {
+  // Verificar si el usuario está autenticado
+  if (!req.session.user) {
+    // Guardar la URL de retorno para redirigir después del login
+    req.session.returnTo = "/checkout";
+    req.session.message = "Debes iniciar sesión para completar tu compra";
+    return res.redirect("/auth");
+  }
+  
+  // Verificar si hay productos en el carrito
   if (!req.session.cart || req.session.cart.length === 0) {
+    req.session.message = "Tu carrito está vacío";
     return res.redirect("/cart");
   }
   
-  // Cargar vista checkout.ejs con los productos del carrito
-  res.render("checkout", {
-    title: "Verificar Pedido",
-    email: req.session.user.email,
-    cart: req.session.cart,
-    total: req.session.cart.reduce((total, item) => total + item.price * item.quantity, 0),
-    cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
-    user: req.session.user, // Puedes usar esto para precargar los datos
-  });
+  try {
+    // Sincronizar con el carrito en Firestore (por si acaba de iniciar sesión)
+    const userId = req.session.user.id;
+    const cartDoc = await db.collection("carts").doc(userId).get();
+    
+    // Si el usuario tiene un carrito guardado y el carrito de sesión está vacío,
+    // usamos el carrito guardado
+    if (cartDoc.exists && cartDoc.data().items && cartDoc.data().items.length > 0) {
+      // Opcionalmente, podríamos fusionar los carritos si ambos tienen productos
+      // Por ahora, simplemente usamos el de Firestore si existe
+      req.session.cart = cartDoc.data().items;
+    } else if (req.session.cart && req.session.cart.length > 0) {
+      // Si no hay carrito en Firestore pero sí en sesión, lo guardamos
+      await db.collection("carts").doc(userId).set({
+        items: req.session.cart,
+        updatedAt: new Date()
+      });
+    }
+    
+    const cartCount = req.session.cart.reduce((total, item) => total + item.quantity, 0);
+
+    const cartItems = req.session.cart.map(item => {
+      const discount = item.discount || 0;
+      const priceWithDiscount = +(item.price * (1 - discount / 100)).toFixed(2);
+      
+      return {
+        ...item,
+        priceWithDiscount
+      };
+    });    
+
+    const total = cartItems.reduce((sum, item) => sum + item.priceWithDiscount * item.quantity, 0);
+    
+    // Renderizamos la vista de checkout
+    res.render("user/shipping-information", {
+      title: "Informacion de Envio",
+      email: req.session.user.email,
+      cart: cartItems,
+      total,
+      cartCount,
+      user: req.session.user
+    });
+  } catch (error) {
+    console.error("Error al procesar checkout:", error);
+    res.status(500).send("Error al procesar el checkout");
+  }
 });
 
 app.post("/checkout", async (req, res) => {
@@ -530,7 +836,7 @@ app.get("/order-confirmation/:id", async (req, res) => {
     };
 
     // Mostrar la vista con el contenido obtenido
-    res.render("order-confirmation", {
+    res.render("user/order-confirmation", {
       title: "Confirmación de Pedido",
       order,
       cartCount: 0,
@@ -542,8 +848,7 @@ app.get("/order-confirmation/:id", async (req, res) => {
 });
 
 // Ordenes por usuarios
-app.get("/user/orders", async (req, res) => {
-
+app.get("/orders", async (req, res) => {
   try {
     //  Obtener id del usuario
     const snapshot = await db
@@ -557,23 +862,19 @@ app.get("/user/orders", async (req, res) => {
       ...doc.data(),
     }));
 
-    res.render("orders-list", {
+    res.render("user/orders-list", {
       title: "Mis Pedidos",
       orders,
     });
   } catch (error) {
     console.error("Error al obtener pedidos:", error);
-    res.status(500).render("reusables/error-404", {
+    res.status(500).render("reusables/error-500", {
       message: "No se pudieron cargar tus pedidos.",
     });
   }
 });
 
-app.get("/user/orders/:id", async (req, res) => {
-  if (!req.session.user) {
-    return res.redirect("/auth");
-  }
-
+app.get("/orders/:id", async (req, res) => {
   try {
     const orderDoc = await db.collection("orders").doc(req.params.id).get();
 
@@ -586,8 +887,8 @@ app.get("/user/orders/:id", async (req, res) => {
       ...orderDoc.data(),
     };
     
-    res.render("orders-view", {
-      title: "Mis Pedidos",
+    res.render("user/orders-view", {
+      title: "Pedido",
       order,
     });       
   } catch (error) {
@@ -598,46 +899,186 @@ app.get("/user/orders/:id", async (req, res) => {
   }
 });
 
-// Productos de usuarios
-app.get("/user/products", async (req, res) => {
+// Cancelar orden
+app.post("/order/cancel", async (req, res) => {
+  const { orderId, reason } = req.body;
+
   try {
-    const snapshot = await db.collection('categories').get();
-    const categories = snapshot.docs.map(doc => ({
+    const orderRef = db.collection("orders").doc(orderId);
+    const orderDoc = await orderRef.get();
+
+    if (!orderDoc.exists) {
+      return res.status(404).render("error", { message: "Pedido no encontrado" });
+    }
+
+    // Puedes guardar el motivo en otra colección si deseas tener un historial
+    await db.collection("cancelledOrders").add({
+      ...orderDoc.data(),
+      reason,
+      cancelledAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    // Luego eliminas el pedido
+    await orderRef.delete();
+
+    res.redirect("/orders");
+  } catch (error) {
+    console.error("Error cancelando el pedido:", error);
+    res.status(500).render("error", { message: "Error cancelando el pedido" });
+  }
+});
+
+// Productos de usuarios
+app.get("/products-list", async (req, res) => {
+  try {
+    const userId = req.session.user.id;
+
+    const snapshot = await db.collection("userProducts")
+      .where("ownerId", "==", userId)
+      .orderBy("createdAt", "desc")
+      .get();
+
+    const products = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
 
-    res.render('reusables/user-products', {
-      title: "Publicar Producto",
-      product: {},
-      categories }); // pasas las categorías a la vista
-  } catch (err) {
-    console.error('Error obteniendo categorías:', err);
-    res.render('reusables/user-products', {
-      categories: [],
-      title: "Publicar Producto" }); // fallback
+    res.render("user/products-list", {
+      title: "Mis Publicaciones",
+      products,
+      cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
+    });
+  } catch (error) {
+    console.error("Error al obtener productos del usuario:", error);
+    res.status(500).render("reusables/error-500", {
+      message: "No se pudieron cargar tus productos.",
+    });
   }
 });
 
-app.post("/user/products/add", async (req, res) => {
-  const { name, price, brand, description, image, stock } = req.body;
+// Agregar productos
+app.get("/product-add", async (req, res) => {
+  try {
+    const userId = req.session.user.id;
+
+    const snapshot = await db.collection("userProducts")
+      .where("ownerId", "==", userId)
+      .orderBy("createdAt", "desc")
+      .get();
+
+    const product = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    res.render("user/product-add", {
+      title: "Publicando Producto",
+      product,
+      cartCount: req.session.cart.reduce((total, item) => total + item.quantity, 0),
+    });
+  } catch (error) {
+    console.error("Error al obtener productos del usuario:", error);
+    res.status(500).render("reusables/error-500", {
+      message: "No se pudieron cargar tus productos.",
+    });
+  }
+});
+
+app.post("/products/add", async (req, res) => {
+  console.log("REQ BODY:", req.body);
+  const {
+    name, category, brand, price, discount,
+    stock, description, image, freeShipping
+  } = req.body;
+
+  if (!req.session.user || !req.session.user.id) {
+    return res.status(401).send("No autorizado");
+  }
 
   try {
     await db.collection("userProducts").add({
+      name,
+      category,
+      brand,
+      price: Number(price),
+      discount: Number(discount),
+      stock: Number(stock),
+      description,
+      image,
+      freeShipping: Boolean(freeShipping),
+      ownerId: req.session.user.id,
+      createdAt: admin.firestore.FieldValue.serverTimestamp()
+    });
+
+    res.status(200).send("Producto publicado");
+  } catch (error) {
+    console.error("Error al agregar producto del usuario:", error);
+    res.status(500).send("Error al publicar el producto");
+  }
+});
+
+// Editar productos
+app.get("/product/edit/:id", async (req, res) => {
+  try {
+    const productDoc = await db.collection("userProducts").doc(req.params.id).get();
+
+    if (!productDoc.exists) {
+      return res.status(404).render("reusables/error-404", { message: "Producto no encontrado" });
+    }
+
+    const product = { id: productDoc.id, ...productDoc.data() };
+
+    // Verificamos que sea el dueño del producto
+    // if (req.session.user?.uid !== product.ownerId) {
+    //   return res.status(403).render("reusables/error-403", { message: "Acceso no autorizado" });
+    // }
+
+    res.render("user/product-edit", {
+      title: "Editar Producto",
+      product,
+      cartCount: req.session.cart.reduce((t, i) => t + i.quantity, 0),
+    });
+  } catch (error) {
+    console.error("Error al cargar producto para editar:", error);
+    res.status(500).render("reusables/error-500", { message: "Error al obtener el producto" });
+  }
+});
+
+app.post("/product/edit/:id", async (req, res) => {
+  const { name, price, brand, description, image, stock, category, discount, freeShipping } = req.body;
+
+  try {
+    const productRef = db.collection("userProducts").doc(req.params.id);
+    const productDoc = await productRef.get();
+
+    if (!productDoc.exists) {
+      return res.status(404).render("reusables/error-404", { message: "Producto no encontrado" });
+    }
+
+    const product = productDoc.data();
+
+    // // Verificamos que sea el dueño
+    // if (req.session.user?.uid !== product.ownerId) {
+    //   return res.status(403).render("reusables/error-403", { message: "Acceso no autorizado" });
+    // }
+
+    await productRef.update({
       name,
       price: Number(price),
       brand,
       description,
       image,
       stock: Number(stock),
-      ownerId: req.session.user.uid,
-      createdAt: admin.firestore.FieldValue.serverTimestamp()
+      category,
+      discount: Number(discount),
+      freeShipping: freeShipping === "on",
+      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 
-    res.redirect("/reusables/user-products");
+    res.redirect("/products-list");
   } catch (error) {
-    console.error("Error al agregar producto del usuario:", error);
-    res.status(500).send("Error al publicar el producto");
+    console.error("Error al actualizar producto:", error);
+    res.status(500).render("reusables/error-500", { message: "Error al guardar los cambios" });
   }
 });
 
@@ -654,8 +1095,8 @@ app.get("/admin", verificarAdmin, async (req, res) => {
       });
     });
 
-    res.render("admin/dashboard", {
-      title: "Admin Dashboard",
+    res.render("admin/products", {
+      title: "Todos los Productos",
       products,
     });
   } catch (error) {
@@ -701,13 +1142,15 @@ app.get("/admin/product/new", async (req, res) => {
 
 app.post("/admin/product/new", async (req, res) => {
   try {
-    const {name, brand, description, price, category, image, stock} = req.body;
+    const {name, brand, description, price, discount, freeShipping, category, image, stock} = req.body;
 
     await db.collection("products").add({
       name,
       brand,
       description,
       price: Number.parseFloat(price),
+      discount: Number.parseInt(discount),
+      freeShipping: freeShipping === "on",
       category,
       image,
       stock: Number.parseInt(stock),
@@ -757,7 +1200,7 @@ app.get("/admin/product/edit/:id", async (req, res) => {
 
 app.post("/admin/product/edit/:id", async (req, res) => {
   try {
-    const {name, brand, description, price, category, image, stock} = req.body;
+    const {name, brand, description, price,discount, freeShipping, category, image, stock} = req.body;
 
     await db
         .collection("products")
@@ -767,6 +1210,8 @@ app.post("/admin/product/edit/:id", async (req, res) => {
           brand,
           description,
           price: Number.parseFloat(price),
+          discount: Number.parseInt(discount),
+          freeShipping: freeShipping === "on",
           category,
           image,
           stock: Number.parseInt(stock),
@@ -792,12 +1237,12 @@ app.post("/admin/product/delete/:id", async (req, res) => {
 });
 
 // Puerto local
-// if (require.main === module) {
-//   const port = process.env.PORT || 8080;
-//   app.listen(port, () => {
-//     console.log(`Servidor local escuchando en el puerto ${port}`);
-//   });
-// }
+if (require.main === module) {
+  const port = process.env.PORT || 8080;
+  app.listen(port, () => {
+    console.log(`Servidor local escuchando en el puerto ${port}`);
+  });
+}
 
 //Comando para desplegar manualmente en Firebase
 //firebase deploy --only "functions,hosting"

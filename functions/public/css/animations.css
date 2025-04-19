@@ -1,0 +1,105 @@
+/* Estilos generales para animaciones */
+.animated-text .letter {
+    display: inline-block;
+    opacity: 0;
+  }
+  
+  /* Estilos para botones animados */
+  .animated-button {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    width: 100px;
+    height: 100px;
+    margin-top: -50px;
+    margin-left: -50px;
+    pointer-events: none;
+  }
+  
+  /* Estilos para tarjetas animadas */
+  .animated-card {
+    transition: all 0.3s ease;
+  }
+  
+  .card-glow {
+    box-shadow: 0 0 20px rgba(62, 152, 199, 0.5);
+  }
+  
+  /* Estilos para loaders */
+  .animated-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .animated-loader .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 4px;
+  }
+  
+  .animated-loader .circle {
+    width: 100%;
+    height: 100%;
+    border: 4px solid;
+    border-top-color: transparent;
+    border-radius: 50%;
+  }
+  
+  .animated-loader .bar {
+    width: 8px;
+    height: 5px;
+    margin: 0 2px;
+    border-radius: 2px 2px 0 0;
+  }
+  
+  .animated-loader .pulse {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+  
+  /* Estilos para transiciones de página */
+  .page-transition {
+    will-change: transform, opacity;
+  }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .card-glow {
+    box-shadow: 0 0 12px rgba(255, 87, 34, 0.5);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  /* Estilos para animación de tabs */
+[data-tab] {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.tab-hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+}
+
+.tab-visible {
+  opacity: 1;
+  transform: translateY(0);
+  position: relative;
+}
+
+/* Contenedor para mantener el espacio durante la animación */
+.tabs-container {
+  position: relative;
+  min-height: 200px; /* Ajusta según el contenido mínimo */
+}

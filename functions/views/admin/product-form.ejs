@@ -10,9 +10,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
-      --primary-light: rgba(79, 70, 229, 0.1);
+      --primary: #ef4444;
+      --primary-hover: #dc2626;
+      --primary-light: rgba(239, 68, 68, 0.1);
       --secondary: #f3f4f6;
       --secondary-hover: #e5e7eb;
       --danger: #ef4444;
@@ -145,7 +145,6 @@
     /* Content Styles */
     .content {
       flex: 1;
-      margin-left: var(--sidebar-width);
       display: flex;
       flex-direction: column;
     }
@@ -187,6 +186,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      background-color: var(--bg-white);
     }
 
     .card-title {
@@ -245,7 +245,7 @@
       margin-bottom: 0;
     }
 
-    .form-group label {
+    .form-label {
       display: block;
       margin-bottom: 0.5rem;
       font-weight: 500;
@@ -253,11 +253,7 @@
       color: var(--text-secondary);
     }
 
-    .form-group input[type="text"],
-    .form-group input[type="number"],
-    .form-group input[type="url"],
-    .form-group select,
-    .form-group textarea {
+    .form-input {
       width: 100%;
       padding: 0.625rem 0.75rem;
       border: 1px solid var(--border-color);
@@ -269,39 +265,14 @@
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .form-group input[type="text"]:focus,
-    .form-group input[type="number"]:focus,
-    .form-group input[type="url"]:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
+    .form-input:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
     }
 
-    .form-group textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .form-group select {
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234b5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.75rem center;
-      background-size: 16px;
-      padding-right: 2.5rem;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .form-row .form-group {
-      flex: 1;
-      margin-bottom: 0;
+    .form-input::placeholder {
+      color: var(--text-light);
     }
 
     .form-hint {
@@ -316,66 +287,15 @@
       color: var(--danger);
     }
 
-    .image-preview {
-      margin-top: 1rem;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      padding: 0.5rem;
-      background-color: var(--secondary);
-      position: relative;
-    }
-
-    .image-preview img {
-      display: block;
-      max-width: 100%;
-      max-height: 200px;
-      margin: 0 auto;
-      border-radius: calc(var(--radius) - 0.25rem);
-      object-fit: contain;
-    }
-
-    .image-upload {
+    .form-row {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border: 2px dashed var(--border-color);
-      border-radius: var(--radius);
-      padding: 2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .image-upload:hover {
-      border-color: var(--primary);
-      background-color: var(--primary-light);
-    }
-
-    .image-upload i {
-      font-size: 2rem;
-      color: var(--text-light);
-      margin-bottom: 1rem;
-    }
-
-    .image-upload-text {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      margin-bottom: 0.5rem;
-    }
-
-    .image-upload-hint {
-      font-size: 0.75rem;
-      color: var(--text-light);
-    }
-
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
       gap: 1rem;
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border-color);
+      margin-bottom: 1.25rem;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+      margin-bottom: 0;
     }
 
     .form-section {
@@ -387,8 +307,48 @@
       font-weight: 600;
       margin-bottom: 1rem;
       color: var(--text-primary);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
     }
 
+    /* Image Preview Styles */
+    .image-preview-container {
+      margin-top: 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1rem;
+      background-color: var(--bg-light);
+    }
+
+    .image-preview {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+      position: relative;
+    }
+
+    .image-preview img {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: calc(var(--radius) - 0.25rem);
+      object-fit: contain;
+    }
+
+    .image-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+    }
+
+    .image-placeholder i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Toggle Switch */
     .toggle-switch {
       position: relative;
       display: inline-block;
@@ -454,8 +414,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius);
+      padding: 0.625rem 1.25rem;
+      border-radius: 9999px;
       font-weight: 500;
       font-size: 0.875rem;
       cursor: pointer;
@@ -480,6 +440,7 @@
     .btn-secondary {
       background-color: var(--secondary);
       color: var(--text-primary);
+      border: 1px solid var(--border-color);
     }
 
     .btn-secondary:hover {
@@ -495,13 +456,13 @@
       background-color: var(--danger-hover);
     }
 
-    .btn-success {
-      background-color: var(--success);
-      color: white;
-    }
-
-    .btn-success:hover {
-      background-color: var(--success-hover);
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
     }
 
     /* Mobile Menu Toggle */
@@ -512,6 +473,13 @@
       color: var(--text-primary);
       font-size: 1.25rem;
       cursor: pointer;
+    }
+
+    /* Checkbox Styles */
+    .form-checkbox {
+      width: 1rem;
+      height: 1rem;
+      accent-color: var(--primary);
     }
 
     /* Responsive Styles */
@@ -560,171 +528,274 @@
           </button>
           <h1><%= product ? 'Editar Producto' : 'Agregar Nuevo Producto' %></h1>
         </div>
-        <a href="/admin" class="btn btn-secondary">
+        <a href="/admin/products" class="btn btn-secondary">
           <i class="fas fa-arrow-left"></i>
           Regresar
         </a>
       </header>
       
       <div class="content-body">
+        <!-- Breadcrumb -->
+        <nav class="flex mb-4 text-xs" aria-label="Breadcrumb">
+          <ol class="inline-flex items-center space-x-1">
+            <li class="inline-flex items-center">
+              <a href="/admin" class="text-gray-500 hover:text-red-600">Dashboard</a>
+            </li>
+            <li>
+              <div class="flex items-center">
+                <i class="fas fa-chevron-right text-gray-400 mx-1 text-[10px]"></i>
+                <a href="/admin/products" class="text-gray-500 hover:text-red-600">Productos</a>
+              </div>
+            </li>
+            <li>
+              <div class="flex items-center">
+                <i class="fas fa-chevron-right text-gray-400 mx-1 text-[10px]"></i>
+                <span class="text-gray-400"><%= product ? 'Editar Producto' : 'Nuevo Producto' %></span>
+              </div>
+            </li>
+          </ol>
+        </nav>
+
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title"><%= product ? 'Editar detalles del producto' : 'Detalles del nuevo producto' %></h2>
+            <div class="flex items-center">
+              <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 mr-3">
+                <i class="fas <%= product ? 'fa-edit' : 'fa-plus' %>"></i>
+              </div>
+              <div>
+                <h2 class="card-title"><%= product ? 'Editar detalles del producto' : 'Detalles del nuevo producto' %></h2>
+                <p class="text-xs text-gray-500">Los campos marcados con * son obligatorios</p>
+              </div>
+            </div>
           </div>
           <div class="card-body">
             <div class="form-tabs">
-              <div class="form-tab active" data-tab="basic">Informacion Basica</div>
+              <div class="form-tab active" data-tab="basic">Información Básica</div>
+              <div class="form-tab" data-tab="pricing">Precio e Inventario</div>
               <div class="form-tab" data-tab="media">Imagen</div>
-              <div class="form-tab" data-tab="pricing">Precio/Inventario</div>
+              <div class="form-tab" data-tab="shipping">Envío</div>
             </div>
             
             <form action="<%= product ? `/admin/product/edit/${product.id}` : '/admin/product/new' %>" method="POST" class="product-form" id="product-form">
-              <!-- Apartado de informacion basica -->
+              <!-- Información Básica -->
               <div class="tab-content active" id="tab-basic">
-                <div class="form-group">
-                  <label for="name">Titulo del Producto</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    name="name" 
-                    value="<%= product ? product.name : '' %>" 
-                    required
-                    placeholder="Ingresa el nombre del producto"
-                  >
-                  <div class="form-hint">Un nombre claro y descriptivo ayuda a los clientes a encontrar su producto.</div>
-                </div>
-
-                <div class="form-group">
-                  <label for="name">Marca del Producto</label>
-                  <input 
-                    type="text" 
-                    id="brand" 
-                    name="brand" 
-                    value="<%= product ? product.brand : '' %>" 
-                    required
-                    placeholder="Ingresa la marca del producto"
-                  >
-                  <div class="form-hint">La informacion de la marca es algo muy importante para los compradores.</div>
-                </div>
-                
-                <div class="form-group">
-                  <label for="description">Descripcion</label>
-                  <textarea 
-                    id="description" 
-                    name="description" 
-                    rows="6" 
-                    required
-                    placeholder="Describe los detalles del producto"
-                  ><%= product ? product.description : '' %></textarea>
-                  <div class="form-hint">Proporcione una descripción detallada de su producto, incluidas características y beneficios.</div>
-                </div>
-                
-                <div class="form-group">
-                  <label for="category">Categoria</label>
-                  <select id="category" name="category" required>
-                    <option value="">Seleccione una Categoria</option>
-                    <% categories.forEach(category => { %>
-                      <option value="<%= category.id %>" <%= product && product.category === category.id ? 'selected' : '' %>>
-                        <%= category.name %>
-                      </option>
-                    <% }); %>
-                  </select>
-                  <div class="form-hint">Elija la categoría más relevante para su producto.</div>
-                </div>
-              </div>
-              
-              <!-- Apartado de Imagen -->
-              <div class="tab-content" id="tab-media">
-                <div class="form-group">
-                  <label for="image">URL de la imagen</label>
-                  <input 
-                    type="url" 
-                    id="image" 
-                    name="image" 
-                    value="<%= product ? product.image : '' %>" 
-                    required
-                    placeholder="https://example.com/image.jpg"
-                  >
-                  <div class="form-hint">Introduzca una URL directa a la imagen de su producto.</div>
-                </div>
-                
-                <% if (product && product.image) { %>
-                  <div class="image-preview">
-                    <img src="<%= product.image %>" alt="<%= product.name %>" id="image-preview">
-                  </div>
-                <% } else { %>
-                  <div class="image-preview" style="display: none;">
-                    <img src="/placeholder.svg" alt="Product preview" id="image-preview">
-                  </div>
-                <% } %>
-              </div>
-              
-              <!-- Apartado de precio e inventario -->
-              <div class="tab-content" id="tab-pricing">
-                <dv class="form-row">
+                <div class="form-section">
+                  <h3 class="form-section-title">Detalles del Producto</h3>
+                  
                   <div class="form-group">
-                    <label for="price">Precio Regular (S/.)</label>
+                    <label for="name" class="form-label">Nombre del Producto <span class="text-red-600">*</span></label>
                     <input 
-                      type="number" 
-                      id="price" 
-                      name="price" 
-                      step="0.01" 
-                      min="0" 
-                      value="<%= product ? product.price : '' %>" 
+                      type="text" 
+                      id="name" 
+                      name="name" 
+                      class="form-input" 
+                      value="<%= product ? product.name : '' %>" 
                       required
-                      placeholder="0.00"
+                      placeholder="Ej: Smartphone Samsung Galaxy S21 128GB"
                     >
+                    <div class="form-hint">Incluye características clave en el título para mejorar la visibilidad</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="brand" class="form-label">Marca <span class="text-red-600">*</span></label>
+                    <input 
+                      type="text" 
+                      id="brand" 
+                      name="brand" 
+                      class="form-input" 
+                      value="<%= product ? product.brand : '' %>" 
+                      required
+                      placeholder="Ej: Samsung, Apple, Nike"
+                    >
+                    <div class="form-hint">La información de la marca es importante para los compradores</div>
                   </div>
                   
                   <div class="form-group">
-                    <label for="stock">Cantidad en Stock</label>
-                    <input 
-                      type="number" 
-                      id="stock" 
-                      name="stock" 
-                      min="0" 
-                      value="<%= product ? product.stock : '' %>" 
+                    <label for="description" class="form-label">Descripción <span class="text-red-600">*</span></label>
+                    <textarea 
+                      id="description" 
+                      name="description" 
+                      rows="6" 
+                      class="form-input"
                       required
-                      placeholder="0"
-                    >
+                      placeholder="Describe detalladamente tu producto, incluyendo características, beneficios y especificaciones..."
+                    ><%= product ? product.description : '' %></textarea>
+                    <div class="flex justify-between mt-1">
+                      <div class="form-hint">Sé detallado para ayudar a los compradores</div>
+                      <div class="form-hint"><span id="char-count">0</span>/2000</div>
+                    </div>
                   </div>
-                </dv>
-                
-                <div class="form-group">
-                  <div class="toggle-label">
-                    <label class="toggle-switch">
-                      <input 
-                        type="checkbox" 
-                        id="manage_stock" 
-                        name="manage_stock"
-                        <%= product && product.manage_stock ? 'checked' : '' %>
-                      >
-                      <span class="toggle-slider"></span>
-                    </label>
-                    <span>Seguimiento del inventario de este producto</span>
+                  
+                  <div class="form-group">
+                    <label for="category" class="form-label">Categoría <span class="text-red-600">*</span></label>
+                    <div class="relative">
+                      <select id="category" name="category" class="form-input appearance-none" required>
+                        <option value="" disabled <%= !product ? 'selected' : '' %>>Seleccionar categoría</option>
+                        <% categories.forEach(category => { %>
+                          <option value="<%= category.id %>" <%= product && product.category === category.id ? 'selected' : '' %>>
+                            <%= category.name %>
+                          </option>
+                        <% }); %>
+                      </select>
+                      <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
+                        <i class="fas fa-chevron-down text-xs"></i>
+                      </div>
+                    </div>
+                    <div class="form-hint">Elija la categoría más relevante para su producto</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Precio e Inventario -->
+              <div class="tab-content" id="tab-pricing">
+                <div class="form-section">
+                  <h3 class="form-section-title">Precio</h3>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="price" class="form-label">Precio <span class="text-red-600">*</span></label>
+                      <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                          <span class="text-gray-500">S/</span>
+                        </div>
+                        <input 
+                          type="number" 
+                          id="price" 
+                          name="price" 
+                          class="form-input pl-8" 
+                          step="0.01" 
+                          min="0.01"
+                          value="<%= product ? product.price : '' %>" 
+                          required
+                          placeholder="0.00"
+                        >
+                      </div>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="discount" class="form-label">Descuento (%)</label>
+                      <div class="relative">
+                        <input 
+                          type="number" 
+                          id="discount" 
+                          name="discount" 
+                          class="form-input" 
+                          min="0" 
+                          max="99"
+                          value="<%= product ? product.discount : 0 %>"
+                          placeholder="0"
+                        >
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                          <span class="text-gray-500">%</span>
+                        </div>
+                      </div>
+                      <div class="form-hint">Deja en 0 si no hay descuento</div>
+                    </div>
                   </div>
                 </div>
                 
-                <div class="form-group">
-                  <div class="toggle-label">
-                    <label class="toggle-switch">
+                <div class="form-section">
+                  <h3 class="form-section-title">Inventario</h3>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="stock" class="form-label">Stock <span class="text-red-600">*</span></label>
                       <input 
-                        type="checkbox" 
-                        id="featured" 
-                        name="featured"
-                        <%= product && product.featured ? 'checked' : '' %>
+                        type="number" 
+                        id="stock" 
+                        name="stock" 
+                        class="form-input" 
+                        min="0" 
+                        value="<%= product ? product.stock : '' %>" 
+                        required
+                        placeholder="1"
                       >
-                      <span class="toggle-slider"></span>
-                    </label>
-                    <span>Destaca este producto en la página de inicio</span>
+                    </div>
+                  </div>   
+                </div>
+              </div>
+              
+              <!-- Imagen -->
+              <div class="tab-content" id="tab-media">
+                <div class="form-section">
+                  <h3 class="form-section-title">Imagen del Producto</h3>
+                  
+                  <div class="form-group">
+                    <label for="image" class="form-label">URL de la Imagen <span class="text-red-600">*</span></label>
+                    <input 
+                      type="url" 
+                      id="image" 
+                      name="image" 
+                      class="form-input" 
+                      value="<%= product ? product.image : '' %>" 
+                      required
+                      placeholder="https://ejemplo.com/imagen.jpg"
+                    >
+                    <div class="form-hint">Ingresa la URL de una imagen clara y de buena calidad</div>
+                  </div>
+                  
+                  <div class="image-preview-container">
+                    <div class="image-preview">
+                      <% if (product && product.image) { %>
+                        <img src="<%= product.image %>" alt="<%= product.name %>" id="image-preview">
+                      <% } else { %>
+                        <div class="image-placeholder" id="no-image">
+                          <i class="fas fa-image"></i>
+                          <p class="text-sm">La vista previa aparecerá aquí</p>
+                        </div>
+                        <img src="/placeholder.svg" alt="Vista previa" id="image-preview" style="display: none;">
+                      <% } %>
+                    </div>
+                  </div>
+                  
+                  <div class="mt-4">
+                    <p class="text-sm text-gray-600 mb-2">Recomendaciones:</p>
+                    <ul class="text-xs text-gray-500 list-disc pl-4 space-y-1">
+                      <li>Usa imágenes de alta calidad (mínimo 800x800 píxeles)</li>
+                      <li>Fondo blanco o neutro para destacar el producto</li>
+                      <li>Evita textos o marcas de agua en la imagen</li>
+                      <li>Formatos aceptados: JPG, PNG</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Envío -->
+              <div class="tab-content" id="tab-shipping">
+                <div class="form-section">
+                  <h3 class="form-section-title">Opciones de Envío</h3>
+                  
+                  <div class="form-group">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                      <div class="flex items-center">
+                        <input 
+                          type="checkbox" 
+                          id="freeShipping" 
+                          name="freeShipping" 
+                          class="form-checkbox" 
+                          <%= product && product.freeShipping ? 'checked' : '' %>
+                        >
+                        <label for="freeShipping" class="ml-3">
+                          <span class="text-sm font-medium text-gray-700">Envío gratuito disponible</span>
+                          <p class="text-xs text-gray-500">Los compradores no pagarán gastos de envío</p>
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
               
               <div class="form-actions">
-                <a href="/admin" class="btn btn-secondary">Cancelar</a>
+                <% if (product) { %>
+                  <button type="button" id="delete-btn" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i>
+                    Eliminar Producto
+                  </button>
+                  <div class="flex-1"></div>
+                <% } %>
+                <a href="/admin/products" class="btn btn-secondary">Cancelar</a>
                 <button type="submit" class="btn btn-primary">
-                  <i class="fas fa-save"></i>
+                  <i class="fas fa-<%= product ? 'save' : 'plus' %>"></i>
                   <%= product ? 'Actualizar Producto' : 'Agregar Producto' %>
                 </button>
               </div>
@@ -734,6 +805,30 @@
       </div>
     </main>
   </div>
+  
+  <!-- Delete Confirmation Modal -->
+  <% if (product) { %>
+    <div id="delete-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+      <div class="bg-white rounded-lg shadow-lg max-w-md w-full mx-4">
+        <div class="p-6">
+          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-red-100 text-red-600 mx-auto mb-4">
+            <i class="fas fa-exclamation-triangle text-xl"></i>
+          </div>
+          <h3 class="text-lg font-medium text-center mb-2">¿Eliminar este producto?</h3>
+          <p class="text-gray-500 text-center mb-6">Esta acción no se puede deshacer. El producto será eliminado permanentemente.</p>
+          
+          <div class="flex justify-center gap-4">
+            <button type="button" id="cancel-delete" class="btn btn-secondary">
+              Cancelar
+            </button>
+            <button type="button" id="confirm-delete" class="btn btn-danger">
+              Sí, eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% } %>
   
   <script>
     // Mobile menu toggle
@@ -764,40 +859,79 @@
     // Image preview functionality
     const imageInput = document.getElementById('image');
     const imagePreview = document.getElementById('image-preview');
-    const imagePreviewContainer = document.querySelector('.image-preview');
+    const noImage = document.getElementById('no-image');
     
     imageInput.addEventListener('input', function() {
       if (this.value) {
         imagePreview.src = this.value;
-        imagePreviewContainer.style.display = 'block';
+        imagePreview.style.display = 'block';
+        if (noImage) noImage.style.display = 'none';
+        
+        // Check if image loads correctly
+        imagePreview.onload = function() {
+          imagePreview.style.display = 'block';
+          if (noImage) noImage.style.display = 'none';
+        };
+        
+        imagePreview.onerror = function() {
+          imagePreview.style.display = 'none';
+          if (noImage) noImage.style.display = 'flex';
+        };
       } else {
-        imagePreviewContainer.style.display = 'none';
+        imagePreview.style.display = 'none';
+        if (noImage) noImage.style.display = 'flex';
       }
     });
     
-    // Form validation
-    const productForm = document.getElementById('product-form');
-    productForm.addEventListener('submit', function(event) {
-      let isValid = true;
+    // Character counter for description
+    const descriptionField = document.getElementById('description');
+    const charCount = document.getElementById('char-count');
+    
+    function updateCharCount() {
+      const count = descriptionField.value.length;
+      charCount.textContent = count;
       
-      // Basic validation example
-      const nameInput = document.getElementById('name');
-      const priceInput = document.getElementById('price');
-      
-      if (!nameInput.value.trim()) {
-        isValid = false;
-        // Add error class or message
+      if (count > 2000) {
+        charCount.classList.add('text-red-600');
+      } else {
+        charCount.classList.remove('text-red-600');
       }
+    }
+    
+    descriptionField.addEventListener('input', updateCharCount);
+    
+    // Initialize character count
+    updateCharCount();
+    
+    // Delete product functionality
+      const deleteBtn = document.getElementById('delete-btn');
+      const deleteModal = document.getElementById('delete-modal');
+      const cancelDeleteBtn = document.getElementById('cancel-delete');
+      const confirmDeleteBtn = document.getElementById('confirm-delete');
       
-      if (!priceInput.value || parseFloat(priceInput.value) < 0) {
-        isValid = false;
-        // Add error class or message
-      }
+      deleteBtn.addEventListener('click', function() {
+        deleteModal.classList.remove('hidden');
+      });
       
-      if (!isValid) {
-        event.preventDefault();
-      }
-    });
+      cancelDeleteBtn.addEventListener('click', function() {
+        deleteModal.classList.add('hidden');
+      });
+      
+      confirmDeleteBtn.addEventListener('click', function() {
+        fetch(`/admin/product/delete/<%= product.id %>`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            window.location.href = "/admin/products?message=deleted";
+          } else {
+            alert("Error al eliminar: " + data.message);
+          }
+        })
+        .catch(err => alert("Error en la solicitud"));
+      });
     
     // Close sidebar when clicking outside on mobile
     document.addEventListener('click', function(event) {
@@ -811,6 +945,24 @@
         sidebar.classList.remove('open');
       }
     });
+    
+    // Auto-calculate discount when price and oldPrice change
+    const priceInput = document.getElementById('price');
+    const oldPriceInput = document.getElementById('oldPrice');
+    const discountInput = document.getElementById('discount');
+    
+    function calculateDiscount() {
+      const price = parseFloat(priceInput.value) || 0;
+      const oldPrice = parseFloat(oldPriceInput.value) || 0;
+      
+      if (oldPrice > price && price > 0) {
+        const discount = Math.round(((oldPrice - price) / oldPrice) * 100);
+        discountInput.value = discount;
+      }
+    }
+    
+    priceInput.addEventListener('input', calculateDiscount);
+    oldPriceInput.addEventListener('input', calculateDiscount);
   </script>
 </body>
 </html>

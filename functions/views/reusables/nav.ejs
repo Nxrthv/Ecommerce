@@ -4,10 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GEN Z - <%= title %></title>
-  <link rel="shortcut icon" href="../../public/assets/logo.png" type="image/png">
+  <link rel="shortcut icon" href="/assets/logo.png" type="image/png">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/css/styles.css">
+
+  <!-- Incluir anime.js desde CDN o desde node_modules -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <!-- O si prefieres usar tu copia local -->
+  <!-- <script src="/js/anime.min.js"></script> -->
+
+  <!-- Tus scripts de animación -->
+  <script src="/js/animation.js" defer></script>
+  <script src="/js/button-animation.js" defer></script>
+  <script src="/js/text-animation.js" defer></script>
+  <script src="/js/card-animation.js"></script>
+  <script src="/js/loader-animation.js"></script>
+  <script src="/js/counter-animation.js"></script>
+
+  <!-- Estilos para animaciones -->
+  <link rel="stylesheet" href="/css/animations.css">
+  
   <script>
     tailwind.config = {
       theme: {
@@ -22,14 +38,234 @@
     }
   </script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+    * {
+      font-family: "Inria Sans", sans-serif;
+      font-weight: 400;
+    }
+    /* From Uiverse.io by mobinkakei */ 
+    .loader {
+      --path: #2f3545;
+      --dot: #5628ee;
+      --duration: 3s;
+      width: 44px;
+      height: 44px;
+      position: relative;
+    }
+
+    .loader:before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      position: absolute;
+      display: block;
+      background: var(--dot);
+      top: 37px;
+      left: 19px;
+      transform: translate(-18px, -18px);
+      animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
+        infinite;
+    }
+
+    .loader svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .loader svg rect,
+    .loader svg polygon,
+    .loader svg circle {
+      fill: none;
+      stroke: var(--path);
+      stroke-width: 10px;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+
+    .loader svg polygon {
+      stroke-dasharray: 145 76 145 76;
+      stroke-dashoffset: 0;
+      animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
+        infinite;
+    }
+
+    .loader svg rect {
+      stroke-dasharray: 192 64 192 64;
+      stroke-dashoffset: 0;
+      animation: pathRect 3s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
+
+    .loader svg circle {
+      stroke-dasharray: 150 50 150 50;
+      stroke-dashoffset: 75;
+      animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
+        infinite;
+    }
+
+    .loader.triangle {
+      width: 48px;
+    }
+
+    .loader.triangle:before {
+      left: 21px;
+      transform: translate(-10px, -18px);
+      animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
+        infinite;
+    }
+
+    @keyframes pathTriangle {
+      33% {
+        stroke-dashoffset: 74;
+      }
+
+      66% {
+        stroke-dashoffset: 147;
+      }
+
+      100% {
+        stroke-dashoffset: 221;
+      }
+    }
+
+    @keyframes dotTriangle {
+      33% {
+        transform: translate(0, 0);
+      }
+
+      66% {
+        transform: translate(10px, -18px);
+      }
+
+      100% {
+        transform: translate(-10px, -18px);
+      }
+    }
+
+    @keyframes pathRect {
+      25% {
+        stroke-dashoffset: 64;
+      }
+
+      50% {
+        stroke-dashoffset: 128;
+      }
+
+      75% {
+        stroke-dashoffset: 192;
+      }
+
+      100% {
+        stroke-dashoffset: 256;
+      }
+    }
+
+    @keyframes dotRect {
+      25% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(18px, -18px);
+      }
+
+      75% {
+        transform: translate(0, -36px);
+      }
+
+      100% {
+        transform: translate(-18px, -18px);
+      }
+    }
+
+    @keyframes pathCircle {
+      25% {
+        stroke-dashoffset: 125;
+      }
+
+      50% {
+        stroke-dashoffset: 175;
+      }
+
+      75% {
+        stroke-dashoffset: 225;
+      }
+
+      100% {
+        stroke-dashoffset: 275;
+      }
+    }
+
+    .loader {
+      display: inline-block;
+      margin: 0 16px;
+    }
+
     .ali-gradient {
       background: linear-gradient(90deg, #ff4747 0%, #ff0000 100%);
     }
     .search-btn {
       background: linear-gradient(90deg, #ff4747 0%, #ff0000 100%);
     }
+    
+    /* Animación para el filtrado de categorías */
+    @keyframes highlightSearch {
+      0% { box-shadow: 0 0 0 0 rgba(255, 71, 71, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 71, 71, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 71, 71, 0); }
+    }
+    
+    .search-highlight {
+      animation: highlightSearch 1s ease-in-out;
+    }
+    
+    /* Estilo para las etiquetas de categoría */
+    .category-tag {
+      display: inline-flex;
+      align-items: center;
+      background-color: #fff2e8;
+      color: #ff4747;
+      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    
+    .category-tag:hover {
+      background-color: #ff4747;
+      color: white;
+    }
+    
+    .category-tag .remove-icon {
+      margin-left: 0.25rem;
+      font-size: 0.75rem;
+    }
   </style>
 </head>
+<div id="page-loader" class="fixed inset-0 bg-white z-[9999] flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
+  <!-- From Uiverse.io by mobinkakei --> 
+  <div class="loader">
+    <svg viewBox="0 0 80 80">
+      <circle r="32" cy="40" cx="40" id="test"></circle>
+    </svg>
+  </div>
+
+  <div class="loader triangle">
+    <svg viewBox="0 0 86 80">
+      <polygon points="43 8 79 72 7 72"></polygon>
+    </svg>
+  </div>
+
+  <div class="loader">
+    <svg viewBox="0 0 80 80">
+      <rect height="64" width="64" y="8" x="8"></rect>
+    </svg>
+  </div>
+
+</div>
 <body class="bg-gray-50">
   <!-- Main Header -->
   <header class="sticky top-0 z-50 w-full bg-white shadow-sm">
@@ -44,7 +280,7 @@
           </a>
         </div>
         
-        <!-- Categories Button (Mobile & Desktop) -->
+        <!-- Categorias -->
         <div class="hidden md:flex items-center ml-6 mr-4">
           <div class="relative group">
             <button class="flex items-center space-x-1 text-gray-700 hover:text-ali-red">
@@ -52,44 +288,41 @@
               <span class="font-medium">Categorías</span>
               <i class="fas fa-chevron-down text-xs"></i>
             </button>
-            <div class="absolute left-0 w-60 bg-white shadow-lg rounded-md hidden group-hover:block z-50">
+        
+            <!-- Menú desplegable con animación -->
+            <div class="absolute left-0 w-60 bg-white shadow-lg rounded-md z-50 opacity-0 scale-y-0 origin-top transform transition-all duration-300 group-hover:opacity-100 group-hover:scale-y-100">
               <div class="py-2">
-                <a href="/products?category=electronics" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                  <i class="fas fa-mobile-alt w-6"></i> Electrónica
-                </a>
-                <a href="/products?category=fashion" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                  <i class="fas fa-tshirt w-6"></i> Moda
-                </a>
-                <a href="/products?category=home" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                  <i class="fas fa-home w-6"></i> Hogar y Jardín
-                </a>
-                <a href="/products?category=beauty" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                  <i class="fas fa-spa w-6"></i> Belleza
-                </a>
-                <a href="/products?category=toys" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                  <i class="fas fa-gamepad w-6"></i> Juguetes
-                </a>
-                <a href="/products?category=sports" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                  <i class="fas fa-futbol w-6"></i> Deportes
-                </a>
-                <a href="/" class="block px-4 py-2 text-sm font-medium text-ali-red hover:bg-gray-100">
-                  Ver todas los productos
-                </a>
+                <% categories.forEach(category => { %>
+                  <a href="#" 
+                     class="block px-4 py-2 text-sm hover:bg-gray-100 category-link"
+                     data-category="<%= category.name %>"
+                     data-slug="<%= category.slug || category.name.toLowerCase() %>">
+                    <i class="fas fa-<%= category.icon || 'tag' %> w-6"></i> <%= category.name %>
+                  </a>
+                <% }) %>
               </div>
             </div>
           </div>
-        </div>
+        </div>            
         
-        <!-- Search Bar -->
+        <!-- Barra de Busqueda -->
         <div class="hidden md:block flex-1 max-w-3xl mx-4">
-          <form action="/" method="GET" class="relative">
+          <form action="/" method="GET" class="relative" id="search-form">
             <div class="flex mt-2">
-              <input
-                type="search"
-                name="q"
-                placeholder="Buscar en GEN Z..."
-                class="w-full rounded-l-full pl-4 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-ali-red focus:border-transparent"
-              />
+              <div class="flex-1 relative">
+                <input
+                  type="search"
+                  name="q"
+                  id="search-input"
+                  placeholder="Buscar en GEN Z..."
+                  class="w-full rounded-l-full pl-4 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-ali-red focus:border-transparent"
+                />
+                <!-- Contenedor para etiquetas de categoría -->
+                <div id="category-tags" class="absolute top-full left-0 right-0 mt-1 flex flex-wrap"></div>
+                
+                <!-- Campo oculto para categoría -->
+                <input type="hidden" name="category" id="category-input" value="">
+              </div>
               <button type="submit" class="search-btn text-white px-6 rounded-r-full flex items-center justify-center">
                 <i class="fas fa-search"></i>
               </button>
@@ -111,7 +344,7 @@
           
             <% if (user) { %>
               <!-- Menú desplegable cuando hay sesión -->
-              <div class="absolute right-0 w-64 bg-white border rounded shadow-lg hidden group-hover:block z-50">
+              <div class="absolute right-0 w-64 bg-white border rounded shadow-lg z-50 opacity-0 scale-y-0 origin-top transition-all duration-300 group-hover:opacity-100 group-hover:scale-y-100">
                 <div class="p-4 border-b">
                   <div class="flex items-center">
                     <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
@@ -124,18 +357,18 @@
                   </div>
                 </div>
                 <div class="py-2">
-                  <a href="/user/orders" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                  <a href="/orders" class="block px-4 py-2 text-sm hover:bg-gray-100">
                     <i class="fas fa-box-open w-6"></i> Mis pedidos
                   </a>
-                  <a href="/user/wishlist" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                  <!-- <a href="/user/wishlist" class="block px-4 py-2 text-sm hover:bg-gray-100">
                     <i class="fas fa-heart w-6"></i> Lista de deseos
-                  </a>
-                  <a href="/user/products" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                  </a> -->
+                  <a href="/products-list" class="block px-4 py-2 text-sm hover:bg-gray-100">
                     <i class="fas fa-store w-6"></i> Mis productos
                   </a>
-                  <a href="/user/coupons" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                  <!-- <a href="/user/coupons" class="block px-4 py-2 text-sm hover:bg-gray-100">
                     <i class="fas fa-ticket-alt w-6"></i> Mis cupones
-                  </a>
+                  </a> -->
                 </div>
                 <div class="border-t py-2">
                   <form action="/auth/logout" method="POST">
@@ -145,9 +378,10 @@
                   </form>
                 </div>
               </div>
+
             <% } else { %>
               <!-- Menú desplegable cuando no hay sesión -->
-              <div class="absolute right-0 w-64 bg-white border rounded shadow-lg hidden group-hover:block z-50">
+              <div class="absolute right-0 w-64 bg-white border rounded shadow-lg z-50 opacity-0 scale-y-0 origin-top transition-all duration-300 group-hover:opacity-100 group-hover:scale-y-100">
                 <div class="p-4 text-center">
                   <p class="mb-3">¡Bienvenido a GEN Z!</p>
                   <div class="grid gap-2">
@@ -159,15 +393,9 @@
                     </a>
                   </div>
                 </div>
-              </div>
+              </div>              
             <% } %>
           </div>
-          
-          <!-- Wishlist -->
-          <a href="/wishlist" class="text-gray-700 hover:text-ali-red flex flex-col items-center">
-            <i class="fas fa-heart text-xl"></i>
-            <span class="text-xs mt-1 hidden md:inline-block">Favoritos</span>
-          </a>
           
           <!-- Cart -->
           <a href="/cart" class="text-gray-700 hover:text-ali-red flex flex-col items-center relative">
@@ -191,14 +419,21 @@
     
     <!-- Mobile Search Bar -->
     <div class="md:hidden px-4 py-2 border-t border-gray-200">
-      <form action="/products" method="GET" class="relative">
+      <form action="/" method="GET" class="relative" id="mobile-search-form">
         <div class="flex">
-          <input
-            type="search"
-            name="q"
-            placeholder="Buscar en GEN Z..."
-            class="w-full rounded-l-full pl-4 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-ali-red focus:border-transparent"
-          />
+          <div class="flex-1 relative">
+            <input
+              type="search"
+              name="q"
+              id="mobile-search-input"
+              placeholder="Buscar en GEN Z..."
+              class="w-full rounded-l-full pl-4 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-ali-red focus:border-transparent"
+            />
+            <!-- Campo oculto para categoría -->
+            <input type="hidden" name="category" id="mobile-category-input" value="">
+            <!-- Contenedor para etiquetas de categoría móvil -->
+            <div id="mobile-category-tags" class="mt-2 flex flex-wrap"></div>
+          </div>
           <button type="submit" class="search-btn text-white px-4 rounded-r-full flex items-center justify-center">
             <i class="fas fa-search"></i>
           </button>
@@ -216,22 +451,27 @@
             </a>
           </li>
           <li>
-            <a href="/categories" class="block px-3 py-2 text-gray-700 hover:text-ali-red">
+            <div class="block px-3 py-2 text-gray-700">
               <i class="fas fa-list mr-2"></i> Categorías
-            </a>
-          </li>
-          <li>
-            <a href="/deals" class="block px-3 py-2 text-gray-700 hover:text-ali-red">
-              <i class="fas fa-tag mr-2"></i> Ofertas
-            </a>
+              <div class="mt-2 pl-6 space-y-2">
+                <% categories.forEach(category => { %>
+                  <a href="#" 
+                     class="block py-1 text-sm hover:text-ali-red mobile-category-link"
+                     data-category="<%= category.name %>"
+                     data-slug="<%= category.slug || category.name.toLowerCase() %>">
+                    <i class="fas fa-<%= category.icon || 'tag' %> mr-2"></i> <%= category.name %>
+                  </a>
+                <% }) %>
+              </div>
+            </div>
           </li>
           <li class="border-t pt-3 mt-3">
-            <a href="/auth/login" class="block px-3 py-2 text-gray-700 hover:text-ali-red">
+            <a href="/auth" class="block px-3 py-2 text-gray-700 hover:text-ali-red">
               <i class="fas fa-sign-in-alt mr-2"></i> Iniciar sesión
             </a>
           </li>
           <li>
-            <a href="/auth/register" class="block px-3 py-2 text-gray-700 hover:text-ali-red">
+            <a href="/auth" class="block px-3 py-2 text-gray-700 hover:text-ali-red">
               <i class="fas fa-user-plus mr-2"></i> Registrarse
             </a>
           </li>
@@ -239,35 +479,172 @@
       </nav>
     </div>
   </header>
+
+  <script>
+    // Mostrar loader al iniciar navegación
+    document.querySelectorAll('a[href]:not(.category-link):not(.mobile-category-link)').forEach(link => {
+      link.addEventListener('click', function (e) {
+        const target = e.currentTarget;
+        const href = target.getAttribute('href');
   
-  <!-- Secondary Navigation (Categories) -->
-  <div class="bg-white border-b border-gray-200 shadow-sm hidden md:block">
-    <div class="container mx-auto">
-      <div class="flex items-center h-10 text-sm">
-        <a href="/" class="px-3 hover:text-ali-red <%= currentPath === '/' ? 'text-ali-red font-medium' : 'text-gray-700' %>">
-          Todos los productos
-        </a>
-        <!-- <a href="/deals" class="px-3 hover:text-ali-red text-gray-700">
-          Super Ofertas
-        </a>
-        <a href="/products?category=electronics" class="px-3 hover:text-ali-red text-gray-700">
-          Electrónica
-        </a>
-        <a href="/products?category=fashion" class="px-3 hover:text-ali-red text-gray-700">
-          Moda
-        </a>
-        <a href="/products?category=home" class="px-3 hover:text-ali-red text-gray-700">
-          Hogar
-        </a>
-        <a href="/products?category=beauty" class="px-3 hover:text-ali-red text-gray-700">
-          Belleza
-        </a>
-        <a href="/products?category=toys" class="px-3 hover:text-ali-red text-gray-700">
-          Juguetes
-        </a> -->
-      </div>
-    </div>
-  </div>
+        // Evita activar en anclas internas o enlaces con target="_blank"
+        if (href.startsWith('#') || target.target === '_blank') return;
+  
+        // Mostrar loader
+        const loader = document.getElementById('page-loader');
+        loader.classList.remove('opacity-0', 'pointer-events-none');
+        loader.classList.add('opacity-100');
+  
+        // Delay opcional para simular carga
+        setTimeout(() => {
+          window.location = href;
+        }, 1000);
+        e.preventDefault();
+      });
+    });
+  
+    // Ocultar loader al llegar
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      loader.classList.add('opacity-0', 'pointer-events-none');
+      
+      // Inicializar filtrado por categorías
+      initCategoryFiltering();
+    });
+    
+    // Función para inicializar el filtrado por categorías
+    function initCategoryFiltering() {
+      // Obtener elementos del DOM
+      const searchInput = document.getElementById('search-input');
+      const mobileSearchInput = document.getElementById('mobile-search-input');
+      const categoryInput = document.getElementById('category-input');
+      const mobileCategoryInput = document.getElementById('mobile-category-input');
+      const categoryTags = document.getElementById('category-tags');
+      const mobileCategoryTags = document.getElementById('mobile-category-tags');
+      const searchForm = document.getElementById('search-form');
+      const mobileSearchForm = document.getElementById('mobile-search-form');
+      
+      // Obtener categoría de la URL si existe
+      const urlParams = new URLSearchParams(window.location.search);
+      const categoryParam = urlParams.get('category');
+      
+      if (categoryParam) {
+        // Buscar el nombre de la categoría basado en el slug
+        const categoryLinks = document.querySelectorAll('.category-link');
+        let categoryName = '';
+        
+        categoryLinks.forEach(link => {
+          if (link.dataset.slug === categoryParam) {
+            categoryName = link.dataset.category;
+          }
+        });
+        
+        if (categoryName) {
+          // Establecer la categoría en los inputs
+          categoryInput.value = categoryParam;
+          mobileCategoryInput.value = categoryParam;
+          
+          // Crear etiquetas de categoría
+          createCategoryTag(categoryName, categoryParam, categoryTags);
+          createCategoryTag(categoryName, categoryParam, mobileCategoryTags);
+        }
+      }
+      
+      // Agregar event listeners para los enlaces de categoría
+      document.querySelectorAll('.category-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const category = this.dataset.category;
+          const slug = this.dataset.slug;
+          
+          // Establecer la categoría en el input oculto
+          categoryInput.value = slug;
+          
+          // Limpiar etiquetas existentes
+          categoryTags.innerHTML = '';
+          
+          // Crear etiqueta de categoría
+          createCategoryTag(category, slug, categoryTags);
+          
+          // Enfocar el input de búsqueda y aplicar animación
+          searchInput.focus();
+          searchInput.classList.add('search-highlight');
+          setTimeout(() => {
+            searchInput.classList.remove('search-highlight');
+          }, 1000);
+          
+          // Filtrar productos automáticamente
+          searchForm.submit();
+        });
+      });
+      
+      // Agregar event listeners para los enlaces de categoría móviles
+      document.querySelectorAll('.mobile-category-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const category = this.dataset.category;
+          const slug = this.dataset.slug;
+          
+          // Establecer la categoría en el input oculto
+          mobileCategoryInput.value = slug;
+          
+          // Limpiar etiquetas existentes
+          mobileCategoryTags.innerHTML = '';
+          
+          // Crear etiqueta de categoría
+          createCategoryTag(category, slug, mobileCategoryTags);
+          
+          // Cerrar el menú móvil
+          document.getElementById('mobile-menu').classList.add('hidden');
+          
+          // Enfocar el input de búsqueda y aplicar animación
+          mobileSearchInput.focus();
+          mobileSearchInput.classList.add('search-highlight');
+          setTimeout(() => {
+            mobileSearchInput.classList.remove('search-highlight');
+          }, 1000);
+          
+          // Filtrar productos automáticamente
+          mobileSearchForm.submit();
+        });
+      });
+    }
+    
+    // Función para crear etiquetas de categoría
+    function createCategoryTag(categoryName, slug, container) {
+      const tag = document.createElement('div');
+      tag.className = 'category-tag';
+      tag.innerHTML = `
+        <span>${categoryName}</span>
+        <span class="remove-icon ml-2 cursor-pointer" data-slug="${slug}">×</span>
+      `;
+      
+      // Agregar event listener para eliminar la etiqueta
+      tag.querySelector('.remove-icon').addEventListener('click', function() {
+        // Eliminar la etiqueta
+        tag.remove();
+        
+        // Limpiar el input oculto
+        const isDesktop = container.id === 'category-tags';
+        const categoryInput = isDesktop ? 
+          document.getElementById('category-input') : 
+          document.getElementById('mobile-category-input');
+        
+        categoryInput.value = '';
+        
+        // Enviar el formulario para actualizar los resultados
+        const form = isDesktop ? 
+          document.getElementById('search-form') : 
+          document.getElementById('mobile-search-form');
+        
+        form.submit();
+      });
+      
+      container.appendChild(tag);
+    }
+  </script>  
   
   <script>
     // Mobile menu toggle

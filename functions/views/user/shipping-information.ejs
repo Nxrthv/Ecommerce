@@ -6,7 +6,6 @@
   <title><%= title %> | GEN Z - Tienda Tecnológica</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <div class="bg-gray-100 py-8">
@@ -24,7 +23,7 @@
       <!-- Progress Steps -->
       <div class="flex items-center mb-6 overflow-x-auto py-2">
         <div class="flex items-center">
-          <div id="step-1-indicator" class="flex items-center justify-center w-8 h-8 rounded-full bg-orange-500 text-white font-bold">
+          <div id="step-1-indicator" class="flex items-center justify-center w-8 h-8 rounded-full bg-red-500 text-white font-bold">
             1
           </div>
           <span class="ml-2 font-medium whitespace-nowrap">Identificación</span>
@@ -67,7 +66,7 @@
                       type="email" 
                       id="email" 
                       name="email" 
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                       readonly
                       value="<%= email %>"
@@ -77,25 +76,25 @@
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">
-                        Nombre(s) <span class="text-orange-500">*</span>
+                        Nombre(s) <span class="text-red-500">*</span>
                       </label>
                       <input 
                         type="text" 
                         id="firstName" 
                         name="firstName" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                         required
                       >
                     </div>
                     <div>
                       <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">
-                        Apellidos <span class="text-orange-500">*</span>
+                        Apellidos <span class="text-red-500">*</span>
                       </label>
                       <input 
                         type="text" 
                         id="lastName" 
                         name="lastName" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                         required
                       >
                     </div>
@@ -108,7 +107,7 @@
                         type="text" 
                         id="dni" 
                         name="dni" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       >
                     </div>
                     
@@ -118,7 +117,7 @@
                         type="tel" 
                         id="phone" 
                         name="phone" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       >
                     </div>
                   </div>
@@ -132,13 +131,13 @@
                         id="terms" 
                         name="terms" 
                         type="checkbox" 
-                        class="h-4 w-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500" 
+                        class="h-4 w-4 text-red-500 border-gray-300 rounded focus:ring-red-500" 
                         required
                       >
                     </div>
                     <div class="ml-3 text-sm">
                       <label for="terms" class="text-gray-600">
-                        He leído y acepto los <a href="#" class="text-orange-500 hover:underline">Términos y Condiciones</a> y <a href="#" class="text-orange-500 hover:underline">Políticas de privacidad</a>
+                        He leído y acepto los <a href="#" class="text-red-500 hover:underline">Términos y Condiciones</a> y <a href="#" class="text-red-500 hover:underline">Políticas de privacidad</a>
                       </label>
                     </div>
                   </div>
@@ -149,7 +148,7 @@
                         id="marketing" 
                         name="marketing" 
                         type="checkbox" 
-                        class="h-4 w-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
+                        class="h-4 w-4 text-red-500 border-gray-300 rounded focus:ring-red-500"
                       >
                     </div>
                     <div class="ml-3 text-sm">
@@ -163,7 +162,7 @@
                 <!-- Continue Button -->
                 <button 
                   type="button" 
-                  class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-md transition-colors"
+                  class="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-4 rounded-md transition-colors"
                   onclick="handleIdentificationStep()"
                 >
                   Ir para la Entrega
@@ -181,7 +180,7 @@
                 <!-- Delivery Options -->
                 <div class="mb-6">
                   <div class="flex flex-col space-y-3">
-                    <div class="border border-gray-200 rounded-md p-4 cursor-pointer hover:border-orange-500 transition-colors">
+                    <div class="border border-gray-200 rounded-md p-4 cursor-pointer hover:border-red-500 transition-colors">
                       <div class="flex items-start">
                         <div class="flex items-center h-5 mt-1">
                           <input 
@@ -189,7 +188,7 @@
                             name="deliveryMethod" 
                             type="radio" 
                             value="home" 
-                            class="h-4 w-4 text-orange-500 border-gray-300 focus:ring-orange-500" 
+                            class="h-4 w-4 text-red-500 border-gray-300 focus:ring-red-500" 
                             checked
                           >
                         </div>
@@ -203,7 +202,7 @@
                       </div>
                     </div>
                     
-                    <div class="border border-gray-200 rounded-md p-4 cursor-pointer hover:border-orange-500 transition-colors">
+                    <div class="border border-gray-200 rounded-md p-4 cursor-pointer hover:border-red-500 transition-colors">
                       <div class="flex items-start">
                         <div class="flex items-center h-5 mt-1">
                           <input 
@@ -211,7 +210,7 @@
                             name="deliveryMethod" 
                             type="radio" 
                             value="store" 
-                            class="h-4 w-4 text-orange-500 border-gray-300 focus:ring-orange-500"
+                            class="h-4 w-4 text-red-500 border-gray-300 focus:ring-red-500"
                           >
                         </div>
                         <div class="ml-3">
@@ -232,13 +231,13 @@
                   
                   <div class="mb-4">
                     <label for="address" class="block text-sm font-medium text-gray-700 mb-1">
-                      Dirección <span class="text-orange-500">*</span>
+                      Dirección <span class="text-red-500">*</span>
                     </label>
                     <input 
                       type="text" 
                       id="address" 
                       name="address" 
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     >
                   </div>
@@ -246,12 +245,12 @@
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label for="district" class="block text-sm font-medium text-gray-700 mb-1">
-                        Distrito <span class="text-orange-500">*</span>
+                        Distrito <span class="text-red-500">*</span>
                       </label>
                       <select 
                         id="district" 
                         name="district" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                         required
                       >
                         <option value="">Seleccionar distrito</option>
@@ -260,12 +259,12 @@
                     </div>
                     <div>
                       <label for="city" class="block text-sm font-medium text-gray-700 mb-1">
-                        Ciudad <span class="text-orange-500">*</span>
+                        Ciudad <span class="text-red-500">*</span>
                       </label>
                       <select 
                         id="city" 
                         name="city" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                         required
                       >
                         <option value="">Seleccionar ciudad</option>
@@ -282,7 +281,7 @@
                       type="text" 
                       id="reference" 
                       name="reference" 
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       placeholder="Ej: Frente al parque, casa azul, etc."
                     >
                   </div>
@@ -293,12 +292,12 @@
                   
                   <div class="mb-4">
                     <label for="store-location" class="block text-sm font-medium text-gray-700 mb-1">
-                      Tienda <span class="text-orange-500">*</span>
+                      Tienda <span class="text-red-500">*</span>
                     </label>
                     <select 
                       id="store-location" 
                       name="storeLocation" 
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     >
                       <option value="">Seleccionar tienda</option>
                       <option value="Tienda Centro Comercial Tottus">Tienda Centro Comercial Tottus</option>
@@ -318,7 +317,7 @@
                   </button>
                   <button 
                     type="button" 
-                    class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-md transition-colors"
+                    class="flex-1 bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-4 rounded-md transition-colors"
                     onclick="handleDeliveryStep()"
                   >
                     Continuar al Pago
@@ -337,7 +336,7 @@
                 <!-- Payment Methods -->
                 <div class="mb-6">
                   <div class="flex flex-col space-y-3">
-                    <div class="border border-gray-200 rounded-md p-4 cursor-pointer hover:border-orange-500 transition-colors">
+                    <div class="border border-gray-200 rounded-md p-4 cursor-pointer hover:border-red-500 transition-colors">
                       <div class="flex items-start">
                         <div class="flex items-center h-5 mt-1">
                           <input 
@@ -345,7 +344,7 @@
                             name="paymentMethod" 
                             type="radio" 
                             value="card" 
-                            class="h-4 w-4 text-orange-500 border-gray-300 focus:ring-orange-500" 
+                            class="h-4 w-4 text-red-500 border-gray-300 focus:ring-red-500" 
                             checked
                           >
                         </div>
@@ -360,7 +359,7 @@
                       </div>
                     </div>
                     
-                    <div class="border border-gray-200 rounded-md p-4 cursor-pointer hover:border-orange-500 transition-colors">
+                    <div class="border border-gray-200 rounded-md p-4 cursor-pointer hover:border-red-500 transition-colors">
                       <div class="flex items-start">
                         <div class="flex items-center h-5 mt-1">
                           <input 
@@ -368,7 +367,7 @@
                             name="paymentMethod" 
                             type="radio" 
                             value="yape" 
-                            class="h-4 w-4 text-orange-500 border-gray-300 focus:ring-orange-500"
+                            class="h-4 w-4 text-red-500 border-gray-300 focus:ring-red-500"
                           >
                         </div>
                         <div class="ml-3">
@@ -381,7 +380,7 @@
                       </div>
                     </div>
                     
-                    <div class="border border-gray-200 rounded-md p-4 cursor-pointer hover:border-orange-500 transition-colors">
+                    <div class="border border-gray-200 rounded-md p-4 cursor-pointer hover:border-red-500 transition-colors">
                       <div class="flex items-start">
                         <div class="flex items-center h-5 mt-1">
                           <input 
@@ -389,7 +388,7 @@
                             name="paymentMethod" 
                             type="radio" 
                             value="plin" 
-                            class="h-4 w-4 text-orange-500 border-gray-300 focus:ring-orange-500"
+                            class="h-4 w-4 text-red-500 border-gray-300 focus:ring-red-500"
                           >
                         </div>
                         <div class="ml-3">
@@ -408,13 +407,13 @@
                 <div id="card-payment-form" class="mb-6">
                   <div class="mb-4">
                     <label for="card-number" class="block text-sm font-medium text-gray-700 mb-1">
-                      Número de tarjeta <span class="text-orange-500">*</span>
+                      Número de tarjeta <span class="text-red-500">*</span>
                     </label>
                     <input 
                       type="text" 
                       id="card-number" 
                       name="cardNumber" 
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       placeholder="1234 5678 9012 3456"
                     >
                   </div>
@@ -422,25 +421,25 @@
                   <div class="grid grid-cols-2 gap-4">
                     <div>
                       <label for="card-expiry" class="block text-sm font-medium text-gray-700 mb-1">
-                        Fecha de vencimiento <span class="text-orange-500">*</span>
+                        Fecha de vencimiento <span class="text-red-500">*</span>
                       </label>
                       <input 
                         type="text" 
                         id="card-expiry" 
                         name="cardExpiry" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                         placeholder="MM/AA"
                       >
                     </div>
                     <div>
                       <label for="card-cvv" class="block text-sm font-medium text-gray-700 mb-1">
-                        CVV <span class="text-orange-500">*</span>
+                        CVV <span class="text-red-500">*</span>
                       </label>
                       <input 
                         type="text" 
                         id="card-cvv" 
                         name="cardCvv" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                         placeholder="123"
                       >
                     </div>
@@ -448,13 +447,13 @@
                   
                   <div class="mt-4">
                     <label for="card-name" class="block text-sm font-medium text-gray-700 mb-1">
-                      Nombre en la tarjeta <span class="text-orange-500">*</span>
+                      Nombre en la tarjeta <span class="text-red-500">*</span>
                     </label>
                     <input 
                       type="text" 
                       id="card-name" 
                       name="cardName" 
-                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       placeholder="Como aparece en la tarjeta"
                     >
                   </div>
@@ -466,7 +465,7 @@
                           id="save-card" 
                           name="saveCard" 
                           type="checkbox" 
-                          class="h-4 w-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
+                          class="h-4 w-4 text-red-500 border-gray-300 rounded focus:ring-red-500"
                         >
                       </div>
                       <div class="ml-3 text-sm">
@@ -489,7 +488,7 @@
                   </button>
                   <button 
                     type="submit" 
-                    class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-md transition-colors"
+                    class="flex-1 bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-4 rounded-md transition-colors"
                   >
                     Finalizar Compra
                   </button>
@@ -507,7 +506,7 @@
           
           <div class="mb-6">
             <div class="flex items-center mb-4">
-              <a href="/cart" class="text-orange-500 text-sm hover:underline">Volver a carrito</a>
+              <a href="/cart" class="text-red-500 text-sm hover:underline">Volver a carrito</a>
             </div>
             
             <% cart.forEach(item => { %>
@@ -517,7 +516,7 @@
                 </div>
                 <div class="flex-1">
                   <h3 class="text-sm font-medium"><%= item.name %></h3>
-                  <div class="text-sm text-orange-500 font-bold mt-1">S/ <%= item.price.toFixed(2) %></div>
+                  <div class="text-sm text-red-500 font-bold mt-1">S/ <%= item.price.toFixed(2) %></div>
                 </div>
               </div>
             <% }); %>
@@ -529,9 +528,9 @@
               <input 
                 type="text" 
                 placeholder="Código" 
-                class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
               >
-              <button class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm">Aplicar</button>
+              <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm">Aplicar</button>
             </div>
           </div>
           
@@ -549,14 +548,14 @@
             
             <div class="flex justify-between font-bold text-lg mt-2">
               <span>Total</span>
-              <span class="text-orange-500">S/ <%= total.toFixed(2) %></span>
+              <span class="text-red-500">S/ <%= total.toFixed(2) %></span>
             </div>
           </div>
 
           <!-- Buyer Protection -->
-          <div class="bg-orange-50 p-3 rounded-md mb-4">
+          <div class="bg-red-50 p-3 rounded-md mb-4">
             <div class="flex items-start">
-              <div class="flex-shrink-0 mt-0.5 text-orange-500">
+              <div class="flex-shrink-0 mt-0.5 text-red-500">
                 <i class="fas fa-shield-alt"></i>
               </div>
               <div class="ml-3">
@@ -582,19 +581,19 @@
           
           <div class="grid grid-cols-1 gap-3 text-xs text-gray-600">
             <div class="flex items-center">
-              <i class="fas fa-truck text-orange-500 mr-2 text-lg"></i>
+              <i class="fas fa-truck text-red-500 mr-2 text-lg"></i>
               <span>Envío a domicilio de tu compra y entrega al instante</span>
             </div>
             <div class="flex items-center">
-              <i class="fas fa-credit-card text-orange-500 mr-2 text-lg"></i>
+              <i class="fas fa-credit-card text-red-500 mr-2 text-lg"></i>
               <span>Pago con tarjetas de crédito, débito y pago efectivo</span>
             </div>
             <div class="flex items-center">
-              <i class="fas fa-store text-orange-500 mr-2 text-lg"></i>
+              <i class="fas fa-store text-red-500 mr-2 text-lg"></i>
               <span>Sigue tu ruta, recorrido en más de 30 tiendas a nivel de país</span>
             </div>
             <div class="flex items-center">
-              <i class="fas fa-percentage text-orange-500 mr-2 text-lg"></i>
+              <i class="fas fa-percentage text-red-500 mr-2 text-lg"></i>
               <span>Hasta 6 cuotas sin intereses en productos seleccionados</span>
             </div>
           </div>
@@ -663,44 +662,44 @@
     document.getElementById('tab-payment').classList.add('hidden');
     
     // Reset all step indicators
-    document.getElementById('step-1-indicator').classList.remove('bg-orange-500', 'text-white');
+    document.getElementById('step-1-indicator').classList.remove('bg-red-500', 'text-white');
     document.getElementById('step-1-indicator').classList.add('bg-gray-300', 'text-gray-600');
-    document.getElementById('step-2-indicator').classList.remove('bg-orange-500', 'text-white');
+    document.getElementById('step-2-indicator').classList.remove('bg-red-500', 'text-white');
     document.getElementById('step-2-indicator').classList.add('bg-gray-300', 'text-gray-600');
-    document.getElementById('step-3-indicator').classList.remove('bg-orange-500', 'text-white');
+    document.getElementById('step-3-indicator').classList.remove('bg-red-500', 'text-white');
     document.getElementById('step-3-indicator').classList.add('bg-gray-300', 'text-gray-600');
     
     // Reset connector lines
-    document.getElementById('line-1-2').classList.remove('bg-orange-500');
+    document.getElementById('line-1-2').classList.remove('bg-red-500');
     document.getElementById('line-1-2').classList.add('bg-gray-300');
-    document.getElementById('line-2-3').classList.remove('bg-orange-500');
+    document.getElementById('line-2-3').classList.remove('bg-red-500');
     document.getElementById('line-2-3').classList.add('bg-gray-300');
     
     // Show selected tab and update indicators
     if (step === 1) {
       document.getElementById('tab-identification').classList.remove('hidden');
       document.getElementById('step-1-indicator').classList.remove('bg-gray-300', 'text-gray-600');
-      document.getElementById('step-1-indicator').classList.add('bg-orange-500', 'text-white');
+      document.getElementById('step-1-indicator').classList.add('bg-red-500', 'text-white');
     } else if (step === 2) {
       document.getElementById('tab-delivery').classList.remove('hidden');
       document.getElementById('step-1-indicator').classList.remove('bg-gray-300', 'text-gray-600');
-      document.getElementById('step-1-indicator').classList.add('bg-orange-500', 'text-white');
+      document.getElementById('step-1-indicator').classList.add('bg-red-500', 'text-white');
       document.getElementById('step-2-indicator').classList.remove('bg-gray-300', 'text-gray-600');
-      document.getElementById('step-2-indicator').classList.add('bg-orange-500', 'text-white');
+      document.getElementById('step-2-indicator').classList.add('bg-red-500', 'text-white');
       document.getElementById('line-1-2').classList.remove('bg-gray-300');
-      document.getElementById('line-1-2').classList.add('bg-orange-500');
+      document.getElementById('line-1-2').classList.add('bg-red-500');
     } else if (step === 3) {
       document.getElementById('tab-payment').classList.remove('hidden');
       document.getElementById('step-1-indicator').classList.remove('bg-gray-300', 'text-gray-600');
-      document.getElementById('step-1-indicator').classList.add('bg-orange-500', 'text-white');
+      document.getElementById('step-1-indicator').classList.add('bg-red-500', 'text-white');
       document.getElementById('step-2-indicator').classList.remove('bg-gray-300', 'text-gray-600');
-      document.getElementById('step-2-indicator').classList.add('bg-orange-500', 'text-white');
+      document.getElementById('step-2-indicator').classList.add('bg-red-500', 'text-white');
       document.getElementById('step-3-indicator').classList.remove('bg-gray-300', 'text-gray-600');
-      document.getElementById('step-3-indicator').classList.add('bg-orange-500', 'text-white');
+      document.getElementById('step-3-indicator').classList.add('bg-red-500', 'text-white');
       document.getElementById('line-1-2').classList.remove('bg-gray-300');
-      document.getElementById('line-1-2').classList.add('bg-orange-500');
+      document.getElementById('line-1-2').classList.add('bg-red-500');
       document.getElementById('line-2-3').classList.remove('bg-gray-300');
-      document.getElementById('line-2-3').classList.add('bg-orange-500');
+      document.getElementById('line-2-3').classList.add('bg-red-500');
     }
     
     // Scroll to top
@@ -811,5 +810,3 @@
     });
   });
 </script>
-
-<%- include('reusables/footer') %>

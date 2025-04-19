@@ -1,0 +1,380 @@
+<%- include('../reusables/nav', { title: product ? 'Editar Producto' : 'Publicar Producto' }) %>
+
+<section class="py-4 bg-gray-50">
+  <div class="container max-w-5xl mx-auto px-4">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-3 text-xs" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1">
+        <li class="inline-flex items-center">
+          <a href="/" class="text-gray-500 hover:text-red-600">Inicio</a>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <i class="fas fa-chevron-right text-gray-400 mx-1 text-[10px]"></i>
+            <a href="/products-list" class="text-gray-500 hover:text-red-600">Mis Productos</a>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <i class="fas fa-chevron-right text-gray-400 mx-1 text-[10px]"></i>
+            <span class="text-gray-400"><%= product ? 'Editar Producto' : 'Nuevo Producto' %></span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+      <h1 class="text-xl sm:text-2xl font-bold text-gray-800">
+        <%= product ? 'Editar Mi Producto' : 'Publicar Nuevo Producto' %>
+      </h1>
+      <a href="/products-list" class="flex items-center text-sm text-gray-600 hover:text-red-600 transition bg-white px-4 py-2 rounded-full shadow-sm">
+        <i class="fas fa-arrow-left mr-2"></i> Volver a Mis Productos
+      </a>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+      <!-- Form Header -->
+      <div class="bg-gradient-to-r from-red-50 to-white p-4 border-b border-gray-100">
+        <div class="flex items-center">
+          <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 mr-3">
+            <i class="fas <%= product ? 'fa-edit' : 'fa-plus' %>"></i>
+          </div>
+          <div>
+            <h2 class="font-medium text-gray-800"><%= product ? 'Actualiza la información de tu producto' : 'Completa la información de tu producto' %></h2>
+            <p class="text-xs text-gray-500">Los campos marcados con * son obligatorios</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Content -->
+      <form method="POST" action="<%= product ? `/product/edit/${product.id}` : '/products/add' %>" class="p-6 space-y-8">
+        <!-- Basic Information Section -->
+        <div>
+          <h3 class="text-sm font-medium text-gray-700 mb-4 pb-2 border-b border-gray-100">Información Básica</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                Nombre del Producto <span class="text-red-600">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-colors" 
+                required 
+                value="<%= product?.name || '' %>"
+                placeholder="Ej: Smartphone Samsung Galaxy S21"
+              >
+            </div>
+
+            <div>
+              <label for="brand" class="block text-sm font-medium text-gray-700 mb-1">
+                Marca <span class="text-red-600">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="brand" 
+                name="brand" 
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-colors" 
+                required 
+                value="<%= product?.brand || '' %>"
+                placeholder="Ej: Samsung"
+              >
+            </div>
+
+            <div>
+              <label for="category" class="block text-sm font-medium text-gray-700 mb-1">
+                Categoría <span class="text-red-600">*</span>
+              </label>
+              <div class="relative">
+                <select 
+                  id="category" 
+                  name="category" 
+                  required 
+                  class="w-full appearance-none px-4 py-2.5 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-colors bg-white"
+                >
+                  <option value="" disabled <%= !product ? 'selected' : '' %>>Seleccionar categoría</option>
+                  <% categories.forEach(cat => { %>
+                    <option 
+                      value="<%= cat.id %>" 
+                      <%= product && product.category === cat.id ? 'selected' : '' %>>
+                      <%= cat.name %>
+                    </option>
+                  <% }) %>
+                </select>
+                <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
+                  <i class="fas fa-chevron-down text-xs"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pricing and Inventory Section -->
+        <div>
+          <h3 class="text-sm font-medium text-gray-700 mb-4 pb-2 border-b border-gray-100">Precio e Inventario</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-5">
+            <div>
+              <label for="price" class="block text-sm font-medium text-gray-700 mb-1">
+                Precio <span class="text-red-600">*</span>
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <span class="text-gray-500">S/</span>
+                </div>
+                <input 
+                  type="number" 
+                  id="price" 
+                  name="price" 
+                  class="w-full pl-8 pr-4 py-2.5 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-colors" 
+                  step="0.01" 
+                  required 
+                  value="<%= product?.price || '' %>"
+                  placeholder="0.00"
+                >
+              </div>
+            </div>
+
+            <div>
+              <label for="discount" class="block text-sm font-medium text-gray-700 mb-1">
+                Descuento (%)
+              </label>
+              <div class="relative">
+                <input 
+                  type="number" 
+                  id="discount" 
+                  name="discount" 
+                  class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-colors" 
+                  min="0" 
+                  max="100" 
+                  value="<%= product?.discount || 0 %>"
+                  placeholder="0"
+                >
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <span class="text-gray-500">%</span>
+                </div>
+              </div>
+              <p class="text-xs text-gray-500 mt-1">Deja en 0 si no hay descuento</p>
+            </div>
+
+            <div>
+              <label for="stock" class="block text-sm font-medium text-gray-700 mb-1">
+                Stock <span class="text-red-600">*</span>
+              </label>
+              <input 
+                type="number" 
+                id="stock" 
+                name="stock" 
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-colors" 
+                min="1" 
+                required 
+                value="<%= product?.stock || 1 %>"
+                placeholder="1"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Description Section -->
+        <div>
+          <h3 class="text-sm font-medium text-gray-700 mb-4 pb-2 border-b border-gray-100">Descripción del Producto</h3>
+          
+          <div>
+            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">
+              Descripción <span class="text-red-600">*</span>
+            </label>
+            <textarea 
+              id="description" 
+              name="description" 
+              rows="5" 
+              class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-colors" 
+              required
+              placeholder="Describe detalladamente tu producto, incluyendo características, beneficios y especificaciones..."
+            ><%= product?.description || '' %></textarea>
+            <div class="flex justify-between mt-1">
+              <p class="text-xs text-gray-500">Sé detallado para ayudar a los compradores</p>
+              <p class="text-xs text-gray-500"><span id="char-count">0</span>/2000</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image Section -->
+        <div>
+          <h3 class="text-sm font-medium text-gray-700 mb-4 pb-2 border-b border-gray-100">Imagen del Producto</h3>
+          
+          <div>
+            <label for="image" class="block text-sm font-medium text-gray-700 mb-1">
+              URL de la Imagen <span class="text-red-600">*</span>
+            </label>
+            <input 
+              type="url" 
+              id="image" 
+              name="image" 
+              class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-colors" 
+              value="<%= product?.image || '' %>" 
+              required
+              placeholder="https://ejemplo.com/imagen.jpg"
+            >
+            
+            <div class="mt-4">
+              <div class="border border-dashed border-gray-300 rounded-lg p-4 flex items-center justify-center">
+                <% if (product?.image) { %>
+                  <div class="relative">
+                    <img 
+                      id="image-preview" 
+                      src="<%= product.image %>" 
+                      alt="Vista previa" 
+                      class="w-40 h-40 object-contain rounded-md"
+                    >
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all flex items-center justify-center">
+                      <button type="button" id="change-image" class="hidden hover:flex bg-white p-2 rounded-full shadow-md">
+                        <i class="fas fa-sync-alt text-gray-600"></i>
+                      </button>
+                    </div>
+                  </div>
+                <% } else { %>
+                  <div id="no-image" class="text-center">
+                    <div class="w-20 h-20 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-2">
+                      <i class="fas fa-image text-2xl text-gray-400"></i>
+                    </div>
+                    <p class="text-sm text-gray-500">La vista previa aparecerá aquí</p>
+                  </div>
+                  <img 
+                    id="image-preview" 
+                    src="/placeholder.svg" 
+                    alt="Vista previa" 
+                    class="w-40 h-40 object-contain rounded-md hidden"
+                  >
+                <% } %>
+              </div>
+              <p class="text-xs text-gray-500 mt-2">Ingresa la URL de una imagen clara y de buena calidad</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shipping Options -->
+        <div>
+          <h3 class="text-sm font-medium text-gray-700 mb-4 pb-2 border-b border-gray-100">Opciones de Envío</h3>
+          
+          <div class="flex items-center bg-gray-50 p-4 rounded-lg">
+            <input 
+              type="checkbox" 
+              id="freeShipping" 
+              name="freeShipping" 
+              class="w-5 h-5 text-red-600 rounded border-gray-300 focus:ring-red-500" 
+              <%= product?.freeShipping ? 'checked' : '' %>
+            >
+            <label for="freeShipping" class="ml-3">
+              <span class="text-sm font-medium text-gray-700">Envío gratuito disponible</span>
+              <p class="text-xs text-gray-500">Los compradores no pagarán gastos de envío</p>
+            </label>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="pt-4 border-t border-gray-100 flex flex-col-reverse sm:flex-row justify-between items-center gap-4">
+          <% if (product) { %>
+            <button 
+              type="button" 
+              class="w-full sm:w-auto px-6 py-2.5 border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-colors flex items-center justify-center"
+              onclick="confirmDelete('<%= product.id %>')"
+            >
+              <i class="far fa-trash-alt mr-2"></i> Eliminar producto
+            </button>
+          <% } else { %>
+            <button 
+              type="reset" 
+              class="w-full sm:w-auto px-6 py-2.5 border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-colors"
+            >
+              Limpiar formulario
+            </button>
+          <% } %>
+          
+          <button 
+            type="submit" 
+            class="w-full sm:w-auto px-8 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full transition-colors flex items-center justify-center font-medium"
+          >
+            <i class="fas <%= product ? 'fa-save' : 'fa-upload' %> mr-2"></i>
+            <%= product ? 'Actualizar producto' : 'Publicar producto' %>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Character counter for description
+  const descriptionField = document.getElementById('description');
+  const charCount = document.getElementById('char-count');
+  
+  function updateCharCount() {
+    const count = descriptionField.value.length;
+    charCount.textContent = count;
+    
+    if (count > 2000) {
+      charCount.classList.add('text-red-600');
+    } else {
+      charCount.classList.remove('text-red-600');
+    }
+  }
+  
+  descriptionField.addEventListener('input', updateCharCount);
+  
+  // Initialize character count
+  updateCharCount();
+  
+  // Image preview functionality
+  const imageUrlInput = document.getElementById('image');
+  const imagePreview = document.getElementById('image-preview');
+  const noImageDiv = document.getElementById('no-image');
+  
+  imageUrlInput.addEventListener('input', function() {
+    const imageUrl = this.value.trim();
+    
+    if (imageUrl) {
+      imagePreview.src = imageUrl;
+      imagePreview.classList.remove('hidden');
+      if (noImageDiv) noImageDiv.classList.add('hidden');
+      
+      // Check if image loads correctly
+      imagePreview.onload = function() {
+        imagePreview.classList.remove('hidden');
+        if (noImageDiv) noImageDiv.classList.add('hidden');
+      };
+      
+      imagePreview.onerror = function() {
+        imagePreview.classList.add('hidden');
+        if (noImageDiv) noImageDiv.classList.remove('hidden');
+      };
+    } else {
+      imagePreview.classList.add('hidden');
+      if (noImageDiv) noImageDiv.classList.remove('hidden');
+    }
+  });
+  
+  // Delete confirmation
+  function confirmDelete(id) {
+    if (confirm("¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.")) {
+      fetch(`/user/my-products/delete/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = "/products-list?message=deleted";
+        } else {
+          alert("Error al eliminar: " + data.message);
+        }
+      })
+      .catch(err => alert("Error en la solicitud"));
+    }
+  }
+</script>
+
+<%- include('../reusables/footer') %>

@@ -25,7 +25,7 @@
             <div class="relative">
               <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
                 <i class="fas fa-bell text-xl"></i>
-                <span class="absolute top-0 right-0 w-2 h-2 bg-orange-500 rounded-full"></span>
+                <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
               </button>
             </div>
             
@@ -48,7 +48,7 @@
           </div>
           
           <div class="flex items-center space-x-3">
-            <a href="/admin/product/new" class="inline-flex items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-md shadow-sm transition-colors">
+            <a href="/admin/product/new" class="inline-flex items-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-md shadow-sm transition-colors">
               <i class="fas fa-plus mr-2"></i>
               Agregar Producto
             </a>
@@ -75,13 +75,13 @@
                   type="text" 
                   id="product-search" 
                   placeholder="Buscar por nombre, marca o SKU..." 
-                  class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                  class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 sm:text-sm"
                 >
               </div>
               
               <div class="flex items-center space-x-3">
                 <div class="relative">
-                  <select class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md">
+                  <select class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md">
                     <option>Todas las categorías</option>
                     <option>Laptops</option>
                     <option>Smartphones</option>
@@ -90,7 +90,7 @@
                 </div>
                 
                 <div class="relative">
-                  <select class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md">
+                  <select class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md">
                     <option>Todos los estados</option>
                     <option>En stock</option>
                     <option>Stock bajo</option>
@@ -167,11 +167,8 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div class="flex items-center justify-end space-x-2">
-                        <a href="/admin/product/edit/<%= product.id %>" class="text-gray-600 hover:text-orange-500" title="Editar">
+                        <a href="/admin/product/edit/<%= product.id %>" class="text-gray-600 hover:text-red-500" title="Editar">
                           <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="/admin/product/view/<%= product.id %>" class="text-gray-600 hover:text-blue-500" title="Ver">
-                          <i class="fas fa-eye"></i>
                         </a>
                         <form action="/admin/product/delete/<%= product.id %>" method="POST" class="inline">
                           <button type="submit" class="text-gray-600 hover:text-red-500" title="Eliminar" onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?')">
@@ -189,7 +186,7 @@
                       <div class="flex flex-col items-center">
                         <i class="fas fa-box-open text-gray-300 text-5xl mb-3"></i>
                         <p class="text-gray-500">No se encontraron productos</p>
-                        <a href="/admin/product/new" class="mt-3 inline-flex items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-md">
+                        <a href="/admin/product/new" class="mt-3 inline-flex items-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-md">
                           <i class="fas fa-plus mr-2"></i>
                           Agregar Producto
                         </a>
@@ -212,7 +209,7 @@
                 <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-500 hover:bg-gray-50 disabled:opacity-50" disabled>
                   <i class="fas fa-chevron-left"></i>
                 </button>
-                <button class="px-3 py-1 border border-gray-300 rounded-md text-sm bg-orange-500 text-white">
+                <button class="px-3 py-1 border border-gray-300 rounded-md text-sm bg-red-500 text-white">
                   1
                 </button>
                 <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-500 hover:bg-gray-50">
@@ -239,7 +236,7 @@
       <div class="p-4 border-b border-gray-200">
         <div class="flex items-center justify-between">
           <div class="flex items-center">
-            <span class="text-2xl font-bold text-orange-500">GEN Z</span>
+            <span class="text-2xl font-bold text-red-500">GEN Z</span>
             <span class="ml-2 text-sm text-gray-600">Admin Panel</span>
           </div>
           <button class="text-gray-500" id="close-sidebar">
@@ -255,7 +252,7 @@
             Dashboard
           </a>
           <a href="/admin/products" class="sidebar-item active flex items-center px-3 py-2 text-sm font-medium rounded-md">
-            <i class="fas fa-box w-5 h-5 mr-3 text-orange-500"></i>
+            <i class="fas fa-box w-5 h-5 mr-3 text-red-500"></i>
             Productos
           </a>
           <a href="/admin/orders" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md">
@@ -282,7 +279,7 @@
           <img src="https://via.placeholder.com/40" alt="Admin" class="w-8 h-8 rounded-full">
           <div class="ml-3">
             <p class="text-sm font-medium">Admin User</p>
-            <a href="/logout" class="text-xs text-gray-500 hover:text-orange-500">Cerrar sesión</a>
+            <a href="/logout" class="text-xs text-gray-500 hover:text-red-500">Cerrar sesión</a>
           </div>
         </div>
       </div>

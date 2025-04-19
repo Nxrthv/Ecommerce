@@ -1,0 +1,215 @@
+<%- include("../reusables/nav") %>
+
+<div class="container mx-auto px-4 py-8">
+  <div class="bg-white rounded-lg shadow-sm p-6">
+    <!-- Encabezado y búsqueda -->
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold mb-4 md:mb-0">Mis Productos</h1>
+      
+      <!-- Buscador -->
+      <div class="w-full md:w-1/3">
+        <div class="relative">
+          <input 
+            type="text" 
+            id="product-search" 
+            placeholder="Buscar por nombre o categoría..." 
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ali-red"
+          >
+          <button id="search-button" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-ali-red">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Botón para agregar nuevo producto -->
+    <div class="mb-6">
+      <a href="/product-add" class="inline-flex items-center px-4 py-2 bg-ali-red hover:bg-red-700 text-white rounded-md transition-colors">
+        <i class="fas fa-plus mr-2"></i> Publicar Nuevo Producto
+      </a>
+    </div>
+    
+    <!-- Estadísticas rápidas -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+        <div class="text-sm text-gray-500">Total de Productos</div>
+        <div class="text-2xl font-bold" id="total-products"><%= products.length %></div>
+      </div>
+      <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+        <div class="text-sm text-gray-500">Productos Vendidos</div>
+        <div class="text-2xl font-bold" id="sold-products">
+          <%= products.filter(p => p.sold && p.sold > 0).reduce((sum, p) => sum + p.sold, 0) || 0 %>
+        </div>
+      </div>
+      <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+        <div class="text-sm text-gray-500">Ingresos Estimados</div>
+        <div class="text-2xl font-bold" id="estimated-revenue">
+          PEN <%= products.filter(p => p.sold && p.sold > 0).reduce((sum, p) => sum + (p.price * (1 - (p.discount || 0) / 100) * p.sold), 0).toFixed(2) || '0.00' %>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mensaje cuando no hay productos -->
+    <% if (products.length === 0) { %>
+      <div class="text-center py-12 bg-gray-50 rounded-lg">
+        <div class="text-gray-400 mb-4">
+          <i class="fas fa-box-open text-5xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">No tienes productos publicados</h3>
+        <p class="text-gray-500 mb-6">Comienza a vender publicando tu primer producto.</p>
+        <a href="/product-add" class="inline-flex items-center px-4 py-2 bg-ali-red hover:bg-red-700 text-white rounded-md transition-colors">
+          <i class="fas fa-plus mr-2"></i> Publicar Producto
+        </a>
+      </div>
+    <% } else { %>
+      <!-- Tabla de productos -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white" id="products-table">
+          <thead class="bg-gray-50 text-gray-600 text-sm">
+            <tr>
+              <th class="py-3 px-4 text-left">Producto</th>
+              <th class="py-3 px-4 text-left">Categoría</th>
+              <th class="py-3 px-4 text-right">Precio</th>
+              <th class="py-3 px-4 text-right">Stock</th>
+              <th class="py-3 px-4 text-right">Vendidos</th>
+              <th class="py-3 px-4 text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200" id="products-body">
+            <% products.forEach(product => { 
+              // Calcular precio con descuento
+              const discountedPrice = product.discount ? (product.price * (1 - product.discount / 100)).toFixed(2) : product.price.toFixed(2);
+            %>
+              <tr class="hover:bg-gray-50 product-row" data-name="<%= product.name.toLowerCase() %>" data-category="<%= product.category.toLowerCase() %>">
+                <td class="py-3 px-4">
+                  <div class="flex items-center">
+                    <div class="h-12 w-12 flex-shrink-0 mr-3">
+                      <img src="<%= product.image %>" alt="<%= product.name %>" class="h-12 w-12 rounded-md object-cover">
+                    </div>
+                    <div>
+                      <div class="font-medium text-gray-900 line-clamp-1 w-[600px]"><%= product.name %></div>
+                      <div class="text-gray-500 text-xs"><%= new Date(product.createdAt?.toDate?.() || product.createdAt || Date.now()).toLocaleDateString() %></div>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-4 text-gray-500"><%= product.category %></td>
+                <td class="py-3 px-4 text-right">
+                  <div class="font-medium text-gray-900">PEN <%= discountedPrice %></div>
+                  <% if (product.discount) { %>
+                    <div class="text-xs text-gray-500 line-through">PEN <%= product.price.toFixed(2) %></div>
+                  <% } %>
+                </td>
+                <td class="py-3 px-4 text-right">
+                  <span class="<%= product.stock > 10 ? 'text-green-600' : product.stock > 0 ? 'text-yellow-600' : 'text-red-600' %>">
+                    <%= product.stock || 0 %>
+                  </span>
+                </td>
+                <td class="py-3 px-4 text-right text-gray-500"><%= product.sold || 0 %></td>
+                <td class="py-3 px-4 text-center">
+                  <div class="flex justify-center space-x-2">
+                    <a href="/product/edit/<%= product.id %>" class="text-blue-600 hover:text-blue-800" title="Editar">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Mensaje de no resultados (inicialmente oculto) -->
+      <div id="no-results" class="hidden text-center py-8 bg-gray-50 rounded-lg mt-4">
+        <div class="text-gray-400 mb-4">
+          <i class="fas fa-search text-4xl"></i>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">No se encontraron resultados</h3>
+        <p class="text-gray-500">Intenta con otra búsqueda o revisa los filtros aplicados.</p>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Modal de confirmación para eliminar producto -->
+<div id="delete-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full mx-4">
+    <div class="text-center mb-4">
+      <div class="text-red-600 mb-4">
+        <i class="fas fa-exclamation-triangle text-4xl"></i>
+      </div>
+      <h3 class="text-xl font-bold mb-2">¿Eliminar producto?</h3>
+      <p class="text-gray-600" id="delete-product-name"></p>
+    </div>
+    <p class="text-gray-600 mb-6">Esta acción no se puede deshacer. El producto será eliminado permanentemente.</p>
+    <div class="flex justify-end space-x-3">
+      <button id="cancel-delete" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+        Cancelar
+      </button>
+      <form id="delete-form" method="POST" action="">
+        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+          Eliminar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Funcionalidad de búsqueda
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('product-search');
+    const searchButton = document.getElementById('search-button');
+    const productRows = document.querySelectorAll('.product-row');
+    const noResults = document.getElementById('no-results');
+    const productsTable = document.getElementById('products-table');
+    
+    function performSearch() {
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      let matchCount = 0;
+      
+      productRows.forEach(row => {
+        const productName = row.getAttribute('data-name');
+        const productCategory = row.getAttribute('data-category');
+        
+        if (productName.includes(searchTerm) || productCategory.includes(searchTerm) || searchTerm === '') {
+          row.classList.remove('hidden');
+          matchCount++;
+        } else {
+          row.classList.add('hidden');
+        }
+      });
+      
+      // Mostrar mensaje de no resultados si es necesario
+      if (matchCount === 0 && searchTerm !== '') {
+        noResults.classList.remove('hidden');
+        productsTable.classList.add('hidden');
+      } else {
+        noResults.classList.add('hidden');
+        productsTable.classList.remove('hidden');
+      }
+      
+      // Actualizar contadores
+      document.getElementById('total-products').textContent = matchCount;
+    }
+    
+    // Buscar al escribir (con debounce)
+    let debounceTimer;
+    searchInput.addEventListener('input', function() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(performSearch, 300);
+    });
+    
+    // Buscar al hacer clic en el botón
+    searchButton.addEventListener('click', performSearch);
+    
+    // Buscar al presionar Enter
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+  });
+</script>
+
+<%- include("../reusables/footer") %>
